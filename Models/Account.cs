@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WinFormApp.Models
 {
@@ -15,6 +16,11 @@ namespace WinFormApp.Models
         [Required]
         [MaxLength(1000)] 
         public string PassWord { get; set; } = "123456";
-        public int Type { get; set; } = 0;
+
+        [Required]
+        public int IdRole { get; set; }
+
+        [ForeignKey("IdRole")]
+        public Role Role { get; set; }
     }
 }

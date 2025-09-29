@@ -151,7 +151,7 @@ namespace WinFormApp.Services
                     .Select(b => new BillDTO(
                         b.Table.Name,
                         b.Discount,
-                        b.Discount * (float)(b.BillInfos.Sum(x => x.Count * x.Food.Price)),
+                        (float)(b.BillInfos.Sum(x => x.Count * x.Food.Price)) * (1 - b.Discount),
                         b.DateCheckIn,
                         b.DateCheckOut ?? DateTime.Now
                     ))

@@ -59,9 +59,9 @@ namespace WinFormApp
             // 
             this.textBoxPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPassword.Font = new System.Drawing.Font("Arial", 12F);
-            this.textBoxPassword.Location = new System.Drawing.Point(158, 93);
+            this.textBoxPassword.Location = new System.Drawing.Point(158, 81);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(367, 30);
+            this.textBoxPassword.Size = new System.Drawing.Size(263, 30);
             this.textBoxPassword.TabIndex = 0;
             this.textBoxPassword.Text = "123456";
             this.textBoxPassword.UseSystemPasswordChar = true;
@@ -70,7 +70,7 @@ namespace WinFormApp
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(44, 96);
+            this.label2.Location = new System.Drawing.Point(44, 84);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(110, 24);
             this.label2.TabIndex = 0;
@@ -80,9 +80,9 @@ namespace WinFormApp
             // 
             this.textBoxUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUsername.Font = new System.Drawing.Font("Arial", 12F);
-            this.textBoxUsername.Location = new System.Drawing.Point(158, 40);
+            this.textBoxUsername.Location = new System.Drawing.Point(158, 28);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(367, 30);
+            this.textBoxUsername.Size = new System.Drawing.Size(263, 30);
             this.textBoxUsername.TabIndex = 1;
             this.textBoxUsername.Text = "admin";
             // 
@@ -90,7 +90,7 @@ namespace WinFormApp
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 43);
+            this.label1.Location = new System.Drawing.Point(44, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 24);
             this.label1.TabIndex = 0;
@@ -101,7 +101,7 @@ namespace WinFormApp
             this.panelButtons.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.panelButtons.Controls.Add(this.btnLogin);
             this.panelButtons.Controls.Add(this.btnExit);
-            this.panelButtons.Location = new System.Drawing.Point(369, 141);
+            this.panelButtons.Location = new System.Drawing.Point(265, 129);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(155, 40);
             this.panelButtons.TabIndex = 5;
@@ -110,7 +110,7 @@ namespace WinFormApp
             // 
             this.AcceptButton = this.btnLogin;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(574, 219);
+            this.ClientSize = new System.Drawing.Size(470, 194);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.textBoxUsername);
             this.Controls.Add(this.textBoxPassword);

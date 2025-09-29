@@ -22,8 +22,8 @@ namespace WinFormApp.Services
 
         private TableFoodService() { }
 
-        public static int TableWidth = 95;
-        public static int TableHeight = 95;
+        public static int TableWidth = 110;
+        public static int TableHeight = 110;
 
         public async Task<IEnumerable<TableFood>> LoadTableList()
         {
@@ -75,7 +75,9 @@ namespace WinFormApp.Services
 
                 if(currentTable == null || targetTable == null) return;
 
-                if((currentTable.Status == "Empty" && targetTable.Status == "Reserved") || 
+                if (currentTable.Status == "Empty" && currentTable.Status == "Empty") return;
+
+                if ((currentTable.Status == "Empty" && targetTable.Status == "Reserved") || 
                     (currentTable.Status == "Reserved" && targetTable.Status == "Empty"))
                 {
                     currentTable.Status = "Empty";

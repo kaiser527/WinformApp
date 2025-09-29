@@ -21,7 +21,7 @@ namespace WinFormApp
         }
 
         #region Method
-        private async Task LoadCategory()
+        public async Task LoadCategory()
         {
             IEnumerable<FoodCategory> foodCategories = await CategoryService.Instance.GetListCategory();
             cbCategory.DataSource = foodCategories;
@@ -35,7 +35,15 @@ namespace WinFormApp
         }
         private async Task LoadTableFood()
         {
-            IEnumerable<TableFood> tables = await TableFoodService.Instance.LoadTableList();
+            var permissionNames = AccountService.Instance.User.Role.RolePermissions
+                .Select(rp => rp.Permission.Name)
+                .ToList();
+
+            IEnumerable<TableFood> tables = permissionNames.Contains("View Table") ? 
+                await TableFoodService.Instance.LoadTableList() : null;
+
+            if(tables == null) return;
+
             foreach (TableFood table in tables)
             {
                 Button btn = new Button()
@@ -97,7 +105,7 @@ namespace WinFormApp
 
             ApplyDiscount();
         }
-        private void UpdateTableButtonColor(TableFood table)
+        public void UpdateTableButtonColor(TableFood table)
         {
             Button btn = flpTable.Controls
                 .OfType<Button>()
@@ -123,13 +131,14 @@ namespace WinFormApp
                     break;
             }
         }
+
         private void ApplyDiscount()
         {
             if (txbTotalPrice.Tag == null) return;
 
             CultureInfo culture = new CultureInfo("en-US");
 
-            decimal originalTotal = (decimal)txbTotalPrice.Tag;  // safe because we always stored decimal
+            decimal originalTotal = (decimal)txbTotalPrice.Tag;  
             decimal discountPercent = nmDiscount.Value;
 
             decimal finalTotal = originalTotal * (1 - discountPercent / 100m);
@@ -185,6 +194,8 @@ namespace WinFormApp
 
             Account user = AccountService.Instance.User;
 
+            adminLabel.Visible = user.Role.Name == "Admin" || user.Role.Name == "Tester";
+
             accountToolStripDropdown.Text += $" ({user.DisplayName})";
 
             await Task.WhenAll(tableTask, categoryTask);         
@@ -206,7 +217,7 @@ namespace WinFormApp
         }
         private void adminLabel_Click(object sender, System.EventArgs e)
         {
-            Admin admin = new Admin();
+            Admin admin = new Admin(this);
             admin.ShowDialog();
         }
         private async void cbCategory_SelectedIndexChanged(object sender, EventArgs e)

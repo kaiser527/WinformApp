@@ -69,21 +69,24 @@ namespace WinFormApp
             // 
             // toolStripBar
             // 
+            this.toolStripBar.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.adminLabel,
             this.accountToolStripDropdown});
-            this.toolStripBar.Location = new System.Drawing.Point(0, 0);
+            this.toolStripBar.Location = new System.Drawing.Point(17, 5);
             this.toolStripBar.Name = "toolStripBar";
-            this.toolStripBar.Size = new System.Drawing.Size(999, 27);
+            this.toolStripBar.Size = new System.Drawing.Size(214, 31);
             this.toolStripBar.TabIndex = 0;
             this.toolStripBar.Text = "toolStrip1";
             // 
             // adminLabel
             // 
+            this.adminLabel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.adminLabel.ForeColor = System.Drawing.Color.Black;
             this.adminLabel.Margin = new System.Windows.Forms.Padding(0, 0, 15, 0);
             this.adminLabel.Name = "adminLabel";
-            this.adminLabel.Size = new System.Drawing.Size(53, 27);
+            this.adminLabel.Size = new System.Drawing.Size(60, 30);
             this.adminLabel.Text = "Admin";
             this.adminLabel.Click += new System.EventHandler(this.adminLabel_Click);
             // 
@@ -93,31 +96,33 @@ namespace WinFormApp
             this.accountToolStripDropdown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.privateInformationToolStripMenuItem,
             this.logOutToolStripMenuItem});
+            this.accountToolStripDropdown.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accountToolStripDropdown.Name = "accountToolStripDropdown";
-            this.accountToolStripDropdown.Size = new System.Drawing.Size(77, 24);
+            this.accountToolStripDropdown.Size = new System.Drawing.Size(87, 27);
             this.accountToolStripDropdown.Text = "Account";
             // 
             // privateInformationToolStripMenuItem
             // 
             this.privateInformationToolStripMenuItem.Name = "privateInformationToolStripMenuItem";
-            this.privateInformationToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.privateInformationToolStripMenuItem.Size = new System.Drawing.Size(252, 28);
             this.privateInformationToolStripMenuItem.Text = "Account Information";
             this.privateInformationToolStripMenuItem.Click += new System.EventHandler(this.privateInformationToolStripMenuItem_Click);
             // 
             // logOutToolStripMenuItem
             // 
             this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
-            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(252, 28);
             this.logOutToolStripMenuItem.Text = "Log out";
             this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.lsvBill);
-            this.panel2.Location = new System.Drawing.Point(582, 92);
+            this.panel2.Location = new System.Drawing.Point(635, 112);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(404, 441);
+            this.panel2.Size = new System.Drawing.Size(527, 612);
             this.panel2.TabIndex = 2;
             // 
             // lsvBill
@@ -127,12 +132,13 @@ namespace WinFormApp
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
+            this.lsvBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsvBill.GridLines = true;
             this.lsvBill.HideSelection = false;
             this.lsvBill.Location = new System.Drawing.Point(3, 2);
             this.lsvBill.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lsvBill.Name = "lsvBill";
-            this.lsvBill.Size = new System.Drawing.Size(398, 437);
+            this.lsvBill.Size = new System.Drawing.Size(521, 608);
             this.lsvBill.TabIndex = 0;
             this.lsvBill.UseCompatibleStateImageBehavior = false;
             this.lsvBill.View = System.Windows.Forms.View.Details;
@@ -155,57 +161,60 @@ namespace WinFormApp
             // 
             // panel3
             // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.txbTotalPrice);
             this.panel3.Controls.Add(this.nmDiscount);
             this.panel3.Controls.Add(this.cbSwitch);
             this.panel3.Controls.Add(this.btnSwitchTable);
             this.panel3.Controls.Add(this.btnMergeTable);
             this.panel3.Controls.Add(this.btnCheckout);
-            this.panel3.Location = new System.Drawing.Point(582, 537);
+            this.panel3.Location = new System.Drawing.Point(635, 728);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(405, 58);
+            this.panel3.Size = new System.Drawing.Size(527, 68);
             this.panel3.TabIndex = 3;
             // 
             // txbTotalPrice
             // 
-            this.txbTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txbTotalPrice.ForeColor = System.Drawing.Color.OrangeRed;
-            this.txbTotalPrice.Location = new System.Drawing.Point(200, 1);
+            this.txbTotalPrice.Location = new System.Drawing.Point(252, 1);
             this.txbTotalPrice.Name = "txbTotalPrice";
             this.txbTotalPrice.ReadOnly = true;
-            this.txbTotalPrice.Size = new System.Drawing.Size(102, 22);
+            this.txbTotalPrice.Size = new System.Drawing.Size(108, 28);
             this.txbTotalPrice.TabIndex = 7;
             this.txbTotalPrice.Text = "0";
             this.txbTotalPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // nmDiscount
             // 
-            this.nmDiscount.Location = new System.Drawing.Point(201, 28);
+            this.nmDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nmDiscount.Location = new System.Drawing.Point(253, 36);
             this.nmDiscount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nmDiscount.Name = "nmDiscount";
-            this.nmDiscount.Size = new System.Drawing.Size(101, 22);
+            this.nmDiscount.Size = new System.Drawing.Size(107, 28);
             this.nmDiscount.TabIndex = 4;
             this.nmDiscount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nmDiscount.ValueChanged += new System.EventHandler(this.nmDiscount_ValueChanged);
             // 
             // cbSwitch
             // 
-            this.cbSwitch.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.cbSwitch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSwitch.FormattingEnabled = true;
-            this.cbSwitch.Location = new System.Drawing.Point(3, 28);
+            this.cbSwitch.Location = new System.Drawing.Point(3, 36);
             this.cbSwitch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbSwitch.Name = "cbSwitch";
-            this.cbSwitch.Size = new System.Drawing.Size(185, 23);
+            this.cbSwitch.Size = new System.Drawing.Size(185, 28);
             this.cbSwitch.TabIndex = 4;
             // 
             // btnSwitchTable
             // 
             this.btnSwitchTable.BackColor = System.Drawing.Color.LightGray;
+            this.btnSwitchTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSwitchTable.Location = new System.Drawing.Point(1, 0);
             this.btnSwitchTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSwitchTable.Name = "btnSwitchTable";
-            this.btnSwitchTable.Size = new System.Drawing.Size(94, 27);
+            this.btnSwitchTable.Size = new System.Drawing.Size(93, 33);
             this.btnSwitchTable.TabIndex = 6;
             this.btnSwitchTable.Text = "Switch table";
             this.btnSwitchTable.UseVisualStyleBackColor = false;
@@ -214,10 +223,11 @@ namespace WinFormApp
             // btnMergeTable
             // 
             this.btnMergeTable.BackColor = System.Drawing.Color.LightGray;
+            this.btnMergeTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMergeTable.Location = new System.Drawing.Point(97, 0);
             this.btnMergeTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnMergeTable.Name = "btnMergeTable";
-            this.btnMergeTable.Size = new System.Drawing.Size(94, 27);
+            this.btnMergeTable.Size = new System.Drawing.Size(93, 33);
             this.btnMergeTable.TabIndex = 5;
             this.btnMergeTable.Text = "Merge table";
             this.btnMergeTable.UseVisualStyleBackColor = false;
@@ -226,10 +236,11 @@ namespace WinFormApp
             // btnCheckout
             // 
             this.btnCheckout.BackColor = System.Drawing.Color.LightGray;
-            this.btnCheckout.Location = new System.Drawing.Point(315, 0);
+            this.btnCheckout.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCheckout.Location = new System.Drawing.Point(419, 0);
             this.btnCheckout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCheckout.Name = "btnCheckout";
-            this.btnCheckout.Size = new System.Drawing.Size(89, 54);
+            this.btnCheckout.Size = new System.Drawing.Size(108, 68);
             this.btnCheckout.TabIndex = 4;
             this.btnCheckout.Text = "Check out";
             this.btnCheckout.UseVisualStyleBackColor = false;
@@ -237,19 +248,21 @@ namespace WinFormApp
             // 
             // panel5
             // 
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.nmAddFood);
             this.panel5.Controls.Add(this.btnAddFood);
             this.panel5.Controls.Add(this.cbFood);
             this.panel5.Controls.Add(this.cbCategory);
-            this.panel5.Location = new System.Drawing.Point(582, 30);
+            this.panel5.Location = new System.Drawing.Point(635, 41);
             this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(405, 58);
+            this.panel5.Size = new System.Drawing.Size(527, 67);
             this.panel5.TabIndex = 4;
             // 
             // nmAddFood
             // 
-            this.nmAddFood.Location = new System.Drawing.Point(351, 18);
+            this.nmAddFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nmAddFood.Location = new System.Drawing.Point(465, 20);
             this.nmAddFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nmAddFood.Minimum = new decimal(new int[] {
             100,
@@ -257,7 +270,7 @@ namespace WinFormApp
             0,
             -2147483648});
             this.nmAddFood.Name = "nmAddFood";
-            this.nmAddFood.Size = new System.Drawing.Size(52, 22);
+            this.nmAddFood.Size = new System.Drawing.Size(60, 27);
             this.nmAddFood.TabIndex = 3;
             this.nmAddFood.Value = new decimal(new int[] {
             1,
@@ -268,10 +281,11 @@ namespace WinFormApp
             // btnAddFood
             // 
             this.btnAddFood.BackColor = System.Drawing.Color.LightGray;
-            this.btnAddFood.Location = new System.Drawing.Point(245, 1);
+            this.btnAddFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddFood.Location = new System.Drawing.Point(295, 0);
             this.btnAddFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddFood.Name = "btnAddFood";
-            this.btnAddFood.Size = new System.Drawing.Size(89, 56);
+            this.btnAddFood.Size = new System.Drawing.Size(108, 67);
             this.btnAddFood.TabIndex = 2;
             this.btnAddFood.Text = "Add food";
             this.btnAddFood.UseVisualStyleBackColor = false;
@@ -279,30 +293,32 @@ namespace WinFormApp
             // 
             // cbFood
             // 
+            this.cbFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFood.FormattingEnabled = true;
-            this.cbFood.Location = new System.Drawing.Point(3, 31);
+            this.cbFood.Location = new System.Drawing.Point(3, 35);
             this.cbFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbFood.Name = "cbFood";
-            this.cbFood.Size = new System.Drawing.Size(222, 24);
+            this.cbFood.Size = new System.Drawing.Size(222, 28);
             this.cbFood.TabIndex = 1;
             // 
             // cbCategory
             // 
+            this.cbCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbCategory.FormattingEnabled = true;
-            this.cbCategory.Location = new System.Drawing.Point(3, 4);
+            this.cbCategory.Location = new System.Drawing.Point(3, 2);
             this.cbCategory.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbCategory.Name = "cbCategory";
-            this.cbCategory.Size = new System.Drawing.Size(222, 24);
+            this.cbCategory.Size = new System.Drawing.Size(222, 28);
             this.cbCategory.TabIndex = 0;
             this.cbCategory.SelectedIndexChanged += new System.EventHandler(this.cbCategory_SelectedIndexChanged);
             // 
             // flpTable
             // 
             this.flpTable.AutoScroll = true;
-            this.flpTable.Location = new System.Drawing.Point(12, 30);
+            this.flpTable.Location = new System.Drawing.Point(12, 37);
             this.flpTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpTable.Name = "flpTable";
-            this.flpTable.Size = new System.Drawing.Size(563, 565);
+            this.flpTable.Size = new System.Drawing.Size(620, 759);
             this.flpTable.TabIndex = 5;
             // 
             // fileSystemWatcher1
@@ -318,7 +334,7 @@ namespace WinFormApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(999, 606);
+            this.ClientSize = new System.Drawing.Size(1171, 806);
             this.Controls.Add(this.flpTable);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel3);

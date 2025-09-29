@@ -11,6 +11,9 @@ namespace WinFormApp.Models
         public DbSet<Food> Foods { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillInfo> BillInfos { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,7 +29,7 @@ namespace WinFormApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // TableFood
+            // TableFood -> Bill
             modelBuilder.Entity<TableFood>()
                 .HasMany(t => t.Bills)
                 .WithOne(b => b.Table)
@@ -49,6 +52,26 @@ namespace WinFormApp.Models
                 .HasMany(f => f.BillInfos)
                 .WithOne(bi => bi.Food)
                 .HasForeignKey(bi => bi.IdFood);
+
+            // Role <-> Permission 
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(rp => new { rp.RoleId, rp.PermissionId });
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany(r => r.RolePermissions)
+                .HasForeignKey(rp => rp.RoleId);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey(rp => rp.PermissionId);
+
+            // Account -> Role
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.Role)
+                .WithMany(r => r.Accounts)
+                .HasForeignKey(a => a.IdRole);
 
             DataSeeder.Seed(modelBuilder);
         }

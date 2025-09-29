@@ -219,17 +219,17 @@
     </Compile>
     <Compile Include="DTO\AccountDTO.cs" />
     <Compile Include="DTO\BillDTO.cs" />
+    <Compile Include="DTO\FoodDTO.cs" />
     <Compile Include="DTO\MenuDTO.cs" />
     <Compile Include="DTO\UpdateAccountDTO.cs" />
-    <Compile Include="Migrations\20250921101547_InitData.cs" />
-    <Compile Include="Migrations\20250921101547_InitData.Designer.cs">
-      <DependentUpon>20250921101547_InitData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20250921112511_AddDiscountToBill.cs" />
-    <Compile Include="Migrations\20250921112511_AddDiscountToBill.Designer.cs">
-      <DependentUpon>20250921112511_AddDiscountToBill.cs</DependentUpon>
+    <Compile Include="Migrations\20250929051850_SeedAllData.cs" />
+    <Compile Include="Migrations\20250929051850_SeedAllData.Designer.cs">
+      <DependentUpon>20250929051850_SeedAllData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\CoffeeShopContextModelSnapshot.cs" />
+    <Compile Include="Models\Permission.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\RolePermission.cs" />
     <Compile Include="Seeder\DataSeeder.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\BillInfoService.cs" />

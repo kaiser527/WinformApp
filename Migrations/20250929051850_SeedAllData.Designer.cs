@@ -10,8 +10,8 @@ using WinFormApp.Models;
 namespace WinFormApp.Migrations
 {
     [DbContext(typeof(CoffeeShopContext))]
-    [Migration("20250921101547_InitData")]
-    partial class InitData
+    [Migration("20250929051850_SeedAllData")]
+    partial class SeedAllData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,15 +32,17 @@ namespace WinFormApp.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<int>("IdRole")
+                        .HasColumnType("int");
+
                     b.Property<string>("PassWord")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.HasKey("UserName");
+
+                    b.HasIndex("IdRole");
 
                     b.ToTable("Accounts");
 
@@ -49,71 +51,71 @@ namespace WinFormApp.Migrations
                         {
                             UserName = "admin",
                             DisplayName = "Administrator",
-                            PassWord = "123456",
-                            Type = 1
+                            IdRole = 1,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "john_doe",
                             DisplayName = "John Doe",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 2,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "jane_smith",
                             DisplayName = "Jane Smith",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 2,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "michael",
                             DisplayName = "Michael Johnson",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 2,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "emily",
                             DisplayName = "Emily Davis",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 3,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "david",
                             DisplayName = "David Wilson",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 2,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "sarah",
                             DisplayName = "Sarah Brown",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 3,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "chris",
                             DisplayName = "Chris Lee",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 2,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "amanda",
                             DisplayName = "Amanda Miller",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 2,
+                            PassWord = "123456"
                         },
                         new
                         {
                             UserName = "matthew",
                             DisplayName = "Matthew Garcia",
-                            PassWord = "123456",
-                            Type = 0
+                            IdRole = 3,
+                            PassWord = "123456"
                         });
                 });
 
@@ -129,6 +131,9 @@ namespace WinFormApp.Migrations
 
                     b.Property<DateTime?>("DateCheckOut")
                         .HasColumnType("datetime2");
+
+                    b.Property<float>("Discount")
+                        .HasColumnType("real");
 
                     b.Property<int>("IdTable")
                         .HasColumnType("int");
@@ -443,6 +448,436 @@ namespace WinFormApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WinFormApp.Models.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Module")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Module = "Account",
+                            Name = "Create Account"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Module = "Account",
+                            Name = "Update Account"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Module = "Account",
+                            Name = "Delete Account"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Module = "Account",
+                            Name = "View Account"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Module = "Food",
+                            Name = "Create Food"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Module = "Food",
+                            Name = "Update Food"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Module = "Food",
+                            Name = "Delete Food"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Module = "Food",
+                            Name = "View Food"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Module = "Category",
+                            Name = "Create Category"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Module = "Category",
+                            Name = "Update Category"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Module = "Category",
+                            Name = "Delete Category"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Module = "Category",
+                            Name = "View Category"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Module = "Table",
+                            Name = "Create Table"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Module = "Table",
+                            Name = "Update Table"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Module = "Table",
+                            Name = "Delete Table"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Module = "Table",
+                            Name = "View Table"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Module = "Role",
+                            Name = "Create Role"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Module = "Role",
+                            Name = "Update Role"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Module = "Role",
+                            Name = "Delete Role"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Module = "Role",
+                            Name = "View Role"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Module = "Role",
+                            Name = "Create Permission"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Module = "Role",
+                            Name = "Update Permission"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Module = "Role",
+                            Name = "Delete Permission"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Module = "Role",
+                            Name = "View Permission"
+                        });
+                });
+
+            modelBuilder.Entity("WinFormApp.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsActive = true,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsActive = true,
+                            Name = "Staff"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsActive = true,
+                            Name = "Tester"
+                        });
+                });
+
+            modelBuilder.Entity("WinFormApp.Models.RolePermission", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 9
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 10
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 11
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 12
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 13
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 14
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 15
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 16
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 17
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 18
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 19
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 20
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 21
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 22
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 23
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 24
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 9
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 10
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 11
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 12
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 13
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 14
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 15
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 16
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 16
+                        });
+                });
+
             modelBuilder.Entity("WinFormApp.Models.TableFood", b =>
                 {
                     b.Property<int>("Id")
@@ -586,6 +1021,15 @@ namespace WinFormApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WinFormApp.Models.Account", b =>
+                {
+                    b.HasOne("WinFormApp.Models.Role", "Role")
+                        .WithMany("Accounts")
+                        .HasForeignKey("IdRole")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WinFormApp.Models.Bill", b =>
                 {
                     b.HasOne("WinFormApp.Models.TableFood", "Table")
@@ -615,6 +1059,21 @@ namespace WinFormApp.Migrations
                     b.HasOne("WinFormApp.Models.FoodCategory", "Category")
                         .WithMany("Foods")
                         .HasForeignKey("IdCategory")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WinFormApp.Models.RolePermission", b =>
+                {
+                    b.HasOne("WinFormApp.Models.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WinFormApp.Models.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

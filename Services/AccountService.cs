@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormApp.DTO;
 using WinFormApp.Models;
@@ -28,7 +29,11 @@ namespace WinFormApp.Services
         {
             using (var context = new CoffeeShopContext())
             {
-                Account user = await context.Accounts.FindAsync(username);
+                Account user = await context.Accounts
+                    .Include(a => a.Role)
+                        .ThenInclude(r => r.RolePermissions)
+                            .ThenInclude(rp => rp.Permission)
+                    .FirstOrDefaultAsync(a => a.UserName == username);
 
                 if (user == null) return new AccountDTO(false, null);
                 else
