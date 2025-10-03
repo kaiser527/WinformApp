@@ -101,8 +101,9 @@
             this.btnAddTable = new System.Windows.Forms.Button();
             this.tpAccount = new System.Windows.Forms.TabPage();
             this.panel21 = new System.Windows.Forms.Panel();
+            this.btnResetAccount = new System.Windows.Forms.Button();
             this.panel24 = new System.Windows.Forms.Panel();
-            this.cbAccountType = new System.Windows.Forms.ComboBox();
+            this.cbAccountRole = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.panel25 = new System.Windows.Forms.Panel();
             this.txbAccountDisplayname = new System.Windows.Forms.TextBox();
@@ -120,6 +121,29 @@
             this.btnUpdateAccount = new System.Windows.Forms.Button();
             this.btnDeleteAccount = new System.Windows.Forms.Button();
             this.btnAddAccount = new System.Windows.Forms.Button();
+            this.tpRole = new System.Windows.Forms.TabPage();
+            this.panel33 = new System.Windows.Forms.Panel();
+            this.flpRole = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel34 = new System.Windows.Forms.Panel();
+            this.cbIsActiveRole = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.panel36 = new System.Windows.Forms.Panel();
+            this.txbRoleName = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.panel37 = new System.Windows.Forms.Panel();
+            this.txbRoleId = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.panel32 = new System.Windows.Forms.Panel();
+            this.txbSearchRole = new System.Windows.Forms.TextBox();
+            this.btnSearchRole = new System.Windows.Forms.Button();
+            this.panel31 = new System.Windows.Forms.Panel();
+            this.dtgvRole = new System.Windows.Forms.DataGridView();
+            this.panel23 = new System.Windows.Forms.Panel();
+            this.btnViewRole = new System.Windows.Forms.Button();
+            this.btnUpdateRole = new System.Windows.Forms.Button();
+            this.btnDeleteRole = new System.Windows.Forms.Button();
+            this.btnAddRole = new System.Windows.Forms.Button();
+            this.tpPermission = new System.Windows.Forms.TabPage();
             this.tcAdmin.SuspendLayout();
             this.tpBill.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -162,6 +186,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgvAccount)).BeginInit();
             this.panel18.SuspendLayout();
             this.panel16.SuspendLayout();
+            this.tpRole.SuspendLayout();
+            this.panel33.SuspendLayout();
+            this.panel34.SuspendLayout();
+            this.panel36.SuspendLayout();
+            this.panel37.SuspendLayout();
+            this.panel32.SuspendLayout();
+            this.panel31.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvRole)).BeginInit();
+            this.panel23.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcAdmin
@@ -171,6 +204,8 @@
             this.tcAdmin.Controls.Add(this.tpCategory);
             this.tcAdmin.Controls.Add(this.tpTable);
             this.tcAdmin.Controls.Add(this.tpAccount);
+            this.tcAdmin.Controls.Add(this.tpRole);
+            this.tcAdmin.Controls.Add(this.tpPermission);
             this.tcAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tcAdmin.Location = new System.Drawing.Point(12, 12);
             this.tcAdmin.Name = "tcAdmin";
@@ -907,6 +942,7 @@
             // 
             // panel21
             // 
+            this.panel21.Controls.Add(this.btnResetAccount);
             this.panel21.Controls.Add(this.panel24);
             this.panel21.Controls.Add(this.panel25);
             this.panel21.Controls.Add(this.panel26);
@@ -915,9 +951,19 @@
             this.panel21.Size = new System.Drawing.Size(409, 545);
             this.panel21.TabIndex = 11;
             // 
+            // btnResetAccount
+            // 
+            this.btnResetAccount.BackColor = System.Drawing.Color.LightGray;
+            this.btnResetAccount.Location = new System.Drawing.Point(296, 186);
+            this.btnResetAccount.Name = "btnResetAccount";
+            this.btnResetAccount.Size = new System.Drawing.Size(104, 51);
+            this.btnResetAccount.TabIndex = 6;
+            this.btnResetAccount.Text = "Reset";
+            this.btnResetAccount.UseVisualStyleBackColor = false;
+            // 
             // panel24
             // 
-            this.panel24.Controls.Add(this.cbAccountType);
+            this.panel24.Controls.Add(this.cbAccountRole);
             this.panel24.Controls.Add(this.label7);
             this.panel24.Location = new System.Drawing.Point(6, 128);
             this.panel24.Margin = new System.Windows.Forms.Padding(6);
@@ -925,14 +971,14 @@
             this.panel24.Size = new System.Drawing.Size(397, 49);
             this.panel24.TabIndex = 4;
             // 
-            // cbAccountType
+            // cbAccountRole
             // 
-            this.cbAccountType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbAccountType.FormattingEnabled = true;
-            this.cbAccountType.Location = new System.Drawing.Point(154, 13);
-            this.cbAccountType.Name = "cbAccountType";
-            this.cbAccountType.Size = new System.Drawing.Size(238, 26);
-            this.cbAccountType.TabIndex = 1;
+            this.cbAccountRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAccountRole.FormattingEnabled = true;
+            this.cbAccountRole.Location = new System.Drawing.Point(154, 13);
+            this.cbAccountRole.Name = "cbAccountRole";
+            this.cbAccountRole.Size = new System.Drawing.Size(238, 26);
+            this.cbAccountRole.TabIndex = 1;
             // 
             // label7
             // 
@@ -941,9 +987,9 @@
             this.label7.Location = new System.Drawing.Point(6, 16);
             this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 20);
+            this.label7.Size = new System.Drawing.Size(53, 20);
             this.label7.TabIndex = 0;
-            this.label7.Text = "Type:";
+            this.label7.Text = "Role:";
             // 
             // panel25
             // 
@@ -1102,6 +1148,238 @@
             this.btnAddAccount.Text = "Add";
             this.btnAddAccount.UseVisualStyleBackColor = false;
             // 
+            // tpRole
+            // 
+            this.tpRole.Controls.Add(this.panel33);
+            this.tpRole.Controls.Add(this.panel32);
+            this.tpRole.Controls.Add(this.panel31);
+            this.tpRole.Controls.Add(this.panel23);
+            this.tpRole.Location = new System.Drawing.Point(4, 29);
+            this.tpRole.Name = "tpRole";
+            this.tpRole.Size = new System.Drawing.Size(1067, 642);
+            this.tpRole.TabIndex = 5;
+            this.tpRole.Text = "Role";
+            this.tpRole.UseVisualStyleBackColor = true;
+            // 
+            // panel33
+            // 
+            this.panel33.Controls.Add(this.flpRole);
+            this.panel33.Controls.Add(this.panel34);
+            this.panel33.Controls.Add(this.panel36);
+            this.panel33.Controls.Add(this.panel37);
+            this.panel33.Location = new System.Drawing.Point(652, 91);
+            this.panel33.Name = "panel33";
+            this.panel33.Size = new System.Drawing.Size(409, 545);
+            this.panel33.TabIndex = 13;
+            // 
+            // flpRole
+            // 
+            this.flpRole.Location = new System.Drawing.Point(6, 186);
+            this.flpRole.Name = "flpRole";
+            this.flpRole.Size = new System.Drawing.Size(397, 356);
+            this.flpRole.TabIndex = 6;
+            // 
+            // panel34
+            // 
+            this.panel34.Controls.Add(this.cbIsActiveRole);
+            this.panel34.Controls.Add(this.label5);
+            this.panel34.Location = new System.Drawing.Point(6, 128);
+            this.panel34.Margin = new System.Windows.Forms.Padding(6);
+            this.panel34.Name = "panel34";
+            this.panel34.Size = new System.Drawing.Size(397, 49);
+            this.panel34.TabIndex = 5;
+            // 
+            // cbIsActiveRole
+            // 
+            this.cbIsActiveRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbIsActiveRole.FormattingEnabled = true;
+            this.cbIsActiveRole.Location = new System.Drawing.Point(120, 13);
+            this.cbIsActiveRole.Name = "cbIsActiveRole";
+            this.cbIsActiveRole.Size = new System.Drawing.Size(272, 26);
+            this.cbIsActiveRole.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 16);
+            this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Active:";
+            // 
+            // panel36
+            // 
+            this.panel36.Controls.Add(this.txbRoleName);
+            this.panel36.Controls.Add(this.label14);
+            this.panel36.Location = new System.Drawing.Point(6, 67);
+            this.panel36.Margin = new System.Windows.Forms.Padding(6);
+            this.panel36.Name = "panel36";
+            this.panel36.Size = new System.Drawing.Size(397, 49);
+            this.panel36.TabIndex = 3;
+            // 
+            // txbRoleName
+            // 
+            this.txbRoleName.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbRoleName.Location = new System.Drawing.Point(120, 12);
+            this.txbRoleName.Margin = new System.Windows.Forms.Padding(4);
+            this.txbRoleName.Name = "txbRoleName";
+            this.txbRoleName.Size = new System.Drawing.Size(273, 27);
+            this.txbRoleName.TabIndex = 1;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(6, 16);
+            this.label14.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(63, 20);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Name:";
+            // 
+            // panel37
+            // 
+            this.panel37.Controls.Add(this.txbRoleId);
+            this.panel37.Controls.Add(this.label15);
+            this.panel37.Location = new System.Drawing.Point(6, 6);
+            this.panel37.Margin = new System.Windows.Forms.Padding(6);
+            this.panel37.Name = "panel37";
+            this.panel37.Size = new System.Drawing.Size(397, 49);
+            this.panel37.TabIndex = 2;
+            // 
+            // txbRoleId
+            // 
+            this.txbRoleId.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbRoleId.Location = new System.Drawing.Point(120, 12);
+            this.txbRoleId.Margin = new System.Windows.Forms.Padding(4);
+            this.txbRoleId.Name = "txbRoleId";
+            this.txbRoleId.ReadOnly = true;
+            this.txbRoleId.Size = new System.Drawing.Size(273, 27);
+            this.txbRoleId.TabIndex = 1;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(6, 16);
+            this.label15.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(34, 20);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "ID:";
+            // 
+            // panel32
+            // 
+            this.panel32.Controls.Add(this.txbSearchRole);
+            this.panel32.Controls.Add(this.btnSearchRole);
+            this.panel32.Location = new System.Drawing.Point(652, 6);
+            this.panel32.Name = "panel32";
+            this.panel32.Size = new System.Drawing.Size(409, 79);
+            this.panel32.TabIndex = 12;
+            // 
+            // txbSearchRole
+            // 
+            this.txbSearchRole.Location = new System.Drawing.Point(15, 26);
+            this.txbSearchRole.Name = "txbSearchRole";
+            this.txbSearchRole.Size = new System.Drawing.Size(250, 27);
+            this.txbSearchRole.TabIndex = 5;
+            // 
+            // btnSearchRole
+            // 
+            this.btnSearchRole.BackColor = System.Drawing.Color.LightGray;
+            this.btnSearchRole.Location = new System.Drawing.Point(281, 5);
+            this.btnSearchRole.Name = "btnSearchRole";
+            this.btnSearchRole.Size = new System.Drawing.Size(120, 70);
+            this.btnSearchRole.TabIndex = 4;
+            this.btnSearchRole.Text = "Search";
+            this.btnSearchRole.UseVisualStyleBackColor = false;
+            // 
+            // panel31
+            // 
+            this.panel31.Controls.Add(this.dtgvRole);
+            this.panel31.Location = new System.Drawing.Point(6, 91);
+            this.panel31.Name = "panel31";
+            this.panel31.Size = new System.Drawing.Size(643, 545);
+            this.panel31.TabIndex = 11;
+            // 
+            // dtgvRole
+            // 
+            this.dtgvRole.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgvRole.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvRole.Location = new System.Drawing.Point(3, 3);
+            this.dtgvRole.Name = "dtgvRole";
+            this.dtgvRole.RowHeadersWidth = 51;
+            this.dtgvRole.RowTemplate.Height = 24;
+            this.dtgvRole.Size = new System.Drawing.Size(637, 539);
+            this.dtgvRole.TabIndex = 0;
+            this.dtgvRole.SelectionChanged += new System.EventHandler(this.dtgvRole_SelectionChanged);
+            // 
+            // panel23
+            // 
+            this.panel23.Controls.Add(this.btnViewRole);
+            this.panel23.Controls.Add(this.btnUpdateRole);
+            this.panel23.Controls.Add(this.btnDeleteRole);
+            this.panel23.Controls.Add(this.btnAddRole);
+            this.panel23.Location = new System.Drawing.Point(6, 6);
+            this.panel23.Name = "panel23";
+            this.panel23.Size = new System.Drawing.Size(643, 79);
+            this.panel23.TabIndex = 2;
+            // 
+            // btnViewRole
+            // 
+            this.btnViewRole.BackColor = System.Drawing.Color.LightGray;
+            this.btnViewRole.Location = new System.Drawing.Point(378, 5);
+            this.btnViewRole.Name = "btnViewRole";
+            this.btnViewRole.Size = new System.Drawing.Size(120, 70);
+            this.btnViewRole.TabIndex = 3;
+            this.btnViewRole.Text = "View";
+            this.btnViewRole.UseVisualStyleBackColor = false;
+            this.btnViewRole.Click += new System.EventHandler(this.btnViewRole_Click);
+            // 
+            // btnUpdateRole
+            // 
+            this.btnUpdateRole.BackColor = System.Drawing.Color.LightGray;
+            this.btnUpdateRole.Location = new System.Drawing.Point(252, 5);
+            this.btnUpdateRole.Name = "btnUpdateRole";
+            this.btnUpdateRole.Size = new System.Drawing.Size(120, 70);
+            this.btnUpdateRole.TabIndex = 2;
+            this.btnUpdateRole.Text = "Update";
+            this.btnUpdateRole.UseVisualStyleBackColor = false;
+            this.btnUpdateRole.Click += new System.EventHandler(this.btnUpdateRole_Click);
+            // 
+            // btnDeleteRole
+            // 
+            this.btnDeleteRole.BackColor = System.Drawing.Color.LightGray;
+            this.btnDeleteRole.Location = new System.Drawing.Point(126, 5);
+            this.btnDeleteRole.Name = "btnDeleteRole";
+            this.btnDeleteRole.Size = new System.Drawing.Size(120, 70);
+            this.btnDeleteRole.TabIndex = 1;
+            this.btnDeleteRole.Text = "Delete";
+            this.btnDeleteRole.UseVisualStyleBackColor = false;
+            this.btnDeleteRole.Click += new System.EventHandler(this.btnDeleteRole_Click);
+            // 
+            // btnAddRole
+            // 
+            this.btnAddRole.BackColor = System.Drawing.Color.LightGray;
+            this.btnAddRole.Location = new System.Drawing.Point(0, 5);
+            this.btnAddRole.Name = "btnAddRole";
+            this.btnAddRole.Size = new System.Drawing.Size(120, 70);
+            this.btnAddRole.TabIndex = 0;
+            this.btnAddRole.Text = "Add";
+            this.btnAddRole.UseVisualStyleBackColor = false;
+            this.btnAddRole.Click += new System.EventHandler(this.btnAddRole_Click);
+            // 
+            // tpPermission
+            // 
+            this.tpPermission.Location = new System.Drawing.Point(4, 29);
+            this.tpPermission.Name = "tpPermission";
+            this.tpPermission.Size = new System.Drawing.Size(1067, 642);
+            this.tpPermission.TabIndex = 6;
+            this.tpPermission.Text = "Permission";
+            this.tpPermission.UseVisualStyleBackColor = true;
+            // 
             // Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1171,6 +1449,19 @@
             this.panel18.ResumeLayout(false);
             this.panel18.PerformLayout();
             this.panel16.ResumeLayout(false);
+            this.tpRole.ResumeLayout(false);
+            this.panel33.ResumeLayout(false);
+            this.panel34.ResumeLayout(false);
+            this.panel34.PerformLayout();
+            this.panel36.ResumeLayout(false);
+            this.panel36.PerformLayout();
+            this.panel37.ResumeLayout(false);
+            this.panel37.PerformLayout();
+            this.panel32.ResumeLayout(false);
+            this.panel32.PerformLayout();
+            this.panel31.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvRole)).EndInit();
+            this.panel23.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1261,7 +1552,7 @@
         private System.Windows.Forms.DataGridView dtgvAccount;
         private System.Windows.Forms.Panel panel21;
         private System.Windows.Forms.Panel panel24;
-        private System.Windows.Forms.ComboBox cbAccountType;
+        private System.Windows.Forms.ComboBox cbAccountRole;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel25;
         private System.Windows.Forms.TextBox txbAccountDisplayname;
@@ -1269,5 +1560,29 @@
         private System.Windows.Forms.Panel panel26;
         private System.Windows.Forms.TextBox txbAccountUsername;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TabPage tpRole;
+        private System.Windows.Forms.TabPage tpPermission;
+        private System.Windows.Forms.Panel panel23;
+        private System.Windows.Forms.Button btnViewRole;
+        private System.Windows.Forms.Button btnUpdateRole;
+        private System.Windows.Forms.Button btnDeleteRole;
+        private System.Windows.Forms.Button btnAddRole;
+        private System.Windows.Forms.Panel panel31;
+        private System.Windows.Forms.DataGridView dtgvRole;
+        private System.Windows.Forms.Panel panel32;
+        private System.Windows.Forms.TextBox txbSearchRole;
+        private System.Windows.Forms.Button btnSearchRole;
+        private System.Windows.Forms.Button btnResetAccount;
+        private System.Windows.Forms.Panel panel33;
+        private System.Windows.Forms.Panel panel36;
+        private System.Windows.Forms.TextBox txbRoleName;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Panel panel37;
+        private System.Windows.Forms.TextBox txbRoleId;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Panel panel34;
+        private System.Windows.Forms.ComboBox cbIsActiveRole;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.FlowLayoutPanel flpRole;
     }
 }

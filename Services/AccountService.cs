@@ -36,14 +36,12 @@ namespace WinFormApp.Services
                     .FirstOrDefaultAsync(a => a.UserName == username);
 
                 if (user == null) return new AccountDTO(false, null);
-                else
-                {
-                    bool success = user.PassWord == password;
 
-                    if (success) User = user;
+                bool success = user.PassWord == password;
 
-                    return new AccountDTO(success, User);
-                }
+                if (success) User = user;
+
+                return new AccountDTO(success, User);
             }
         }
 

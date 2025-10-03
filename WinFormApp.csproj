@@ -236,6 +236,8 @@
     <Compile Include="Services\BillService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\FoodService.cs" />
+    <Compile Include="Services\PermissionService.cs" />
+    <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\TableFoodService.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>

@@ -30,10 +30,11 @@ namespace WinFormApp.Seeder
                 new Permission { Id = 18, Name = "Update Role", Module = "Role" },
                 new Permission { Id = 19, Name = "Delete Role", Module = "Role" },
                 new Permission { Id = 20, Name = "View Role", Module = "Role" },
-                new Permission { Id = 21, Name = "Create Permission", Module = "Role" },
-                new Permission { Id = 22, Name = "Update Permission", Module = "Role" },
-                new Permission { Id = 23, Name = "Delete Permission", Module = "Role" },
-                new Permission { Id = 24, Name = "View Permission", Module = "Role" }
+                new Permission { Id = 21, Name = "Create Permission", Module = "Permission" },
+                new Permission { Id = 22, Name = "Update Permission", Module = "Permission" },
+                new Permission { Id = 23, Name = "Delete Permission", Module = "Permission" },
+                new Permission { Id = 24, Name = "View Permission", Module = "Permission" },
+                new Permission { Id = 25, Name = "View Bill", Module = "Bill" }
             );
 
             //Seed Role
@@ -58,7 +59,9 @@ namespace WinFormApp.Seeder
 
             rolePermissions.AddRange(new[]
             {
-                new RolePermission { RoleId = 2, PermissionId = 16 }
+                new RolePermission { RoleId = 2, PermissionId = 16 },
+                new RolePermission { RoleId = 1, PermissionId = 25 },
+                new RolePermission { RoleId = 3, PermissionId = 25 }
             });
 
             modelBuilder.Entity<RolePermission>().HasData(rolePermissions);

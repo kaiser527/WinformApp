@@ -55,7 +55,7 @@ namespace WinFormApp
 
                 btn.Click += btn_Click;
                 btn.Tag = table;
-
+                        
                 switch (table.Status)
                 {
                     case "Empty":
