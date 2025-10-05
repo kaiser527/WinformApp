@@ -144,6 +144,29 @@
             this.btnDeleteRole = new System.Windows.Forms.Button();
             this.btnAddRole = new System.Windows.Forms.Button();
             this.tpPermission = new System.Windows.Forms.TabPage();
+            this.panel41 = new System.Windows.Forms.Panel();
+            this.panel42 = new System.Windows.Forms.Panel();
+            this.txbPermissionModule = new System.Windows.Forms.TextBox();
+            this.labelPermissionModule = new System.Windows.Forms.Label();
+            this.panel43 = new System.Windows.Forms.Panel();
+            this.txbPermissionName = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.panel44 = new System.Windows.Forms.Panel();
+            this.txbPermissionId = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.panel40 = new System.Windows.Forms.Panel();
+            this.dtgvPermission = new System.Windows.Forms.DataGridView();
+            this.panel39 = new System.Windows.Forms.Panel();
+            this.txbSearchPermission = new System.Windows.Forms.TextBox();
+            this.btnSearchPermission = new System.Windows.Forms.Button();
+            this.panel35 = new System.Windows.Forms.Panel();
+            this.panel38 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnViewPermission = new System.Windows.Forms.Button();
+            this.btnUpdatePermission = new System.Windows.Forms.Button();
+            this.btnDeletePermission = new System.Windows.Forms.Button();
+            this.btnAddPermission = new System.Windows.Forms.Button();
             this.tcAdmin.SuspendLayout();
             this.tpBill.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -195,6 +218,16 @@
             this.panel31.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvRole)).BeginInit();
             this.panel23.SuspendLayout();
+            this.tpPermission.SuspendLayout();
+            this.panel41.SuspendLayout();
+            this.panel42.SuspendLayout();
+            this.panel43.SuspendLayout();
+            this.panel44.SuspendLayout();
+            this.panel40.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvPermission)).BeginInit();
+            this.panel39.SuspendLayout();
+            this.panel35.SuspendLayout();
+            this.panel38.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcAdmin
@@ -1096,6 +1129,7 @@
             this.btnSearchAccount.TabIndex = 4;
             this.btnSearchAccount.Text = "Search";
             this.btnSearchAccount.UseVisualStyleBackColor = false;
+            this.btnSearchAccount.Click += new System.EventHandler(this.btnSearchAccount_Click);
             // 
             // panel16
             // 
@@ -1117,6 +1151,7 @@
             this.btnViewAccount.TabIndex = 3;
             this.btnViewAccount.Text = "View";
             this.btnViewAccount.UseVisualStyleBackColor = false;
+            this.btnViewAccount.Click += new System.EventHandler(this.btnViewAccount_Click);
             // 
             // btnUpdateAccount
             // 
@@ -1127,6 +1162,7 @@
             this.btnUpdateAccount.TabIndex = 2;
             this.btnUpdateAccount.Text = "Update";
             this.btnUpdateAccount.UseVisualStyleBackColor = false;
+            this.btnUpdateAccount.Click += new System.EventHandler(this.btnUpdateAccount_Click);
             // 
             // btnDeleteAccount
             // 
@@ -1137,6 +1173,7 @@
             this.btnDeleteAccount.TabIndex = 1;
             this.btnDeleteAccount.Text = "Delete";
             this.btnDeleteAccount.UseVisualStyleBackColor = false;
+            this.btnDeleteAccount.Click += new System.EventHandler(this.btnDeleteAccount_Click);
             // 
             // btnAddAccount
             // 
@@ -1147,6 +1184,7 @@
             this.btnAddAccount.TabIndex = 0;
             this.btnAddAccount.Text = "Add";
             this.btnAddAccount.UseVisualStyleBackColor = false;
+            this.btnAddAccount.Click += new System.EventHandler(this.btnAddAccount_Click);
             // 
             // tpRole
             // 
@@ -1295,6 +1333,7 @@
             this.btnSearchRole.TabIndex = 4;
             this.btnSearchRole.Text = "Search";
             this.btnSearchRole.UseVisualStyleBackColor = false;
+            this.btnSearchRole.Click += new System.EventHandler(this.btnSearchRole_Click);
             // 
             // panel31
             // 
@@ -1373,12 +1412,245 @@
             // 
             // tpPermission
             // 
+            this.tpPermission.Controls.Add(this.panel41);
+            this.tpPermission.Controls.Add(this.panel40);
+            this.tpPermission.Controls.Add(this.panel39);
+            this.tpPermission.Controls.Add(this.panel35);
             this.tpPermission.Location = new System.Drawing.Point(4, 29);
             this.tpPermission.Name = "tpPermission";
             this.tpPermission.Size = new System.Drawing.Size(1067, 642);
             this.tpPermission.TabIndex = 6;
             this.tpPermission.Text = "Permission";
             this.tpPermission.UseVisualStyleBackColor = true;
+            // 
+            // panel41
+            // 
+            this.panel41.Controls.Add(this.panel42);
+            this.panel41.Controls.Add(this.panel43);
+            this.panel41.Controls.Add(this.panel44);
+            this.panel41.Location = new System.Drawing.Point(652, 91);
+            this.panel41.Name = "panel41";
+            this.panel41.Size = new System.Drawing.Size(409, 545);
+            this.panel41.TabIndex = 15;
+            // 
+            // panel42
+            // 
+            this.panel42.Controls.Add(this.txbPermissionModule);
+            this.panel42.Controls.Add(this.labelPermissionModule);
+            this.panel42.Location = new System.Drawing.Point(6, 128);
+            this.panel42.Margin = new System.Windows.Forms.Padding(6);
+            this.panel42.Name = "panel42";
+            this.panel42.Size = new System.Drawing.Size(397, 49);
+            this.panel42.TabIndex = 4;
+            // 
+            // txbPermissionModule
+            // 
+            this.txbPermissionModule.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbPermissionModule.Location = new System.Drawing.Point(120, 12);
+            this.txbPermissionModule.Margin = new System.Windows.Forms.Padding(4);
+            this.txbPermissionModule.Name = "txbPermissionModule";
+            this.txbPermissionModule.Size = new System.Drawing.Size(273, 27);
+            this.txbPermissionModule.TabIndex = 1;
+            // 
+            // labelPermissionModule
+            // 
+            this.labelPermissionModule.AutoSize = true;
+            this.labelPermissionModule.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPermissionModule.Location = new System.Drawing.Point(6, 16);
+            this.labelPermissionModule.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelPermissionModule.Name = "labelPermissionModule";
+            this.labelPermissionModule.Size = new System.Drawing.Size(75, 20);
+            this.labelPermissionModule.TabIndex = 0;
+            this.labelPermissionModule.Text = "Module:";
+            // 
+            // panel43
+            // 
+            this.panel43.Controls.Add(this.txbPermissionName);
+            this.panel43.Controls.Add(this.label16);
+            this.panel43.Location = new System.Drawing.Point(6, 67);
+            this.panel43.Margin = new System.Windows.Forms.Padding(6);
+            this.panel43.Name = "panel43";
+            this.panel43.Size = new System.Drawing.Size(397, 49);
+            this.panel43.TabIndex = 3;
+            // 
+            // txbPermissionName
+            // 
+            this.txbPermissionName.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbPermissionName.Location = new System.Drawing.Point(120, 12);
+            this.txbPermissionName.Margin = new System.Windows.Forms.Padding(4);
+            this.txbPermissionName.Name = "txbPermissionName";
+            this.txbPermissionName.Size = new System.Drawing.Size(273, 27);
+            this.txbPermissionName.TabIndex = 1;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(6, 16);
+            this.label16.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(63, 20);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Name:";
+            // 
+            // panel44
+            // 
+            this.panel44.Controls.Add(this.txbPermissionId);
+            this.panel44.Controls.Add(this.label17);
+            this.panel44.Location = new System.Drawing.Point(6, 6);
+            this.panel44.Margin = new System.Windows.Forms.Padding(6);
+            this.panel44.Name = "panel44";
+            this.panel44.Size = new System.Drawing.Size(397, 49);
+            this.panel44.TabIndex = 2;
+            // 
+            // txbPermissionId
+            // 
+            this.txbPermissionId.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbPermissionId.Location = new System.Drawing.Point(120, 12);
+            this.txbPermissionId.Margin = new System.Windows.Forms.Padding(4);
+            this.txbPermissionId.Name = "txbPermissionId";
+            this.txbPermissionId.ReadOnly = true;
+            this.txbPermissionId.Size = new System.Drawing.Size(273, 27);
+            this.txbPermissionId.TabIndex = 1;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(6, 16);
+            this.label17.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(34, 20);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "ID:";
+            // 
+            // panel40
+            // 
+            this.panel40.Controls.Add(this.dtgvPermission);
+            this.panel40.Location = new System.Drawing.Point(6, 91);
+            this.panel40.Name = "panel40";
+            this.panel40.Size = new System.Drawing.Size(643, 545);
+            this.panel40.TabIndex = 14;
+            // 
+            // dtgvPermission
+            // 
+            this.dtgvPermission.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgvPermission.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvPermission.Location = new System.Drawing.Point(3, 3);
+            this.dtgvPermission.Name = "dtgvPermission";
+            this.dtgvPermission.RowHeadersWidth = 51;
+            this.dtgvPermission.RowTemplate.Height = 24;
+            this.dtgvPermission.Size = new System.Drawing.Size(637, 539);
+            this.dtgvPermission.TabIndex = 0;
+            // 
+            // panel39
+            // 
+            this.panel39.Controls.Add(this.txbSearchPermission);
+            this.panel39.Controls.Add(this.btnSearchPermission);
+            this.panel39.Location = new System.Drawing.Point(652, 6);
+            this.panel39.Name = "panel39";
+            this.panel39.Size = new System.Drawing.Size(409, 79);
+            this.panel39.TabIndex = 13;
+            // 
+            // txbSearchPermission
+            // 
+            this.txbSearchPermission.Location = new System.Drawing.Point(15, 26);
+            this.txbSearchPermission.Name = "txbSearchPermission";
+            this.txbSearchPermission.Size = new System.Drawing.Size(250, 27);
+            this.txbSearchPermission.TabIndex = 5;
+            // 
+            // btnSearchPermission
+            // 
+            this.btnSearchPermission.BackColor = System.Drawing.Color.LightGray;
+            this.btnSearchPermission.Location = new System.Drawing.Point(281, 5);
+            this.btnSearchPermission.Name = "btnSearchPermission";
+            this.btnSearchPermission.Size = new System.Drawing.Size(120, 70);
+            this.btnSearchPermission.TabIndex = 4;
+            this.btnSearchPermission.Text = "Search";
+            this.btnSearchPermission.UseVisualStyleBackColor = false;
+            this.btnSearchPermission.Click += new System.EventHandler(this.btnSearchPermission_Click);
+            // 
+            // panel35
+            // 
+            this.panel35.Controls.Add(this.panel38);
+            this.panel35.Controls.Add(this.btnViewPermission);
+            this.panel35.Controls.Add(this.btnUpdatePermission);
+            this.panel35.Controls.Add(this.btnDeletePermission);
+            this.panel35.Controls.Add(this.btnAddPermission);
+            this.panel35.Location = new System.Drawing.Point(6, 6);
+            this.panel35.Name = "panel35";
+            this.panel35.Size = new System.Drawing.Size(643, 79);
+            this.panel35.TabIndex = 3;
+            // 
+            // panel38
+            // 
+            this.panel38.Controls.Add(this.textBox1);
+            this.panel38.Controls.Add(this.button1);
+            this.panel38.Location = new System.Drawing.Point(649, 0);
+            this.panel38.Name = "panel38";
+            this.panel38.Size = new System.Drawing.Size(409, 79);
+            this.panel38.TabIndex = 13;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(15, 26);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(250, 27);
+            this.textBox1.TabIndex = 5;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.LightGray;
+            this.button1.Location = new System.Drawing.Point(281, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 70);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Search";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // btnViewPermission
+            // 
+            this.btnViewPermission.BackColor = System.Drawing.Color.LightGray;
+            this.btnViewPermission.Location = new System.Drawing.Point(378, 5);
+            this.btnViewPermission.Name = "btnViewPermission";
+            this.btnViewPermission.Size = new System.Drawing.Size(120, 70);
+            this.btnViewPermission.TabIndex = 3;
+            this.btnViewPermission.Text = "View";
+            this.btnViewPermission.UseVisualStyleBackColor = false;
+            this.btnViewPermission.Click += new System.EventHandler(this.btnViewPermission_Click);
+            // 
+            // btnUpdatePermission
+            // 
+            this.btnUpdatePermission.BackColor = System.Drawing.Color.LightGray;
+            this.btnUpdatePermission.Location = new System.Drawing.Point(252, 5);
+            this.btnUpdatePermission.Name = "btnUpdatePermission";
+            this.btnUpdatePermission.Size = new System.Drawing.Size(120, 70);
+            this.btnUpdatePermission.TabIndex = 2;
+            this.btnUpdatePermission.Text = "Update";
+            this.btnUpdatePermission.UseVisualStyleBackColor = false;
+            this.btnUpdatePermission.Click += new System.EventHandler(this.btnUpdatePermission_Click);
+            // 
+            // btnDeletePermission
+            // 
+            this.btnDeletePermission.BackColor = System.Drawing.Color.LightGray;
+            this.btnDeletePermission.Location = new System.Drawing.Point(126, 5);
+            this.btnDeletePermission.Name = "btnDeletePermission";
+            this.btnDeletePermission.Size = new System.Drawing.Size(120, 70);
+            this.btnDeletePermission.TabIndex = 1;
+            this.btnDeletePermission.Text = "Delete";
+            this.btnDeletePermission.UseVisualStyleBackColor = false;
+            this.btnDeletePermission.Click += new System.EventHandler(this.btnDeletePermission_Click);
+            // 
+            // btnAddPermission
+            // 
+            this.btnAddPermission.BackColor = System.Drawing.Color.LightGray;
+            this.btnAddPermission.Location = new System.Drawing.Point(0, 5);
+            this.btnAddPermission.Name = "btnAddPermission";
+            this.btnAddPermission.Size = new System.Drawing.Size(120, 70);
+            this.btnAddPermission.TabIndex = 0;
+            this.btnAddPermission.Text = "Add";
+            this.btnAddPermission.UseVisualStyleBackColor = false;
+            this.btnAddPermission.Click += new System.EventHandler(this.btnAddPermission_Click);
             // 
             // Admin
             // 
@@ -1462,6 +1734,21 @@
             this.panel31.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtgvRole)).EndInit();
             this.panel23.ResumeLayout(false);
+            this.tpPermission.ResumeLayout(false);
+            this.panel41.ResumeLayout(false);
+            this.panel42.ResumeLayout(false);
+            this.panel42.PerformLayout();
+            this.panel43.ResumeLayout(false);
+            this.panel43.PerformLayout();
+            this.panel44.ResumeLayout(false);
+            this.panel44.PerformLayout();
+            this.panel40.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvPermission)).EndInit();
+            this.panel39.ResumeLayout(false);
+            this.panel39.PerformLayout();
+            this.panel35.ResumeLayout(false);
+            this.panel38.ResumeLayout(false);
+            this.panel38.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1584,5 +1871,28 @@
         private System.Windows.Forms.ComboBox cbIsActiveRole;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.FlowLayoutPanel flpRole;
+        private System.Windows.Forms.Panel panel35;
+        private System.Windows.Forms.Button btnViewPermission;
+        private System.Windows.Forms.Button btnUpdatePermission;
+        private System.Windows.Forms.Button btnDeletePermission;
+        private System.Windows.Forms.Button btnAddPermission;
+        private System.Windows.Forms.Panel panel39;
+        private System.Windows.Forms.TextBox txbSearchPermission;
+        private System.Windows.Forms.Button btnSearchPermission;
+        private System.Windows.Forms.Panel panel38;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel40;
+        private System.Windows.Forms.DataGridView dtgvPermission;
+        private System.Windows.Forms.Panel panel41;
+        private System.Windows.Forms.Panel panel43;
+        private System.Windows.Forms.TextBox txbPermissionName;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Panel panel44;
+        private System.Windows.Forms.TextBox txbPermissionId;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Panel panel42;
+        private System.Windows.Forms.TextBox txbPermissionModule;
+        private System.Windows.Forms.Label labelPermissionModule;
     }
 }

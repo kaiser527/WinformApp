@@ -18,6 +18,10 @@ namespace WinFormApp
 
         private BindingSource rolelist = new BindingSource();
 
+        private BindingSource permissionlist = new BindingSource();
+
+        private BindingSource accountlist = new BindingSource();
+
         private List<Role> _roles;
 
         private Role _selectedRole;
@@ -276,7 +280,7 @@ namespace WinFormApp
 
             var newRole = new Role
             {
-                Id = string.IsNullOrWhiteSpace(txbRoleId.Text) ? 0 : int.Parse(txbRoleId.Text),
+                Id = int.Parse(txbRoleId.Text),
                 Name = txbRoleName.Text,
                 IsActive = cbIsActiveRole.SelectedItem?.ToString() == "Active",
                 RolePermissions = selectedPermissions
@@ -284,8 +288,13 @@ namespace WinFormApp
                     .ToList()
             };
 
-            await action(newRole);  
+            await action(newRole);
 
+            await GetListRole();
+        }
+
+        public async Task GetListRole()
+        {
             _roles = (await RoleService.Instance.GetListRole(txbSearchRole.Text)).ToList();
 
             var rolesWithString = _roles.Select(r => new
@@ -298,6 +307,34 @@ namespace WinFormApp
 
             rolelist.DataSource = rolesWithString;
         }
+
+        public async Task GetListPermission()
+        {
+            permissionlist.DataSource =
+                (await PermissionService.Instance.GetListPermission(txbSearchPermission.Text))
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Name,
+                    p.Module,
+                });
+
+            dtgvPermission.DataSource = permissionlist;
+        }
+
+        public async Task GetListAccount()
+        {
+            accountlist.DataSource =
+                (await AccountService.Instance.GetListAccount(txbSearchAccount.Text))
+                .Select(a => new
+                {
+                    a.UserName,
+                    a.DisplayName,
+                    Role = a.Role.Name
+                });
+
+            dtgvAccount.DataSource = accountlist;   
+        }
         #endregion
 
         #region events
@@ -309,6 +346,9 @@ namespace WinFormApp
             await Task.WhenAll(billTask, permissionTask);
 
             cbIsActiveRole.DataSource = new List<string> { "Active", "Inactive" };
+
+            cbAccountRole.DataSource = await RoleService.Instance.GetListRole();
+            cbAccountRole.DisplayMember = "Name";
         }
 
         private async void btnViewBill_Click(object sender, EventArgs e)
@@ -346,6 +386,8 @@ namespace WinFormApp
 
         private async void btnUpdateFood_Click(object sender, EventArgs e)
         {
+            if (foodlist.Count == 0) return;
+
             FoodDTO food = new FoodDTO(int.Parse(txbFoodId.Text), txbFoodName.Text, cbFoodCategory.Text, (float)nmFoodPrice.Value);
 
             await FoodService.Instance.UpdateFood(food);
@@ -357,6 +399,8 @@ namespace WinFormApp
 
         private async void btnDeleteFood_Click(object sender, EventArgs e)
         {
+            if(foodlist.Count == 0) return;
+
             if (MessageBox.Show("Are you sure you want to delete this food?",
                "Delete Confirmation",
                MessageBoxButtons.OKCancel) != DialogResult.OK)
@@ -378,22 +422,14 @@ namespace WinFormApp
 
         private async void btnSearchFood_Click(object sender, EventArgs e)
         {
-            foodlist.DataSource = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+            if (foodlist.Count > 0) 
+                foodlist.DataSource = await FoodService.Instance.GetListFood(txbSearchFood.Text);
         }
 
         private async void btnViewRole_Click(object sender, EventArgs e)
         {
-            _roles = (await RoleService.Instance.GetListRole(txbSearchRole.Text)).ToList();
+            await GetListRole();
 
-            var rolesWithString = _roles.Select(r => new
-            {
-                r.Id,
-                r.Name,
-                IsActive = r.IsActive ? "Active" : "Inactive",
-                Permissions = string.Join(", ", r.RolePermissions.Select(rp => rp.Permission.Name))
-            }).ToList();
-
-            rolelist.DataSource = rolesWithString;
             dtgvRole.DataSource = rolelist;
             dtgvRole.Columns["Permissions"].Visible = false;
 
@@ -418,16 +454,20 @@ namespace WinFormApp
 
         private async void btnAddRole_Click(object sender, EventArgs e)
         {
-            await InsertOrUpdateRole(RoleService.Instance.InsertRole);
+            if (rolelist.Count > 0)
+                await InsertOrUpdateRole(RoleService.Instance.InsertRole);
         }
 
         private async void btnUpdateRole_Click(object sender, EventArgs e)
         {
-            await InsertOrUpdateRole(RoleService.Instance.UpdateRole);
+            if (rolelist.Count > 0)
+                await InsertOrUpdateRole(RoleService.Instance.UpdateRole);
         }
 
         private async void btnDeleteRole_Click(object sender, EventArgs e)
         {
+            if (rolelist.Count == 0) return;
+
             if (MessageBox.Show("Are you sure you want to delete this role?",
                "Delete Confirmation",
                MessageBoxButtons.OKCancel) != DialogResult.OK)
@@ -437,17 +477,145 @@ namespace WinFormApp
 
             await RoleService.Instance.DeleteRole(int.Parse(txbRoleId.Text));
 
-            _roles = (await RoleService.Instance.GetListRole(txbSearchRole.Text)).ToList();
+            await GetListRole();
+        }
 
-            var rolesWithString = _roles.Select(r => new
+        private async void btnSearchRole_Click(object sender, EventArgs e)
+        {
+            if(rolelist.Count > 0) await GetListRole();
+        }
+
+        private async void btnViewPermission_Click(object sender, EventArgs e)
+        {
+            await GetListPermission();
+
+            txbPermissionId.DataBindings.Clear();
+            txbPermissionName.DataBindings.Clear();
+            txbPermissionModule.DataBindings.Clear();
+
+            txbPermissionId.DataBindings.Add("Text", permissionlist, "Id", true, DataSourceUpdateMode.Never);
+            txbPermissionName.DataBindings.Add("Text", permissionlist, "Name", true, DataSourceUpdateMode.Never);
+            txbPermissionModule.DataBindings.Add("Text", permissionlist, "Module", true, DataSourceUpdateMode.Never);
+        }
+
+        private async void btnSearchPermission_Click(object sender, EventArgs e)
+        {
+            if(permissionlist.Count > 0) await GetListPermission();
+        }
+
+        private async void btnAddPermission_Click(object sender, EventArgs e)
+        {
+            if (permissionlist.Count == 0) return;
+
+            Permission permission = new Permission
             {
-                r.Id,
-                r.Name,
-                IsActive = r.IsActive ? "Active" : "Inactive",
-                Permissions = string.Join(", ", r.RolePermissions.Select(rp => rp.Permission.Name))
-            }).ToList();
+                Name = txbPermissionName.Text,
+                Module = txbPermissionModule.Text,
+            };
 
-            rolelist.DataSource = rolesWithString;
+            await PermissionService.Instance.InsertPermission(permission);
+
+            await GetListPermission();
+        }
+
+        private async void btnUpdatePermission_Click(object sender, EventArgs e)
+        {
+            if (permissionlist.Count == 0) return;
+
+            Permission permission = new Permission
+            {
+                Id = int.Parse(txbPermissionId.Text),
+                Name = txbPermissionName.Text,
+                Module = txbPermissionModule.Text,
+            };
+
+            await PermissionService.Instance.UpdatePermission(permission);
+
+            await GetListPermission();
+        }
+
+        private async void btnDeletePermission_Click(object sender, EventArgs e)
+        {
+            if (permissionlist.Count == 0) return;
+
+            if (MessageBox.Show("Are you sure you want to delete this permission?",
+               "Delete Confirmation",
+               MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                return;
+            }
+
+            await PermissionService.Instance.DeletePermission(int.Parse(txbPermissionId.Text));
+
+            await GetListPermission();
+        }
+
+        private async void btnViewAccount_Click(object sender, EventArgs e)
+        {
+            await GetListAccount();
+
+            txbAccountUsername.DataBindings.Clear();
+            txbAccountDisplayname.DataBindings.Clear();
+            cbAccountRole.DataBindings.Clear();
+
+            txbAccountUsername.DataBindings.Add("Text", accountlist, "UserName", true, DataSourceUpdateMode.Never);
+            txbAccountDisplayname.DataBindings.Add("Text", accountlist, "DisplayName", true, DataSourceUpdateMode.Never);
+            cbAccountRole.DataBindings.Add("Text", accountlist, "Role", true, DataSourceUpdateMode.Never);
+        }
+
+        private async void btnSearchAccount_Click(object sender, EventArgs e)
+        {
+            if(accountlist.Count > 0) await GetListAccount();
+        }
+
+        private async void btnAddAccount_Click(object sender, EventArgs e)
+        {
+            if (accountlist.Count == 0) return;
+
+
+            Account newAccount = new Account
+            {
+                UserName = txbAccountDisplayname.Text.Trim().ToLower().Replace(" ", "_"),
+                DisplayName = txbAccountDisplayname.Text,
+                PassWord = BCrypt.Net.BCrypt.HashPassword("123456"),
+                IdRole = (cbAccountRole.SelectedItem as Role).Id
+            };
+
+            await AccountService.Instance.InsertAccount(newAccount);
+
+            await GetListAccount();
+        }
+
+        private async void btnUpdateAccount_Click(object sender, EventArgs e)
+        {
+            if (accountlist.Count == 0) return;
+
+            Account newAccount = new Account
+            {
+                UserName = txbAccountUsername.Text,
+                DisplayName = txbAccountDisplayname.Text,
+                IdRole = (cbAccountRole.SelectedItem as Role).Id
+            };
+
+            await AccountService.Instance.UpdateAccount(newAccount);
+
+            await GetListAccount();
+        }
+
+        private async void btnDeleteAccount_Click(object sender, EventArgs e)
+        {
+            if (accountlist.Count == 0) return;
+
+            if(MessageBox.Show("Are you sure you want to delete this account?",
+               "Delete Confirmation",
+               MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                return;
+            }
+
+            await AccountService.Instance.DeleteAccount(txbAccountUsername.Text);
+
+            await GetListAccount();
         }
         #endregion
     }

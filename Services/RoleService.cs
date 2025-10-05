@@ -53,12 +53,14 @@ namespace WinFormApp.Services
                     return;
                 }
 
-                foreach (var rp in role.RolePermissions)
+                var newRole = new Role
                 {
-                    context.Entry(rp).State = EntityState.Added;
-                }
+                    Name = role.Name,
+                    IsActive = role.IsActive,
+                    RolePermissions = role.RolePermissions
+                };
 
-                context.Roles.Add(role);
+                context.Roles.Add(newRole);
 
                 await context.SaveChangesAsync();
             }
@@ -118,6 +120,18 @@ namespace WinFormApp.Services
                 if (role.Accounts.Any() || role.RolePermissions.Any())
                 {
                     MessageBox.Show("There are some data related to this role", "Delete failed");
+                    return;
+                }
+
+                if(role == null)
+                {
+                    MessageBox.Show("Role is not exist", "Delete failed");
+                    return;
+                }
+
+                if(role.Name.ToLower().Equals("admin") || role.Name.ToUpper().Equals("ADMIN"))
+                {
+                    MessageBox.Show("Cannot delete admin role", "Delete failed");
                     return;
                 }
 

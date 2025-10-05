@@ -68,16 +68,16 @@ namespace WinFormApp.Seeder
 
             // Seed Accounts
             modelBuilder.Entity<Account>().HasData(
-                new Account { UserName = "admin", DisplayName = "Administrator", PassWord = "123456", IdRole = 1 },
-                new Account { UserName = "john_doe", DisplayName = "John Doe", PassWord = "123456", IdRole = 2 },
-                new Account { UserName = "jane_smith", DisplayName = "Jane Smith", PassWord = "123456", IdRole = 2 },
-                new Account { UserName = "michael", DisplayName = "Michael Johnson", PassWord = "123456", IdRole = 2 },
-                new Account { UserName = "emily", DisplayName = "Emily Davis", PassWord = "123456", IdRole = 3 },
-                new Account { UserName = "david", DisplayName = "David Wilson", PassWord = "123456", IdRole = 2 },
-                new Account { UserName = "sarah", DisplayName = "Sarah Brown", PassWord = "123456", IdRole = 3 },
-                new Account { UserName = "chris", DisplayName = "Chris Lee", PassWord = "123456", IdRole = 2 },
-                new Account { UserName = "amanda", DisplayName = "Amanda Miller", PassWord = "123456", IdRole = 2 },
-                new Account { UserName = "matthew", DisplayName = "Matthew Garcia", PassWord = "123456", IdRole = 3 }
+                new Account { UserName = "admin", DisplayName = "Administrator", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 1 },
+                new Account { UserName = "john_doe", DisplayName = "John Doe", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2 },
+                new Account { UserName = "jane_smith", DisplayName = "Jane Smith", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2 },
+                new Account { UserName = "michael", DisplayName = "Michael Johnson", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2 },
+                new Account { UserName = "emily", DisplayName = "Emily Davis", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 3 },
+                new Account { UserName = "david", DisplayName = "David Wilson", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2 },
+                new Account { UserName = "sarah", DisplayName = "Sarah Brown", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 3 },
+                new Account { UserName = "chris", DisplayName = "Chris Lee", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2 },
+                new Account { UserName = "amanda", DisplayName = "Amanda Miller", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2 },
+                new Account { UserName = "matthew", DisplayName = "Matthew Garcia", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 3 }
             );
 
             // Seed TableFood
