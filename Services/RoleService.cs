@@ -117,15 +117,15 @@ namespace WinFormApp.Services
                     .Include(r => r.Accounts)
                     .FirstOrDefaultAsync(r => r.Id == roleId);
 
-                if (role.Accounts.Any() || role.RolePermissions.Any())
+                if (role == null)
                 {
-                    MessageBox.Show("There are some data related to this role", "Delete failed");
+                    MessageBox.Show("Role is not exist", "Delete failed");
                     return;
                 }
 
-                if(role == null)
+                if (role.Accounts.Any() || role.RolePermissions.Any())
                 {
-                    MessageBox.Show("Role is not exist", "Delete failed");
+                    MessageBox.Show("There are some data related to this role", "Delete failed");
                     return;
                 }
 

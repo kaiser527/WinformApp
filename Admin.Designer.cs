@@ -83,7 +83,7 @@
             this.dtgvTable = new System.Windows.Forms.DataGridView();
             this.panel15 = new System.Windows.Forms.Panel();
             this.panel22 = new System.Windows.Forms.Panel();
-            this.txbTableStatus = new System.Windows.Forms.TextBox();
+            this.cbTableStatus = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.panelTableName = new System.Windows.Forms.Panel();
             this.txbTableName = new System.Windows.Forms.TextBox();
@@ -793,22 +793,22 @@
             // 
             // panel22
             // 
-            this.panel22.Controls.Add(this.txbTableStatus);
+            this.panel22.Controls.Add(this.cbTableStatus);
             this.panel22.Controls.Add(this.label9);
             this.panel22.Location = new System.Drawing.Point(6, 128);
             this.panel22.Margin = new System.Windows.Forms.Padding(6);
             this.panel22.Name = "panel22";
             this.panel22.Size = new System.Drawing.Size(397, 49);
-            this.panel22.TabIndex = 4;
+            this.panel22.TabIndex = 5;
             // 
-            // txbTableStatus
+            // cbTableStatus
             // 
-            this.txbTableStatus.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbTableStatus.Location = new System.Drawing.Point(120, 12);
-            this.txbTableStatus.Margin = new System.Windows.Forms.Padding(4);
-            this.txbTableStatus.Name = "txbTableStatus";
-            this.txbTableStatus.Size = new System.Drawing.Size(273, 27);
-            this.txbTableStatus.TabIndex = 1;
+            this.cbTableStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbTableStatus.FormattingEnabled = true;
+            this.cbTableStatus.Location = new System.Drawing.Point(120, 13);
+            this.cbTableStatus.Name = "cbTableStatus";
+            this.cbTableStatus.Size = new System.Drawing.Size(272, 26);
+            this.cbTableStatus.TabIndex = 1;
             // 
             // label9
             // 
@@ -907,6 +907,7 @@
             this.btnSearchTable.TabIndex = 4;
             this.btnSearchTable.Text = "Search";
             this.btnSearchTable.UseVisualStyleBackColor = false;
+            this.btnSearchTable.Click += new System.EventHandler(this.btnSearchTable_Click);
             // 
             // panel12
             // 
@@ -928,6 +929,7 @@
             this.btnViewTable.TabIndex = 3;
             this.btnViewTable.Text = "View";
             this.btnViewTable.UseVisualStyleBackColor = false;
+            this.btnViewTable.Click += new System.EventHandler(this.btnViewTable_Click);
             // 
             // btnUpdateTable
             // 
@@ -938,6 +940,7 @@
             this.btnUpdateTable.TabIndex = 2;
             this.btnUpdateTable.Text = "Update";
             this.btnUpdateTable.UseVisualStyleBackColor = false;
+            this.btnUpdateTable.Click += new System.EventHandler(this.btnUpdateTable_Click);
             // 
             // btnDeleteTable
             // 
@@ -948,6 +951,7 @@
             this.btnDeleteTable.TabIndex = 1;
             this.btnDeleteTable.Text = "Delete";
             this.btnDeleteTable.UseVisualStyleBackColor = false;
+            this.btnDeleteTable.Click += new System.EventHandler(this.btnDeleteTable_Click);
             // 
             // btnAddTable
             // 
@@ -958,6 +962,7 @@
             this.btnAddTable.TabIndex = 0;
             this.btnAddTable.Text = "Add";
             this.btnAddTable.UseVisualStyleBackColor = false;
+            this.btnAddTable.Click += new System.EventHandler(this.btnAddTable_Click);
             // 
             // tpAccount
             // 
@@ -993,6 +998,7 @@
             this.btnResetAccount.TabIndex = 6;
             this.btnResetAccount.Text = "Reset";
             this.btnResetAccount.UseVisualStyleBackColor = false;
+            this.btnResetAccount.Click += new System.EventHandler(this.btnResetAccount_Click);
             // 
             // panel24
             // 
@@ -1824,9 +1830,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel19;
         private System.Windows.Forms.DataGridView dtgvTable;
-        private System.Windows.Forms.Panel panel22;
-        private System.Windows.Forms.TextBox txbTableStatus;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.TextBox txbSearchAccount;
         private System.Windows.Forms.Button btnSearchAccount;
@@ -1894,5 +1897,8 @@
         private System.Windows.Forms.Panel panel42;
         private System.Windows.Forms.TextBox txbPermissionModule;
         private System.Windows.Forms.Label labelPermissionModule;
+        private System.Windows.Forms.Panel panel22;
+        private System.Windows.Forms.ComboBox cbTableStatus;
+        private System.Windows.Forms.Label label9;
     }
 }

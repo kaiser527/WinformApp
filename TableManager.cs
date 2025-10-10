@@ -33,9 +33,15 @@ namespace WinFormApp
             cbFood.DataSource = foods;
             cbFood.DisplayMember = "Name";
         }
-        private async Task LoadTableFood()
+        public async Task LoadTableFood()
         {
-            var permissionNames = AccountService.Instance.User.Role.RolePermissions
+            flpTable.Controls.Clear();
+
+            var role = AccountService.Instance.User.Role;
+
+            if (role == null || !role.IsActive) return;
+
+            var permissionNames = role.RolePermissions
                 .Select(rp => rp.Permission.Name)
                 .ToList();
 
@@ -74,6 +80,7 @@ namespace WinFormApp
 
                 flpTable.Controls.Add(btn);
             }
+
             cbSwitch.DataSource = tables;
             cbSwitch.DisplayMember = "Name";
         }
@@ -206,16 +213,16 @@ namespace WinFormApp
             lsvBill.Tag = (sender as Button).Tag;
             await ShowBill(tableID);
         }
-        private void logOutToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
-        private void privateInformationToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void privateInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AccoutProfile accoutProfile = new AccoutProfile(this);
             accoutProfile.ShowDialog();
         }
-        private void adminLabel_Click(object sender, System.EventArgs e)
+        private void adminLabel_Click(object sender, EventArgs e)
         {
             Admin admin = new Admin(this);
             admin.ShowDialog();

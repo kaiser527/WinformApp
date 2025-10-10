@@ -38,7 +38,7 @@ namespace WinFormApp.Services
 
                 if (user == null) return new AccountDTO(false, null);
 
-                bool success = user.PassWord == password;
+                bool success = BCrypt.Net.BCrypt.Verify(password, user.PassWord);
 
                 if (success) User = user;
 
@@ -60,7 +60,9 @@ namespace WinFormApp.Services
                     isClose = false;
                 }
 
-                if (!user.PassWord.Equals(updateAccountDTO.PassWord))
+                bool success = BCrypt.Net.BCrypt.Verify(updateAccountDTO.PassWord, user.PassWord);
+
+                if (!success)
                 {
                     MessageBox.Show("Password incorrect", "Update failed");
                     isClose = false;
@@ -75,7 +77,7 @@ namespace WinFormApp.Services
                 if (isClose)
                 {
                     user.DisplayName = updateAccountDTO.DisplayName;
-                    user.PassWord = updateAccountDTO.ConfirmPassWord;
+                    user.PassWord = BCrypt.Net.BCrypt.HashPassword(updateAccountDTO.ConfirmPassWord);
 
                     await context.SaveChangesAsync();
 
@@ -168,15 +170,41 @@ namespace WinFormApp.Services
                     return;
                 }
 
-                if (updateAccount.Role.Name.Equals("Admin") || updateAccount.Role.Name.Equals("Tester"))
+                if (updateAccount.Role.Name.Equals("Admin"))
                 {
-                    MessageBox.Show("Cannot delete admin or tester account", "Delete failed");
+                    MessageBox.Show("Cannot delete admin account", "Delete failed");
                     return;
                 }
 
                 context.Accounts.Remove(updateAccount);
 
                 await context.SaveChangesAsync();   
+            }
+        }
+
+        public async Task ResetAccountPassword(string username)
+        {
+            using (var context = new CoffeeShopContext())
+            {
+                Account resetAccount = await context.Accounts
+                  .Include(a => a.Role)
+                  .FirstOrDefaultAsync(a => a.UserName == username);
+
+                if (resetAccount == null)
+                {
+                    MessageBox.Show("Account is not exist", "Reset failed");
+                    return;
+                }
+
+                if (resetAccount.Role.Name.Equals("Admin"))
+                {
+                    MessageBox.Show("Cannot reset admin account password", "Reset failed");
+                    return;
+                }
+
+                resetAccount.PassWord = BCrypt.Net.BCrypt.HashPassword("123456");
+
+                await context.SaveChangesAsync();
             }
         }
     }

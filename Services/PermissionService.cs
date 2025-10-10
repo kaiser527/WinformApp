@@ -73,7 +73,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Permission is already exist", "Insert failed");
+                    MessageBox.Show("Permission is already exist", "Update failed");
                     return;
                 }
 
@@ -100,15 +100,15 @@ namespace WinFormApp.Services
                    .Include(r => r.RolePermissions)
                    .FirstOrDefaultAsync(r => r.Id == permissionId);
 
-                if (permission.RolePermissions.Any())
+                if (permission == null)
                 {
-                    MessageBox.Show("There are some data related to this permission", "Delete failed");
+                    MessageBox.Show("Permission is not exist", "Delete failed");
                     return;
                 }
 
-                if(permission == null)
+                if (permission.RolePermissions.Any())
                 {
-                    MessageBox.Show("Permission is not exist", "Delete failed");
+                    MessageBox.Show("There are some data related to this permission", "Delete failed");
                     return;
                 }
 

@@ -22,6 +22,8 @@ namespace WinFormApp
 
         private BindingSource accountlist = new BindingSource();
 
+        private BindingSource tablelist = new BindingSource();
+
         private List<Role> _roles;
 
         private Role _selectedRole;
@@ -49,7 +51,21 @@ namespace WinFormApp
 
         private void ApplyPermissions()
         {
-            var permissionNames = AccountService.Instance.User.Role.RolePermissions
+            var role = AccountService.Instance.User.Role;
+
+            if (role == null || !role.IsActive)
+            {
+                MessageBox.Show("Your role is inactive. You do not have permission to access this area.",
+                                "Access Denied",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                tcAdmin.TabPages.Clear();
+
+                return;
+            }
+
+            var permissionNames = role.RolePermissions
                 .Select(rp => rp.Permission.Name)
                 .ToList();
 
@@ -90,9 +106,9 @@ namespace WinFormApp
 
                 //Permission
                 { "View Permission", () => tcAdmin.TabPages.Remove(tpPermission) },
-                //{ "Create Permission", () => btnAddPermission.Enabled = false },
-                //{ "Delete Permission", () => btnDeletePermissione.Enabled = false },
-                //{ "Update Permission", () => btnUpdatePermission.Enabled = false }
+                { "Create Permission", () => btnAddPermission.Enabled = false },
+                { "Delete Permission", () => btnDeletePermission.Enabled = false },
+                { "Update Permission", () => btnUpdatePermission.Enabled = false }
             };
 
             foreach (var kvp in permissionActions)
@@ -295,7 +311,15 @@ namespace WinFormApp
 
         public async Task GetListRole()
         {
-            _roles = (await RoleService.Instance.GetListRole(txbSearchRole.Text)).ToList();
+            var roles = await RoleService.Instance.GetListRole(txbSearchRole.Text);
+
+            if (!roles.Any())
+            {
+                dtgvRole.DataSource = null; 
+                return;
+            }
+
+            _roles = roles.ToList();
 
             var rolesWithString = _roles.Select(r => new
             {
@@ -310,8 +334,15 @@ namespace WinFormApp
 
         public async Task GetListPermission()
         {
-            permissionlist.DataSource =
-                (await PermissionService.Instance.GetListPermission(txbSearchPermission.Text))
+            var permissions = await PermissionService.Instance.GetListPermission(txbSearchPermission.Text);
+
+            if (!permissions.Any())
+            {
+                dtgvPermission.DataSource = null;
+                return;
+            }
+
+            permissionlist.DataSource = permissions
                 .Select(p => new
                 {
                     p.Id,
@@ -324,8 +355,15 @@ namespace WinFormApp
 
         public async Task GetListAccount()
         {
-            accountlist.DataSource =
-                (await AccountService.Instance.GetListAccount(txbSearchAccount.Text))
+            var accounts = await AccountService.Instance.GetListAccount(txbSearchAccount.Text);
+
+            if (!accounts.Any())
+            {
+                dtgvAccount.DataSource = null;
+                return;
+            }
+
+            accountlist.DataSource = accounts
                 .Select(a => new
                 {
                     a.UserName,
@@ -335,6 +373,32 @@ namespace WinFormApp
 
             dtgvAccount.DataSource = accountlist;   
         }
+
+        private async Task GetListTable()
+        {
+            var tables = await TableFoodService.Instance.LoadTableList(txbSearchTable.Text);
+
+            if (!tables.Any())
+            {
+                dtgvTable.DataSource = null;
+                return;
+            }
+
+            tablelist.DataSource = tables
+                .Select(t => new
+                {
+                    t.Id,
+                    t.Name,
+                    t.Status,
+                });
+
+            dtgvTable.DataSource = tablelist;
+        }
+   
+        private void LoadTableStatus()
+        {
+            cbTableStatus.DataSource = new List<string> { "Empty", "Reserved", "Merged" };
+        }
         #endregion
 
         #region events
@@ -342,13 +406,16 @@ namespace WinFormApp
         {
             var billTask = LoadBillListDefault();
             var permissionTask = LoadGroupPermission();
+            var tableTask = GetListTable();
 
-            await Task.WhenAll(billTask, permissionTask);
+            await Task.WhenAll(billTask, permissionTask, tableTask);
 
             cbIsActiveRole.DataSource = new List<string> { "Active", "Inactive" };
 
             cbAccountRole.DataSource = await RoleService.Instance.GetListRole();
             cbAccountRole.DisplayMember = "Name";
+
+            LoadTableStatus();
         }
 
         private async void btnViewBill_Click(object sender, EventArgs e)
@@ -616,6 +683,91 @@ namespace WinFormApp
             await AccountService.Instance.DeleteAccount(txbAccountUsername.Text);
 
             await GetListAccount();
+        }
+
+        private async void btnResetAccount_Click(object sender, EventArgs e)
+        {
+            if (accountlist.Count == 0) return;
+
+            if (MessageBox.Show("Are you sure you want to reset this account password?",
+               "Delete Confirmation",
+               MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                return;
+            }
+
+            await AccountService.Instance.ResetAccountPassword(txbAccountUsername.Text);
+        }
+
+        private async void btnViewTable_Click(object sender, EventArgs e)
+        {
+            await GetListTable();    
+
+            txbTableId.DataBindings.Clear();
+            txbTableName.DataBindings.Clear();
+            cbTableStatus.DataBindings.Clear();
+
+            txbTableId.DataBindings.Add("Text", tablelist, "Id", true, DataSourceUpdateMode.Never);
+            txbTableName.DataBindings.Add("Text", tablelist, "Name", true, DataSourceUpdateMode.Never);
+            cbTableStatus.DataBindings.Add("Text", tablelist, "Status", true, DataSourceUpdateMode.Never);
+        }
+
+        private async void btnSearchTable_Click(object sender, EventArgs e)
+        {
+            if(tablelist.Count > 0) await GetListTable();
+        }
+
+        private async void btnAddTable_Click(object sender, EventArgs e)
+        {
+            if (tablelist.Count == 0) return;
+
+            TableFood tableFood = new TableFood
+            {
+                Name = txbTableName.Text,
+                Status = cbTableStatus.Text,
+            };
+
+            await TableFoodService.Instance.InsertTable(tableFood);
+
+            await GetListTable();
+
+            await _tableManager.LoadTableFood();
+        }
+
+        private async void btnUpdateTable_Click(object sender, EventArgs e)
+        {
+            if (tablelist.Count == 0) return;
+
+            TableFood tableFood = new TableFood
+            {
+                Id = int.Parse(txbTableId.Text),   
+                Name = txbTableName.Text,
+                Status = cbTableStatus.Text,
+            };
+
+            await TableFoodService.Instance.UpdateTable(tableFood);
+
+            await GetListTable();
+
+            await _tableManager.LoadTableFood();
+        }
+
+        private async void btnDeleteTable_Click(object sender, EventArgs e)
+        {
+            if (tablelist.Count == 0) return;
+
+            if (MessageBox.Show("Are you sure you want to delete table?",
+               "Delete Confirmation",
+               MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                return;
+            }
+
+            await TableFoodService.Instance.DeleteTable(int.Parse(txbTableId.Text));
+
+            await GetListTable();
+
+            await _tableManager.LoadTableFood();
         }
         #endregion
     }
