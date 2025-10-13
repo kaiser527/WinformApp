@@ -45,11 +45,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.UploadAccountImage = new System.Windows.Forms.OpenFileDialog();
+            this.btnUploadAccount = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -205,7 +210,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.LightGray;
             this.btnUpdate.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnUpdate.Location = new System.Drawing.Point(303, 374);
+            this.btnUpdate.Location = new System.Drawing.Point(303, 480);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(84, 30);
             this.btnUpdate.TabIndex = 6;
@@ -218,7 +223,7 @@
             this.btnExit.BackColor = System.Drawing.Color.LightGray;
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExit.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnExit.Location = new System.Drawing.Point(393, 374);
+            this.btnExit.Location = new System.Drawing.Point(393, 480);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(84, 30);
             this.btnExit.TabIndex = 7;
@@ -226,13 +231,51 @@
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // UploadAccountImage
+            // 
+            this.UploadAccountImage.FileName = "openFileDialog1";
+            // 
+            // btnUploadAccount
+            // 
+            this.btnUploadAccount.BackColor = System.Drawing.Color.LightGray;
+            this.btnUploadAccount.Font = new System.Drawing.Font("Arial", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUploadAccount.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnUploadAccount.Location = new System.Drawing.Point(378, 0);
+            this.btnUploadAccount.Name = "btnUploadAccount";
+            this.btnUploadAccount.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.btnUploadAccount.Size = new System.Drawing.Size(84, 84);
+            this.btnUploadAccount.TabIndex = 8;
+            this.btnUploadAccount.Text = "+";
+            this.btnUploadAccount.UseVisualStyleBackColor = false;
+            this.btnUploadAccount.Click += new System.EventHandler(this.btnUploadAccount_Click);
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.label6);
+            this.panel6.Controls.Add(this.btnUploadAccount);
+            this.panel6.Location = new System.Drawing.Point(15, 375);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(472, 84);
+            this.panel6.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 27);
+            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(73, 24);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Image:";
+            // 
             // AccoutProfile
             // 
             this.AcceptButton = this.btnUpdate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(502, 416);
+            this.ClientSize = new System.Drawing.Size(502, 522);
+            this.Controls.Add(this.panel6);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.panel5);
@@ -257,6 +300,8 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -280,5 +325,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.OpenFileDialog UploadAccountImage;
+        private System.Windows.Forms.Button btnUploadAccount;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label6;
     }
 }

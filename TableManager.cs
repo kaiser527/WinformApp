@@ -201,9 +201,26 @@ namespace WinFormApp
 
             Account user = AccountService.Instance.User;
 
+            if (user == null)
+            {
+                MessageBox.Show("User is null!");
+                return;
+            }
+
             adminLabel.Visible = user.Role.Name == "Admin" || user.Role.Name == "Tester";
 
             accountToolStripDropdown.Text += $" ({user.DisplayName})";
+
+            Image img = AccountService.Instance.LoadAccountImage(user, 38);
+            if (img == null)
+            {
+                MessageBox.Show("Image not found or failed to load!");
+            }
+            else
+            {
+                AccountImage.Image = img;
+                AccountImage.SizeMode = PictureBoxSizeMode.Zoom;
+            }
 
             await Task.WhenAll(tableTask, categoryTask);         
         }

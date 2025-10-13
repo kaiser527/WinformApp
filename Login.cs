@@ -1,12 +1,24 @@
 ﻿using System;
 using System.Windows.Forms;
-using WinFormApp.DTO;
 using WinFormApp.Services;
 
 namespace WinFormApp
 {
     public partial class Login : Form
     {
+        private bool isLoading;
+        private bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
+                btnLogin.Enabled = !value;      
+                btnLogin.Text = value ? "Loading..." : "Login"; 
+                Cursor = value ? Cursors.WaitCursor : Cursors.Default; 
+            }
+        }
+
         public Login()
         {
             InitializeComponent();
@@ -14,22 +26,44 @@ namespace WinFormApp
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = textBoxUsername.Text;
-            string password = textBoxPassword.Text;
+            if (IsLoading) return; // Prevent clicking twice quickly
 
-            AccountDTO account = await AccountService.Instance.Login(username, password);
+            string username = textBoxUsername.Text.Trim();
+            string password = textBoxPassword.Text.Trim();
 
-            if (account != null && account.IsAuthenticated)
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                TableManager tableManager = new TableManager();
-                Hide();
-                tableManager.ShowDialog();
-                Show();
+                MessageBox.Show("Please enter both username and password.", "Missing information");
+                return;
             }
-            else
+
+            IsLoading = true;
+
+            try
             {
-                MessageBox.Show("Incorrect username or password", "Login failed");
-            }   
+                var account = await AccountService.Instance.Login(username, password);
+
+                if (account != null && account.IsAuthenticated)
+                {
+                    TableManager tableManager = new TableManager();
+                    Hide();
+                    tableManager.ShowDialog();
+                    Show();
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect username or password", "Login failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Login error");
+            }
+            finally
+            {
+                IsLoading = false;
+                btnLogin.Text = "Login";
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)

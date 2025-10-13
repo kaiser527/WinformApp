@@ -33,6 +33,10 @@ namespace WinFormApp.Migrations
                     b.Property<int>("IdRole")
                         .HasColumnType("int");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PassWord")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)")
@@ -50,70 +54,80 @@ namespace WinFormApp.Migrations
                             UserName = "admin",
                             DisplayName = "Administrator",
                             IdRole = 1,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$xBVSHCBOsjOpq02M/WxobO9KBNpvn8mzopvb9qWCH2qcWjwlhZPM."
                         },
                         new
                         {
                             UserName = "john_doe",
                             DisplayName = "John Doe",
                             IdRole = 2,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$4eVxgQjWinRYtFEX3jOCueVLxitmyIJac.ugRs41Pd73kZJZ0yjyu"
                         },
                         new
                         {
                             UserName = "jane_smith",
                             DisplayName = "Jane Smith",
                             IdRole = 2,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$HsCjq0Ab4fEMAckVp0z1mefmnchEYQr7qANwnEsL1GXxCPNfijA9K"
                         },
                         new
                         {
                             UserName = "michael",
                             DisplayName = "Michael Johnson",
                             IdRole = 2,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$72/9A/FV9ncpkBOelC147eg0qd1DipdhQRJe6KeVK03kRmsAzxHA6"
                         },
                         new
                         {
                             UserName = "emily",
                             DisplayName = "Emily Davis",
                             IdRole = 3,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$5w/QCn8sKEcfZetuOFUuoubtapNY6cd1h7NFhFNv4bI3JPjc2lY2."
                         },
                         new
                         {
                             UserName = "david",
                             DisplayName = "David Wilson",
                             IdRole = 2,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$jgvFx2FMGPrG.VaH/DW81.1IY4i7KMpYC1MIuMZcXfeLM9qtX8.x6"
                         },
                         new
                         {
                             UserName = "sarah",
                             DisplayName = "Sarah Brown",
                             IdRole = 3,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$FLykWMDQO9B45TFiAWv3SedhhHeacvvw3bF/XVaDFALCqXvgAe.S."
                         },
                         new
                         {
                             UserName = "chris",
                             DisplayName = "Chris Lee",
                             IdRole = 2,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$A/DvfNP1jmJ/5wcRczACAezvRnWYAgZHkmDPBChUlYSxItpnAsU8i"
                         },
                         new
                         {
                             UserName = "amanda",
                             DisplayName = "Amanda Miller",
                             IdRole = 2,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$ytZCOayl8AZCpW7inmNYGurpCvONM2i2q5ML4c9Nmk4Olim7KEAyC"
                         },
                         new
                         {
                             UserName = "matthew",
                             DisplayName = "Matthew Garcia",
                             IdRole = 3,
-                            PassWord = "123456"
+                            Image = "default.png",
+                            PassWord = "$2a$11$BRZ6W5/zCZVrkg/xDO0qCew9shHaJCMILRhybpSZVTj65Krwz/UO2"
                         });
                 });
 
@@ -591,26 +605,32 @@ namespace WinFormApp.Migrations
                         new
                         {
                             Id = 21,
-                            Module = "Role",
+                            Module = "Permission",
                             Name = "Create Permission"
                         },
                         new
                         {
                             Id = 22,
-                            Module = "Role",
+                            Module = "Permission",
                             Name = "Update Permission"
                         },
                         new
                         {
                             Id = 23,
-                            Module = "Role",
+                            Module = "Permission",
                             Name = "Delete Permission"
                         },
                         new
                         {
                             Id = 24,
-                            Module = "Role",
+                            Module = "Permission",
                             Name = "View Permission"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Module = "Bill",
+                            Name = "View Bill"
                         });
                 });
 
@@ -873,6 +893,16 @@ namespace WinFormApp.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 16
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 25
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 25
                         });
                 });
 

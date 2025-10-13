@@ -24,6 +24,8 @@ namespace WinFormApp
 
         private BindingSource tablelist = new BindingSource();
 
+        private BindingSource categorylist = new BindingSource();
+
         private List<Role> _roles;
 
         private Role _selectedRole;
@@ -394,6 +396,36 @@ namespace WinFormApp
 
             dtgvTable.DataSource = tablelist;
         }
+
+        private async Task GetListCategory()
+        {
+            var categories = await CategoryService.Instance.GetListCategory(txbSearchCategory.Text);
+
+            if (!categories.Any())
+            {
+                dtgvCategory.DataSource = null;
+                return;
+            }
+
+            categorylist.DataSource = categories;
+
+            dtgvCategory.DataSource = categorylist;
+        }
+
+        private async Task GetListFood()
+        {
+            var foods = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+
+            if (!foods.Any())
+            {
+                dtgvFood.DataSource = null;
+                return;
+            }
+
+            foodlist.DataSource = foods;
+
+            dtgvFood.DataSource = foodlist;
+        }
    
         private void LoadTableStatus()
         {
@@ -425,9 +457,7 @@ namespace WinFormApp
 
         private async void btnViewFood_Click(object sender, EventArgs e)
         {
-            foodlist.DataSource = await FoodService.Instance.GetListFood();
-
-            dtgvFood.DataSource = foodlist;
+            await GetListFood();
 
             txbFoodName.DataBindings.Clear();
             txbFoodId.DataBindings.Clear();
@@ -446,7 +476,7 @@ namespace WinFormApp
 
             await FoodService.Instance.InsertFood(food);
 
-            foodlist.DataSource = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+            await GetListFood();
 
             await _tableManager.LoadCategory();
         }
@@ -459,7 +489,7 @@ namespace WinFormApp
 
             await FoodService.Instance.UpdateFood(food);
 
-            foodlist.DataSource = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+            await GetListFood();
 
             await _tableManager.LoadCategory();
         }
@@ -477,7 +507,7 @@ namespace WinFormApp
 
             List<TableFood> tables = await FoodService.Instance.DeleteFood(int.Parse(txbFoodId.Text));
 
-            foodlist.DataSource = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+            await GetListFood();
 
             await _tableManager.LoadCategory();  
             
@@ -489,8 +519,7 @@ namespace WinFormApp
 
         private async void btnSearchFood_Click(object sender, EventArgs e)
         {
-            if (foodlist.Count > 0) 
-                foodlist.DataSource = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+            if (foodlist.Count > 0) await GetListFood();
         }
 
         private async void btnViewRole_Click(object sender, EventArgs e)
@@ -768,6 +797,63 @@ namespace WinFormApp
             await GetListTable();
 
             await _tableManager.LoadTableFood();
+        }
+
+        private async void btnViewCategory_Click(object sender, EventArgs e)
+        {
+            await GetListCategory();
+
+            txbCategoryId.DataBindings.Clear();
+            txbCategoryName.DataBindings.Clear();
+
+            txbCategoryId.DataBindings.Add("Text", categorylist, "Id", true, DataSourceUpdateMode.Never);
+            txbCategoryName.DataBindings.Add("Text", categorylist, "Name", true, DataSourceUpdateMode.Never);
+        }
+
+        private async void btnSearchCategory_Click(object sender, EventArgs e)
+        {
+            if(categorylist.Count > 0) await GetListCategory();
+        }
+
+        private async void btnAddCategory_Click(object sender, EventArgs e)
+        {
+            if (categorylist.Count == 0) return;
+
+            FoodCategory foodCategory = new FoodCategory() { Name = txbCategoryName.Text };
+
+            await CategoryService.Instance.InsertCategory(foodCategory);
+
+            await GetListCategory();
+
+            await _tableManager.LoadCategory();    
+        }
+
+        private async void btnUpdateCategory_Click(object sender, EventArgs e)
+        {
+            if (categorylist.Count == 0) return;
+
+            FoodCategory foodCategory = new FoodCategory() 
+            { 
+                Id = int.Parse(txbAccountUsername.Text),
+                Name = txbCategoryName.Text 
+            };
+
+            await CategoryService.Instance.UpdateCategory(foodCategory);
+
+            await GetListCategory();
+
+            await _tableManager.LoadCategory();
+        }
+
+        private async void btnDeleteCategory_Click(object sender, EventArgs e)
+        {
+            if (categorylist.Count == 0) return;
+
+            await CategoryService.Instance.DeleteCategory(int.Parse(txbAccountUsername.Text));
+
+            await GetListCategory();
+
+            await _tableManager.LoadCategory();
         }
         #endregion
     }

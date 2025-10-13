@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -42,7 +45,7 @@ namespace WinFormApp.Services
 
                 if (success) User = user;
 
-                return new AccountDTO(success, User);
+                return new AccountDTO(success, success ? user : null);
             }
         }
 
@@ -52,7 +55,11 @@ namespace WinFormApp.Services
             {
                 bool isClose = true;
 
-                Account user = await context.Accounts.FindAsync(updateAccountDTO.UserName);
+                Account user = await context.Accounts
+                    .Include(a => a.Role)
+                        .ThenInclude(r => r.RolePermissions)
+                            .ThenInclude(rp => rp.Permission)
+                    .FirstOrDefaultAsync(a => a.UserName == updateAccountDTO.UserName);
 
                 if (user == null)
                 {
@@ -78,13 +85,12 @@ namespace WinFormApp.Services
                 {
                     user.DisplayName = updateAccountDTO.DisplayName;
                     user.PassWord = BCrypt.Net.BCrypt.HashPassword(updateAccountDTO.ConfirmPassWord);
+                    user.Image = updateAccountDTO.Inage;
 
                     await context.SaveChangesAsync();
-
-                    User = user;
                 }
 
-                return (isClose, User);
+                return (isClose, user);
             }
         }
 
@@ -205,6 +211,31 @@ namespace WinFormApp.Services
                 resetAccount.PassWord = BCrypt.Net.BCrypt.HashPassword("123456");
 
                 await context.SaveChangesAsync();
+            }
+        }
+
+        public Image LoadAccountImage(Account account, int size = 64)
+        {
+            try
+            {
+                string imageFolder = Path.Combine(Application.StartupPath, "Image");
+                string imageFile = account?.Image ?? "default.png";
+                string imagePath = Path.Combine(imageFolder, imageFile);
+
+                if (!File.Exists(imagePath))
+                    imagePath = Path.Combine(imageFolder, "default.png");
+
+                if (!File.Exists(imagePath))
+                    return null;
+
+                using (var original = Image.FromFile(imagePath))
+                {
+                    return new Bitmap(original, new Size(size, size));
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
     }

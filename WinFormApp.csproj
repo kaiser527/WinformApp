@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Image\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Reference Include="Azure.Core, Version=1.47.1.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>packages\Azure.Core.1.47.1\lib\net472\Azure.Core.dll</HintPath>
     </Reference>
@@ -225,9 +228,9 @@
     <Compile Include="DTO\FoodDTO.cs" />
     <Compile Include="DTO\MenuDTO.cs" />
     <Compile Include="DTO\UpdateAccountDTO.cs" />
-    <Compile Include="Migrations\20250929051850_SeedAllData.cs" />
-    <Compile Include="Migrations\20250929051850_SeedAllData.Designer.cs">
-      <DependentUpon>20250929051850_SeedAllData.cs</DependentUpon>
+    <Compile Include="Migrations\20251013035746_SeedAllData.cs" />
+    <Compile Include="Migrations\20251013035746_SeedAllData.Designer.cs">
+      <DependentUpon>20251013035746_SeedAllData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\CoffeeShopContextModelSnapshot.cs" />
     <Compile Include="Models\Permission.cs" />

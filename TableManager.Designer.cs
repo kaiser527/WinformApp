@@ -57,6 +57,7 @@ namespace WinFormApp
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.AccountImage = new System.Windows.Forms.PictureBox();
             this.toolStripBar.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -65,6 +66,7 @@ namespace WinFormApp
             ((System.ComponentModel.ISupportInitialize)(this.nmAddFood)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccountImage)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripBar
@@ -76,7 +78,7 @@ namespace WinFormApp
             this.accountToolStripDropdown});
             this.toolStripBar.Location = new System.Drawing.Point(17, 5);
             this.toolStripBar.Name = "toolStripBar";
-            this.toolStripBar.Size = new System.Drawing.Size(214, 31);
+            this.toolStripBar.Size = new System.Drawing.Size(175, 30);
             this.toolStripBar.TabIndex = 0;
             this.toolStripBar.Text = "toolStrip1";
             // 
@@ -330,11 +332,20 @@ namespace WinFormApp
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // AccountImage
+            // 
+            this.AccountImage.Location = new System.Drawing.Point(1124, 5);
+            this.AccountImage.Name = "AccountImage";
+            this.AccountImage.Size = new System.Drawing.Size(38, 38);
+            this.AccountImage.TabIndex = 6;
+            this.AccountImage.TabStop = false;
+            // 
             // TableManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1171, 806);
+            this.Controls.Add(this.AccountImage);
             this.Controls.Add(this.flpTable);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel3);
@@ -356,6 +367,7 @@ namespace WinFormApp
             ((System.ComponentModel.ISupportInitialize)(this.nmAddFood)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccountImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,5 +401,6 @@ namespace WinFormApp
         private ColumnHeader columnHeader4;
         private TextBox txbTotalPrice;
         private ErrorProvider errorProvider1;
+        public PictureBox AccountImage;
     }
 }

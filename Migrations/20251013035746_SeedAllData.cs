@@ -90,6 +90,7 @@ namespace WinFormApp.Migrations
                     UserName = table.Column<string>(maxLength: 100, nullable: false),
                     DisplayName = table.Column<string>(maxLength: 100, nullable: false),
                     PassWord = table.Column<string>(maxLength: 1000, nullable: false),
+                    Image = table.Column<string>(nullable: false),
                     IdRole = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -201,12 +202,13 @@ namespace WinFormApp.Migrations
                     { 16, "Table", "View Table" },
                     { 17, "Role", "Create Role" },
                     { 18, "Role", "Update Role" },
-                    { 23, "Role", "Delete Permission" },
-                    { 21, "Role", "Create Permission" },
-                    { 22, "Role", "Update Permission" },
-                    { 14, "Table", "Update Table" },
-                    { 24, "Role", "View Permission" },
                     { 19, "Role", "Delete Role" },
+                    { 24, "Permission", "View Permission" },
+                    { 22, "Permission", "Update Permission" },
+                    { 23, "Permission", "Delete Permission" },
+                    { 14, "Table", "Update Table" },
+                    { 25, "Bill", "View Bill" },
+                    { 21, "Permission", "Create Permission" },
                     { 13, "Table", "Create Table" },
                     { 20, "Role", "View Role" },
                     { 11, "Category", "Delete Category" },
@@ -216,10 +218,10 @@ namespace WinFormApp.Migrations
                     { 4, "Account", "View Account" },
                     { 5, "Food", "Create Food" },
                     { 1, "Account", "Create Account" },
+                    { 6, "Food", "Update Food" },
                     { 7, "Food", "Delete Food" },
                     { 8, "Food", "View Food" },
                     { 9, "Category", "Create Category" },
-                    { 6, "Food", "Update Food" },
                     { 10, "Category", "Update Category" }
                 });
 
@@ -238,12 +240,12 @@ namespace WinFormApp.Migrations
                 columns: new[] { "Id", "Name", "Status" },
                 values: new object[,]
                 {
-                    { 18, "Table 18", "Empty" },
                     { 12, "Table 12", "Empty" },
                     { 13, "Table 13", "Empty" },
                     { 14, "Table 14", "Empty" },
                     { 17, "Table 17", "Empty" },
                     { 16, "Table 16", "Empty" },
+                    { 18, "Table 18", "Empty" },
                     { 11, "Table 11", "Empty" },
                     { 15, "Table 15", "Empty" },
                     { 10, "Table 10", "Empty" },
@@ -262,19 +264,19 @@ namespace WinFormApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Accounts",
-                columns: new[] { "UserName", "DisplayName", "IdRole", "PassWord" },
+                columns: new[] { "UserName", "DisplayName", "IdRole", "Image", "PassWord" },
                 values: new object[,]
                 {
-                    { "john_doe", "John Doe", 2, "123456" },
-                    { "jane_smith", "Jane Smith", 2, "123456" },
-                    { "matthew", "Matthew Garcia", 3, "123456" },
-                    { "sarah", "Sarah Brown", 3, "123456" },
-                    { "emily", "Emily Davis", 3, "123456" },
-                    { "admin", "Administrator", 1, "123456" },
-                    { "chris", "Chris Lee", 2, "123456" },
-                    { "david", "David Wilson", 2, "123456" },
-                    { "michael", "Michael Johnson", 2, "123456" },
-                    { "amanda", "Amanda Miller", 2, "123456" }
+                    { "john_doe", "John Doe", 2, "default.png", "$2a$11$4eVxgQjWinRYtFEX3jOCueVLxitmyIJac.ugRs41Pd73kZJZ0yjyu" },
+                    { "jane_smith", "Jane Smith", 2, "default.png", "$2a$11$HsCjq0Ab4fEMAckVp0z1mefmnchEYQr7qANwnEsL1GXxCPNfijA9K" },
+                    { "matthew", "Matthew Garcia", 3, "default.png", "$2a$11$BRZ6W5/zCZVrkg/xDO0qCew9shHaJCMILRhybpSZVTj65Krwz/UO2" },
+                    { "sarah", "Sarah Brown", 3, "default.png", "$2a$11$FLykWMDQO9B45TFiAWv3SedhhHeacvvw3bF/XVaDFALCqXvgAe.S." },
+                    { "emily", "Emily Davis", 3, "default.png", "$2a$11$5w/QCn8sKEcfZetuOFUuoubtapNY6cd1h7NFhFNv4bI3JPjc2lY2." },
+                    { "admin", "Administrator", 1, "default.png", "$2a$11$xBVSHCBOsjOpq02M/WxobO9KBNpvn8mzopvb9qWCH2qcWjwlhZPM." },
+                    { "chris", "Chris Lee", 2, "default.png", "$2a$11$A/DvfNP1jmJ/5wcRczACAezvRnWYAgZHkmDPBChUlYSxItpnAsU8i" },
+                    { "david", "David Wilson", 2, "default.png", "$2a$11$jgvFx2FMGPrG.VaH/DW81.1IY4i7KMpYC1MIuMZcXfeLM9qtX8.x6" },
+                    { "michael", "Michael Johnson", 2, "default.png", "$2a$11$72/9A/FV9ncpkBOelC147eg0qd1DipdhQRJe6KeVK03kRmsAzxHA6" },
+                    { "amanda", "Amanda Miller", 2, "default.png", "$2a$11$ytZCOayl8AZCpW7inmNYGurpCvONM2i2q5ML4c9Nmk4Olim7KEAyC" }
                 });
 
             migrationBuilder.InsertData(
@@ -283,14 +285,14 @@ namespace WinFormApp.Migrations
                 values: new object[,]
                 {
                     { 20, 6, "Orange Juice", 3.0 },
-                    { 27, 8, "Irish Coffee", 6.0 },
+                    { 26, 8, "Affogato", 5.5 },
                     { 25, 7, "Strawberry Ice Cream", 2.5 },
                     { 24, 7, "Chocolate Ice Cream", 2.5 },
                     { 23, 7, "Vanilla Ice Cream", 2.5 },
                     { 22, 6, "Carrot Juice", 3.2000000000000002 },
                     { 21, 6, "Apple Juice", 3.0 },
                     { 19, 5, "Veggie Sandwich", 3.7999999999999998 },
-                    { 26, 8, "Affogato", 5.5 },
+                    { 27, 8, "Irish Coffee", 6.0 },
                     { 17, 5, "Ham Sandwich", 4.0 },
                     { 2, 1, "Latte", 3.5 },
                     { 3, 1, "Cappuccino", 3.7999999999999998 },
@@ -316,7 +318,7 @@ namespace WinFormApp.Migrations
                 columns: new[] { "RoleId", "PermissionId" },
                 values: new object[,]
                 {
-                    { 3, 13 },
+                    { 3, 14 },
                     { 2, 16 },
                     { 3, 1 },
                     { 3, 2 },
@@ -324,15 +326,16 @@ namespace WinFormApp.Migrations
                     { 3, 4 },
                     { 3, 5 },
                     { 3, 6 },
-                    { 3, 8 },
+                    { 3, 7 },
                     { 3, 9 },
                     { 3, 10 },
                     { 3, 11 },
                     { 3, 12 },
-                    { 3, 14 },
-                    { 3, 7 },
-                    { 1, 11 },
-                    { 1, 23 },
+                    { 3, 13 },
+                    { 3, 15 },
+                    { 3, 8 },
+                    { 1, 12 },
+                    { 1, 24 },
                     { 1, 1 },
                     { 1, 2 },
                     { 1, 3 },
@@ -343,8 +346,8 @@ namespace WinFormApp.Migrations
                     { 1, 8 },
                     { 1, 9 },
                     { 1, 10 },
-                    { 1, 24 },
-                    { 3, 15 },
+                    { 1, 11 },
+                    { 3, 16 },
                     { 1, 13 },
                     { 1, 14 },
                     { 1, 15 },
@@ -355,8 +358,9 @@ namespace WinFormApp.Migrations
                     { 1, 20 },
                     { 1, 21 },
                     { 1, 22 },
-                    { 1, 12 },
-                    { 3, 16 }
+                    { 1, 23 },
+                    { 1, 25 },
+                    { 3, 25 }
                 });
 
             migrationBuilder.CreateIndex(

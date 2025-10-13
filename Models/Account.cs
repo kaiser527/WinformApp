@@ -18,6 +18,9 @@ namespace WinFormApp.Models
         public string PassWord { get; set; } = "123456";
 
         [Required]
+        public string Image { get; set; } = "default.png";
+
+        [Required]
         public int IdRole { get; set; }
 
         [ForeignKey("IdRole")]

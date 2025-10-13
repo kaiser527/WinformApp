@@ -607,6 +607,7 @@
             this.btnSearchCategory.TabIndex = 4;
             this.btnSearchCategory.Text = "Search";
             this.btnSearchCategory.UseVisualStyleBackColor = false;
+            this.btnSearchCategory.Click += new System.EventHandler(this.btnSearchCategory_Click);
             // 
             // panel13
             // 
@@ -698,6 +699,7 @@
             this.btnViewCategory.TabIndex = 3;
             this.btnViewCategory.Text = "View";
             this.btnViewCategory.UseVisualStyleBackColor = false;
+            this.btnViewCategory.Click += new System.EventHandler(this.btnViewCategory_Click);
             // 
             // btnUpdateCategory
             // 
@@ -708,6 +710,7 @@
             this.btnUpdateCategory.TabIndex = 2;
             this.btnUpdateCategory.Text = "Update";
             this.btnUpdateCategory.UseVisualStyleBackColor = false;
+            this.btnUpdateCategory.Click += new System.EventHandler(this.btnUpdateCategory_Click);
             // 
             // btnDeleteCategory
             // 
@@ -718,6 +721,7 @@
             this.btnDeleteCategory.TabIndex = 1;
             this.btnDeleteCategory.Text = "Delete";
             this.btnDeleteCategory.UseVisualStyleBackColor = false;
+            this.btnDeleteCategory.Click += new System.EventHandler(this.btnDeleteCategory_Click);
             // 
             // btnAddCategory
             // 
@@ -728,6 +732,7 @@
             this.btnAddCategory.TabIndex = 0;
             this.btnAddCategory.Text = "Add";
             this.btnAddCategory.UseVisualStyleBackColor = false;
+            this.btnAddCategory.Click += new System.EventHandler(this.btnAddCategory_Click);
             // 
             // panel30
             // 
