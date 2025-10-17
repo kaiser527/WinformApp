@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WinFormApp.Models;
 
-namespace WinFormApp.Seeder
+namespace WinFormApp.Utils
 {
     internal class DataSeeder
     {
-        public static void Seed(ModelBuilder modelBuilder)
+        public static void Seed(CoffeeShopContext context)
         {
             //Seed Permission
-            modelBuilder.Entity<Permission>().HasData(
+            var permissions = new List<Permission>
+            {
                 new Permission { Id = 1, Name = "Create Account", Module = "Account" },
                 new Permission { Id = 2, Name = "Update Account", Module = "Account" },
                 new Permission { Id = 3, Name = "Delete Account", Module = "Account" },
@@ -35,14 +36,17 @@ namespace WinFormApp.Seeder
                 new Permission { Id = 23, Name = "Delete Permission", Module = "Permission" },
                 new Permission { Id = 24, Name = "View Permission", Module = "Permission" },
                 new Permission { Id = 25, Name = "View Bill", Module = "Bill" }
-            );
+            };
+            if(context.Permissions.Any()) context.Permissions.AddRange(permissions);
 
-            //Seed Role
-            modelBuilder.Entity<Role>().HasData(
-               new Role { Id = 1, Name = "Admin", IsActive = true },
-               new Role { Id = 2, Name = "Staff", IsActive = true },
-               new Role { Id = 3, Name = "Tester", IsActive = true }
-            );
+            //Seed role
+            var roles = new List<Role>
+            {
+                new Role { Id = 1, Name = "Admin", IsActive = true },
+                new Role { Id = 2, Name = "Staff", IsActive = true },
+                new Role { Id = 3, Name = "Tester", IsActive = true }
+            };
+            if(context.Roles.Any()) context.Roles.AddRange(roles);
 
             //Seed RolePermission
             var rolePermissions = new List<RolePermission>();
@@ -63,11 +67,11 @@ namespace WinFormApp.Seeder
                 new RolePermission { RoleId = 1, PermissionId = 25 },
                 new RolePermission { RoleId = 3, PermissionId = 25 }
             });
+            if(context.RolePermissions.Any()) context.RolePermissions.AddRange(rolePermissions);
 
-            modelBuilder.Entity<RolePermission>().HasData(rolePermissions);
-
-            // Seed Accounts
-            modelBuilder.Entity<Account>().HasData(
+            //Seed Accounts
+            var accounts = new List<Account>
+            {
                 new Account { UserName = "admin", DisplayName = "Administrator", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 1, Image = "default.png" },
                 new Account { UserName = "john_doe", DisplayName = "John Doe", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2, Image = "default.png" },
                 new Account { UserName = "jane_smith", DisplayName = "Jane Smith", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2, Image = "default.png" },
@@ -78,33 +82,18 @@ namespace WinFormApp.Seeder
                 new Account { UserName = "chris", DisplayName = "Chris Lee", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2, Image = "default.png" },
                 new Account { UserName = "amanda", DisplayName = "Amanda Miller", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2, Image = "default.png" },
                 new Account { UserName = "matthew", DisplayName = "Matthew Garcia", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 3, Image = "default.png" }
-            );
+            };
+            if(context.Accounts.Any()) context.Accounts.AddRange(accounts);
 
-            // Seed TableFood
-            modelBuilder.Entity<TableFood>().HasData(
-                new TableFood { Id = 1, Name = "Table 1", Status = "Empty" },
-                new TableFood { Id = 2, Name = "Table 2", Status = "Empty" },
-                new TableFood { Id = 3, Name = "Table 3", Status = "Empty" },
-                new TableFood { Id = 4, Name = "Table 4", Status = "Empty" },
-                new TableFood { Id = 5, Name = "Table 5", Status = "Empty" },
-                new TableFood { Id = 6, Name = "Table 6", Status = "Empty" },
-                new TableFood { Id = 7, Name = "Table 7", Status = "Empty" },
-                new TableFood { Id = 8, Name = "Table 8", Status = "Empty" },
-                new TableFood { Id = 9, Name = "Table 9", Status = "Empty" },
-                new TableFood { Id = 10, Name = "Table 10", Status = "Empty" },
-                new TableFood { Id = 11, Name = "Table 11", Status = "Empty" },
-                new TableFood { Id = 12, Name = "Table 12", Status = "Empty" },
-                new TableFood { Id = 13, Name = "Table 13", Status = "Empty" },
-                new TableFood { Id = 14, Name = "Table 14", Status = "Empty" },
-                new TableFood { Id = 15, Name = "Table 15", Status = "Empty" },
-                new TableFood { Id = 16, Name = "Table 16", Status = "Empty" },
-                new TableFood { Id = 17, Name = "Table 17", Status = "Empty" },
-                new TableFood { Id = 18, Name = "Table 18", Status = "Empty" },
-                new TableFood { Id = 19, Name = "Table 19", Status = "Empty" },
-                new TableFood { Id = 20, Name = "Table 20", Status = "Empty" });
+            //Seed TableFood
+            var tables = Enumerable.Range(1, 24)
+                .Select(i => new TableFood { Id = i, Name = $"Table {i}", Status = "Empty" })
+                .ToList();
+            if(context.TableFoods.Any()) context.TableFoods.AddRange(tables);
 
-            // Seed FoodCategory
-            modelBuilder.Entity<FoodCategory>().HasData(
+            //Seed FoodCategory
+            var categories = new List<FoodCategory>
+            {
                 new FoodCategory { Id = 1, Name = "Coffee" },
                 new FoodCategory { Id = 2, Name = "Tea" },
                 new FoodCategory { Id = 3, Name = "Smoothies" },
@@ -112,10 +101,13 @@ namespace WinFormApp.Seeder
                 new FoodCategory { Id = 5, Name = "Sandwiches" },
                 new FoodCategory { Id = 6, Name = "Juices" },
                 new FoodCategory { Id = 7, Name = "Ice Cream" },
-                new FoodCategory { Id = 8, Name = "Specials" });
+                new FoodCategory { Id = 8, Name = "Specials" }
+            };
+            if(context.FoodCategories.Any()) context.FoodCategories.AddRange(categories);
 
-            // Seed Foods
-            modelBuilder.Entity<Food>().HasData(
+            //Seed Foods
+            var foods = new List<Food>
+            {
                 new Food { Id = 1, Name = "Espresso", IdCategory = 1, Price = 2.5 },
                 new Food { Id = 2, Name = "Latte", IdCategory = 1, Price = 3.5 },
                 new Food { Id = 3, Name = "Cappuccino", IdCategory = 1, Price = 3.8 },
@@ -142,7 +134,11 @@ namespace WinFormApp.Seeder
                 new Food { Id = 24, Name = "Chocolate Ice Cream", IdCategory = 7, Price = 2.5 },
                 new Food { Id = 25, Name = "Strawberry Ice Cream", IdCategory = 7, Price = 2.5 },
                 new Food { Id = 26, Name = "Affogato", IdCategory = 8, Price = 5.5 },
-                new Food { Id = 27, Name = "Irish Coffee", IdCategory = 8, Price = 6.0 });
+                new Food { Id = 27, Name = "Irish Coffee", IdCategory = 8, Price = 6.0 }
+            };
+            if(context.Foods.Any()) context.Foods.AddRange(foods);
+
+            context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Quartz;
+using Quartz.Impl;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -7,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormApp.DTO;
+using WinFormApp.Jobs;
 using WinFormApp.Models;
 using WinFormApp.Services;
 
@@ -18,6 +21,7 @@ namespace WinFormApp
         {
             InitializeComponent();
             Load += load_Data;
+            FormClosing += TableManager_FormClosing;
         }
 
         #region Method
@@ -191,9 +195,47 @@ namespace WinFormApp
 
             await ShowBill(currentTable.Id);
         }
+
+        private async Task StartImageCleanupScheduler()
+        {
+            try
+            {
+                // Create a Quartz scheduler
+                IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+                await scheduler.Start();
+
+                // Define the job
+                IJobDetail job = JobBuilder.Create<ImageCleanupJob>()
+                    .WithIdentity("ImageCleanupJob", "Maintenance")
+                    .Build();
+
+                // Define the trigger (every 5 minutes)
+                ITrigger trigger = TriggerBuilder.Create()
+                    .WithIdentity("ImageCleanupTrigger", "Maintenance")
+                    .StartNow()
+                    .WithSimpleSchedule(x => x
+                        .WithIntervalInMinutes(5)
+                        .RepeatForever())
+                    .Build();
+
+                // Schedule it
+                await scheduler.ScheduleJob(job, trigger);
+
+                Console.WriteLine("[Quartz] Image cleanup job scheduled every 5 minutes.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Quartz] Failed to start scheduler: {ex.Message}");
+            }
+        }
         #endregion
 
         #region Event
+        private async void TableManager_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+            if (scheduler.IsStarted) await scheduler.Shutdown();
+        }
         private async void load_Data(object sender, EventArgs e)
         {
             var tableTask = LoadTableFood();
@@ -222,7 +264,9 @@ namespace WinFormApp
                 AccountImage.SizeMode = PictureBoxSizeMode.Zoom;
             }
 
-            await Task.WhenAll(tableTask, categoryTask);         
+            await Task.WhenAll(tableTask, categoryTask);
+
+            await StartImageCleanupScheduler();
         }
         private async void btn_Click(object sender, EventArgs e)
         {

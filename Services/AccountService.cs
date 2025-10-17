@@ -238,5 +238,61 @@ namespace WinFormApp.Services
                 return null;
             }
         }
+
+        private async Task<List<string>> GetImageList()
+        {
+            using (var context = new CoffeeShopContext())
+            {
+                return await context.Accounts.Select(a => a.Image).ToListAsync();
+            }
+        }
+
+        public async Task CleanUpUnusedImages()
+        {
+            try
+            {
+                string imageFolder = Path.Combine(Application.StartupPath, "Image");
+
+                if (!Directory.Exists(imageFolder))
+                {
+                    Console.WriteLine($"Image folder not found: {imageFolder}");
+                    return;
+                }
+
+                List<string> imageNamesInDb = await GetImageList();
+
+                var validNames = imageNamesInDb
+                    .Where(n => !string.IsNullOrEmpty(n))
+                    .Select(n => n.ToLower())
+                    .ToHashSet();
+
+                string[] files = Directory.GetFiles(imageFolder);
+
+                foreach (string filePath in files)
+                {
+                    string fileName = Path.GetFileName(filePath).ToLower();
+
+                    if (fileName == "default.png") continue;
+
+                    if (!validNames.Contains(fileName))
+                    {
+                        try
+                        {
+                            File.Delete(filePath);
+                            Console.WriteLine($"Deleted unused image: {fileName}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Failed to delete {fileName}: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Image cleanup failed: {ex.Message}");
+            }
+        }
+
     }
 }

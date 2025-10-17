@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WinFormApp.Seeder;
 
 namespace WinFormApp.Models
 {
@@ -72,8 +71,6 @@ namespace WinFormApp.Models
                 .HasOne(a => a.Role)
                 .WithMany(r => r.Accounts)
                 .HasForeignKey(a => a.IdRole);
-
-            DataSeeder.Seed(modelBuilder);
         }
     }
 }
