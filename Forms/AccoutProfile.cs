@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using WinFormApp.DTO;
-using WinFormApp.Helpers;
 using WinFormApp.Models;
 using WinFormApp.Services;
 
@@ -35,7 +34,7 @@ namespace WinFormApp
         {
             Account user = AccountService.Instance.User;
 
-            ImageAction.LoadAccountImageToButton(user, btnUploadAccount);
+            ImageService.Instance.LoadAccountImageToButton(user, btnUploadAccount);
         }
         #endregion
 
@@ -58,7 +57,7 @@ namespace WinFormApp
             {
                 _tableManager.accountToolStripDropdown.Text = $"Account ({updatedUser.DisplayName})";
 
-                Image img = AccountService.Instance.LoadAccountImage(updatedUser, 38);
+                Image img = ImageService.Instance.LoadAccountImage(updatedUser, 38);
                 if (img == null)
                 {
                     MessageBox.Show("Image not found or failed to load!");
@@ -83,12 +82,12 @@ namespace WinFormApp
 
         private void btnUploadAccount_Click(object sender, EventArgs e)
         {
-            string fileName = ImageAction.UploadAccountImageDialog(UploadAccountImage);
+            string fileName = ImageService.Instance.UploadAccountImageDialog(UploadAccountImage);
 
             if (!string.IsNullOrEmpty(fileName))
             {
                 _fileName = fileName;
-                ImageAction.UpdateButtonImage(fileName, btnUploadAccount);
+                ImageService.Instance.UpdateButtonImage(fileName, btnUploadAccount);
             }
         }
         #endregion

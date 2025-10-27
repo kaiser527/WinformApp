@@ -37,7 +37,7 @@ namespace WinFormApp.Utils
                 new Permission { Id = 24, Name = "View Permission", Module = "Permission" },
                 new Permission { Id = 25, Name = "View Bill", Module = "Bill" }
             };
-            if(context.Permissions.Any()) context.Permissions.AddRange(permissions);
+            if(!context.Permissions.Any()) context.Permissions.AddRange(permissions);
 
             //Seed role
             var roles = new List<Role>
@@ -46,7 +46,7 @@ namespace WinFormApp.Utils
                 new Role { Id = 2, Name = "Staff", IsActive = true },
                 new Role { Id = 3, Name = "Tester", IsActive = true }
             };
-            if(context.Roles.Any()) context.Roles.AddRange(roles);
+            if(!context.Roles.Any()) context.Roles.AddRange(roles);
 
             //Seed RolePermission
             var rolePermissions = new List<RolePermission>();
@@ -67,7 +67,7 @@ namespace WinFormApp.Utils
                 new RolePermission { RoleId = 1, PermissionId = 25 },
                 new RolePermission { RoleId = 3, PermissionId = 25 }
             });
-            if(context.RolePermissions.Any()) context.RolePermissions.AddRange(rolePermissions);
+            if(!context.RolePermissions.Any()) context.RolePermissions.AddRange(rolePermissions);
 
             //Seed Accounts
             var accounts = new List<Account>
@@ -83,13 +83,13 @@ namespace WinFormApp.Utils
                 new Account { UserName = "amanda", DisplayName = "Amanda Miller", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 2, Image = "default.png" },
                 new Account { UserName = "matthew", DisplayName = "Matthew Garcia", PassWord = BCrypt.Net.BCrypt.HashPassword("123456"), IdRole = 3, Image = "default.png" }
             };
-            if(context.Accounts.Any()) context.Accounts.AddRange(accounts);
+            if(!context.Accounts.Any()) context.Accounts.AddRange(accounts);
 
             //Seed TableFood
             var tables = Enumerable.Range(1, 24)
                 .Select(i => new TableFood { Id = i, Name = $"Table {i}", Status = "Empty" })
                 .ToList();
-            if(context.TableFoods.Any()) context.TableFoods.AddRange(tables);
+            if(!context.TableFoods.Any()) context.TableFoods.AddRange(tables);
 
             //Seed FoodCategory
             var categories = new List<FoodCategory>
@@ -103,7 +103,7 @@ namespace WinFormApp.Utils
                 new FoodCategory { Id = 7, Name = "Ice Cream" },
                 new FoodCategory { Id = 8, Name = "Specials" }
             };
-            if(context.FoodCategories.Any()) context.FoodCategories.AddRange(categories);
+            if(!context.FoodCategories.Any()) context.FoodCategories.AddRange(categories);
 
             //Seed Foods
             var foods = new List<Food>
@@ -136,7 +136,7 @@ namespace WinFormApp.Utils
                 new Food { Id = 26, Name = "Affogato", IdCategory = 8, Price = 5.5 },
                 new Food { Id = 27, Name = "Irish Coffee", IdCategory = 8, Price = 6.0 }
             };
-            if(context.Foods.Any()) context.Foods.AddRange(foods);
+            if(!context.Foods.Any()) context.Foods.AddRange(foods);
 
             context.SaveChanges();
         }

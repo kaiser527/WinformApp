@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -156,6 +153,7 @@ namespace WinFormApp.Services
                 }
 
                 updateAccount.DisplayName = account.DisplayName;
+                updateAccount.Image = account.Image;
                 updateAccount.IdRole = account.IdRole;
 
                 await context.SaveChangesAsync();
@@ -214,85 +212,22 @@ namespace WinFormApp.Services
             }
         }
 
-        public Image LoadAccountImage(Account account, int size = 64)
-        {
-            try
-            {
-                string imageFolder = Path.Combine(Application.StartupPath, "Image");
-                string imageFile = account?.Image ?? "default.png";
-                string imagePath = Path.Combine(imageFolder, imageFile);
-
-                if (!File.Exists(imagePath))
-                    imagePath = Path.Combine(imageFolder, "default.png");
-
-                if (!File.Exists(imagePath))
-                    return null;
-
-                using (var original = Image.FromFile(imagePath))
-                {
-                    return new Bitmap(original, new Size(size, size));
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private async Task<List<string>> GetImageList()
+        public async Task<Account> GetSingleAccount(string username)
         {
             using (var context = new CoffeeShopContext())
             {
-                return await context.Accounts.Select(a => a.Image).ToListAsync();
-            }
-        }
+                var account = await context.Accounts
+                    .Include(a => a.Role)
+                    .FirstOrDefaultAsync(a => a.UserName == username);
 
-        public async Task CleanUpUnusedImages()
-        {
-            try
-            {
-                string imageFolder = Path.Combine(Application.StartupPath, "Image");
-
-                if (!Directory.Exists(imageFolder))
+                if (account == null)
                 {
-                    Console.WriteLine($"Image folder not found: {imageFolder}");
-                    return;
+                    MessageBox.Show("Account is not exist", "Alert");
+                    return new Account();
                 }
 
-                List<string> imageNamesInDb = await GetImageList();
-
-                var validNames = imageNamesInDb
-                    .Where(n => !string.IsNullOrEmpty(n))
-                    .Select(n => n.ToLower())
-                    .ToHashSet();
-
-                string[] files = Directory.GetFiles(imageFolder);
-
-                foreach (string filePath in files)
-                {
-                    string fileName = Path.GetFileName(filePath).ToLower();
-
-                    if (fileName == "default.png") continue;
-
-                    if (!validNames.Contains(fileName))
-                    {
-                        try
-                        {
-                            File.Delete(filePath);
-                            Console.WriteLine($"Deleted unused image: {fileName}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Failed to delete {fileName}: {ex.Message}");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Image cleanup failed: {ex.Message}");
+                return account;
             }
         }
-
     }
 }

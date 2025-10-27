@@ -233,7 +233,7 @@
     <Compile Include="DTO\FoodDTO.cs" />
     <Compile Include="DTO\MenuDTO.cs" />
     <Compile Include="DTO\UpdateAccountDTO.cs" />
-    <Compile Include="Utils\ImageAction.cs" />
+    <Compile Include="Services\ImageService.cs" />
     <Compile Include="Utils\ImageCleanupJob.cs" />
     <Compile Include="Migrations\20251013035746_SeedAllData.cs" />
     <Compile Include="Migrations\20251013035746_SeedAllData.Designer.cs">

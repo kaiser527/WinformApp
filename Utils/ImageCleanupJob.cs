@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using WinFormApp.Services;
 
-namespace WinFormApp.Jobs
+namespace WinFormApp.Utils
 {
     public class ImageCleanupJob : IJob
     {
@@ -12,7 +12,7 @@ namespace WinFormApp.Jobs
             try
             {
                 Console.WriteLine($"[Quartz] Running image cleanup at {DateTime.Now}");
-                await AccountService.Instance.CleanUpUnusedImages();
+                await ImageService.Instance.CleanUpUnusedImages();
                 Console.WriteLine("[Quartz] Image cleanup completed successfully.");
             }
             catch (Exception ex)

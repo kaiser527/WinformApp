@@ -101,6 +101,7 @@
             this.btnAddTable = new System.Windows.Forms.Button();
             this.tpAccount = new System.Windows.Forms.TabPage();
             this.panel21 = new System.Windows.Forms.Panel();
+            this.btnUploadAccount = new System.Windows.Forms.Button();
             this.btnResetAccount = new System.Windows.Forms.Button();
             this.panel24 = new System.Windows.Forms.Panel();
             this.cbAccountRole = new System.Windows.Forms.ComboBox();
@@ -167,6 +168,7 @@
             this.btnUpdatePermission = new System.Windows.Forms.Button();
             this.btnDeletePermission = new System.Windows.Forms.Button();
             this.btnAddPermission = new System.Windows.Forms.Button();
+            this.adminAccountFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tcAdmin.SuspendLayout();
             this.tpBill.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -985,6 +987,7 @@
             // 
             // panel21
             // 
+            this.panel21.Controls.Add(this.btnUploadAccount);
             this.panel21.Controls.Add(this.btnResetAccount);
             this.panel21.Controls.Add(this.panel24);
             this.panel21.Controls.Add(this.panel25);
@@ -993,6 +996,20 @@
             this.panel21.Name = "panel21";
             this.panel21.Size = new System.Drawing.Size(409, 545);
             this.panel21.TabIndex = 11;
+            // 
+            // btnUploadAccount
+            // 
+            this.btnUploadAccount.BackColor = System.Drawing.Color.LightGray;
+            this.btnUploadAccount.Font = new System.Drawing.Font("Arial", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUploadAccount.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnUploadAccount.Location = new System.Drawing.Point(6, 186);
+            this.btnUploadAccount.Name = "btnUploadAccount";
+            this.btnUploadAccount.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.btnUploadAccount.Size = new System.Drawing.Size(84, 84);
+            this.btnUploadAccount.TabIndex = 9;
+            this.btnUploadAccount.Text = "+";
+            this.btnUploadAccount.UseVisualStyleBackColor = false;
+            this.btnUploadAccount.Click += new System.EventHandler(this.btnUploadAccount_Click);
             // 
             // btnResetAccount
             // 
@@ -1114,6 +1131,7 @@
             this.dtgvAccount.RowTemplate.Height = 24;
             this.dtgvAccount.Size = new System.Drawing.Size(637, 539);
             this.dtgvAccount.TabIndex = 0;
+            this.dtgvAccount.SelectionChanged += new System.EventHandler(this.dtgvAccount_SelectionChanged);
             // 
             // panel18
             // 
@@ -1663,6 +1681,10 @@
             this.btnAddPermission.UseVisualStyleBackColor = false;
             this.btnAddPermission.Click += new System.EventHandler(this.btnAddPermission_Click);
             // 
+            // adminAccountFileDialog
+            // 
+            this.adminAccountFileDialog.FileName = "openFileDialog1";
+            // 
             // Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1905,5 +1927,7 @@
         private System.Windows.Forms.Panel panel22;
         private System.Windows.Forms.ComboBox cbTableStatus;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnUploadAccount;
+        private System.Windows.Forms.OpenFileDialog adminAccountFileDialog;
     }
 }

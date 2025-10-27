@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormApp.DTO;
-using WinFormApp.Jobs;
+using WinFormApp.Utils;
 using WinFormApp.Models;
 using WinFormApp.Services;
 
@@ -253,7 +253,7 @@ namespace WinFormApp
 
             accountToolStripDropdown.Text += $" ({user.DisplayName})";
 
-            Image img = AccountService.Instance.LoadAccountImage(user, 38);
+            Image img = ImageService.Instance.LoadAccountImage(user, 38);
             if (img == null)
             {
                 MessageBox.Show("Image not found or failed to load!");

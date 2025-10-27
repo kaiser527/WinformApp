@@ -30,6 +30,8 @@ namespace WinFormApp
 
         private Role _selectedRole;
 
+        private string _filename;
+
         public Admin(TableManager tableManager)
         {
             InitializeComponent();
@@ -674,7 +676,8 @@ namespace WinFormApp
                 UserName = txbAccountDisplayname.Text.Trim().ToLower().Replace(" ", "_"),
                 DisplayName = txbAccountDisplayname.Text,
                 PassWord = BCrypt.Net.BCrypt.HashPassword("123456"),
-                IdRole = (cbAccountRole.SelectedItem as Role).Id
+                IdRole = (cbAccountRole.SelectedItem as Role).Id,
+                Image = string.IsNullOrEmpty(_filename) ? "default.png" : _filename,
             };
 
             await AccountService.Instance.InsertAccount(newAccount);
@@ -690,7 +693,8 @@ namespace WinFormApp
             {
                 UserName = txbAccountUsername.Text,
                 DisplayName = txbAccountDisplayname.Text,
-                IdRole = (cbAccountRole.SelectedItem as Role).Id
+                IdRole = (cbAccountRole.SelectedItem as Role).Id,
+                Image = string.IsNullOrEmpty(_filename) ? "default.png" : _filename,
             };
 
             await AccountService.Instance.UpdateAccount(newAccount);
@@ -854,6 +858,35 @@ namespace WinFormApp
             await GetListCategory();
 
             await _tableManager.LoadCategory();
+        }
+
+        private async void dtgvAccount_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dtgvAccount.CurrentRow == null) return;
+
+            var data = dtgvAccount.CurrentRow.DataBoundItem;
+            if (data == null) return;
+
+            var userName = data.GetType().GetProperty("UserName")?.GetValue(data)?.ToString();
+            if (string.IsNullOrEmpty(userName)) return;
+
+            var currentAccount = await AccountService.Instance.GetSingleAccount(userName);
+            if (currentAccount == null) return;
+
+            ImageService.Instance.LoadAccountImageToButton(currentAccount, btnUploadAccount);
+
+            _filename = currentAccount.Image;
+        }
+
+        private void btnUploadAccount_Click(object sender, EventArgs e)
+        {
+            string filename = ImageService.Instance.UploadAccountImageDialog(adminAccountFileDialog);
+
+            if (!string.IsNullOrEmpty(filename))
+            {
+                _filename = filename;
+                ImageService.Instance.UpdateButtonImage(filename, btnUploadAccount);
+            }
         }
         #endregion
     }
