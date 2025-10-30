@@ -24,9 +24,9 @@ namespace WinFormApp.Services
             private set { ImageService.instance = value; }
         }
 
-        public void LoadAccountImageToButton(Account account, Button button, int size = 84)
+        public void LoadAccountImageToButton(Account account, Button button)
         {
-            Image profileImage = LoadAccountImage(account, size);
+            Image profileImage = LoadAccountImage(account);
 
             if (profileImage != null)
             {
@@ -82,7 +82,7 @@ namespace WinFormApp.Services
             return null;
         }
 
-        public void UpdateButtonImage(string filename, Button button, int size = 84)
+        public void UpdateButtonImage(string filename, Button button)
         {
             string imageFolder = Path.Combine(Application.StartupPath, "Image");
             string imagePath = Path.Combine(imageFolder, filename);
@@ -91,13 +91,11 @@ namespace WinFormApp.Services
             {
                 using (var original = Image.FromFile(imagePath))
                 {
-                    button.BackgroundImage = new Bitmap(original, new Size(size, size));
+                    button.BackgroundImage = new Bitmap(original);
                 }
 
                 button.BackgroundImageLayout = ImageLayout.Zoom;
                 button.Text = "";
-
-                MessageBox.Show($"Image '{filename}' uploaded successfully!", "Success");
             }
             else
             {
@@ -105,7 +103,7 @@ namespace WinFormApp.Services
             }
         }
 
-        public Image LoadAccountImage(Account account, int size = 64)
+        public Image LoadAccountImage(Account account)
         {
             try
             {
@@ -119,10 +117,7 @@ namespace WinFormApp.Services
                 if (!File.Exists(imagePath))
                     return null;
 
-                using (var original = Image.FromFile(imagePath))
-                {
-                    return new Bitmap(original, new Size(size, size));
-                }
+                return Image.FromFile(imagePath); 
             }
             catch
             {

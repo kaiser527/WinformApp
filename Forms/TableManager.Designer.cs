@@ -57,6 +57,8 @@ namespace WinFormApp
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txbSearchTable = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AccountImage = new System.Windows.Forms.PictureBox();
             this.toolStripBar.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -149,6 +151,7 @@ namespace WinFormApp
             // columnHeader1
             // 
             this.columnHeader1.Text = "Food name";
+            this.columnHeader1.Width = 112;
             // 
             // columnHeader2
             // 
@@ -161,6 +164,7 @@ namespace WinFormApp
             // columnHeader4
             // 
             this.columnHeader4.Text = "Total price";
+            this.columnHeader4.Width = 120;
             // 
             // panel3
             // 
@@ -333,6 +337,20 @@ namespace WinFormApp
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // txbSearchTable
+            // 
+            this.txbSearchTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txbSearchTable.Location = new System.Drawing.Point(376, 5);
+            this.txbSearchTable.Name = "txbSearchTable";
+            this.txbSearchTable.Size = new System.Drawing.Size(256, 27);
+            this.txbSearchTable.TabIndex = 7;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // AccountImage
             // 
             this.AccountImage.Location = new System.Drawing.Point(1124, 5);
@@ -346,6 +364,7 @@ namespace WinFormApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1171, 806);
+            this.Controls.Add(this.txbSearchTable);
             this.Controls.Add(this.AccountImage);
             this.Controls.Add(this.flpTable);
             this.Controls.Add(this.panel5);
@@ -403,5 +422,7 @@ namespace WinFormApp
         private TextBox txbTotalPrice;
         private ErrorProvider errorProvider1;
         public PictureBox AccountImage;
+        private TextBox txbSearchTable;
+        private ContextMenuStrip contextMenuStrip1;
     }
 }

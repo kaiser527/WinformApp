@@ -82,7 +82,7 @@ namespace WinFormApp.Services
                 {
                     user.DisplayName = updateAccountDTO.DisplayName;
                     user.PassWord = BCrypt.Net.BCrypt.HashPassword(updateAccountDTO.ConfirmPassWord);
-                    user.Image = updateAccountDTO.Inage;
+                    user.Image = updateAccountDTO.Image;
 
                     await context.SaveChangesAsync();
                 }
@@ -129,7 +129,7 @@ namespace WinFormApp.Services
             }
         }
 
-        public async Task UpdateAccount(Account account)
+        public async Task<Account> UpdateAccount(Account account)
         {
             using (var context = new CoffeeShopContext())
             {
@@ -140,7 +140,7 @@ namespace WinFormApp.Services
                 if(updateAccount == null)
                 {
                     MessageBox.Show("Account is not exist", "Update failed");
-                    return;
+                    return updateAccount;
                 }
 
                 bool isExist = await context.Accounts
@@ -149,7 +149,7 @@ namespace WinFormApp.Services
                 if (isExist)
                 {
                     MessageBox.Show("Account is already exist", "Update failed");
-                    return;
+                    return updateAccount;
                 }
 
                 updateAccount.DisplayName = account.DisplayName;
@@ -157,6 +157,8 @@ namespace WinFormApp.Services
                 updateAccount.IdRole = account.IdRole;
 
                 await context.SaveChangesAsync();
+
+                return updateAccount;
             }
         }
 

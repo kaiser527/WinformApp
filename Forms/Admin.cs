@@ -697,7 +697,12 @@ namespace WinFormApp
                 Image = string.IsNullOrEmpty(_filename) ? "default.png" : _filename,
             };
 
-            await AccountService.Instance.UpdateAccount(newAccount);
+            var updateAccount = await AccountService.Instance.UpdateAccount(newAccount);
+
+            if(updateAccount.UserName == AccountService.Instance.User.UserName)
+            {
+                _tableManager.accountToolStripDropdown.Text = $"Account ({updateAccount.DisplayName})";
+            }
 
             await GetListAccount();
         }

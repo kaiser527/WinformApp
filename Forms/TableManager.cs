@@ -17,6 +17,8 @@ namespace WinFormApp
 {
     public partial class TableManager : Form
     {
+        private static IScheduler _scheduler;
+
         public TableManager()
         {
             InitializeComponent();
@@ -200,32 +202,29 @@ namespace WinFormApp
         {
             try
             {
-                // Create a Quartz scheduler
-                IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-                await scheduler.Start();
+                if (_scheduler != null && _scheduler.IsStarted)
+                    return; // ✅ prevent duplicate schedulers
 
-                // Define the job
+                _scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+                await _scheduler.Start();
+
                 IJobDetail job = JobBuilder.Create<ImageCleanupJob>()
                     .WithIdentity("ImageCleanupJob", "Maintenance")
                     .Build();
 
-                // Define the trigger (every 5 minutes)
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithIdentity("ImageCleanupTrigger", "Maintenance")
                     .StartNow()
-                    .WithSimpleSchedule(x => x
-                        .WithIntervalInMinutes(5)
-                        .RepeatForever())
+                    .WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever())
                     .Build();
 
-                // Schedule it
-                await scheduler.ScheduleJob(job, trigger);
+                await _scheduler.ScheduleJob(job, trigger);
 
-                Console.WriteLine("[Quartz] Image cleanup job scheduled every 5 minutes.");
+                Console.WriteLine("[Quartz] Image cleanup scheduled every 5 minutes.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Quartz] Failed to start scheduler: {ex.Message}");
+                Console.WriteLine($"[Quartz] Failed: {ex.Message}");
             }
         }
         #endregion
@@ -233,8 +232,8 @@ namespace WinFormApp
         #region Event
         private async void TableManager_FormClosing(object sender, FormClosingEventArgs e)
         {
-            IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-            if (scheduler.IsStarted) await scheduler.Shutdown();
+            if (_scheduler != null && _scheduler.IsStarted)
+                await _scheduler.Shutdown();
         }
         private async void load_Data(object sender, EventArgs e)
         {
@@ -253,7 +252,7 @@ namespace WinFormApp
 
             accountToolStripDropdown.Text += $" ({user.DisplayName})";
 
-            Image img = ImageService.Instance.LoadAccountImage(user, 38);
+            Image img = ImageService.Instance.LoadAccountImage(user);
             if (img == null)
             {
                 MessageBox.Show("Image not found or failed to load!");

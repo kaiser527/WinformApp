@@ -1000,12 +1000,12 @@
             // btnUploadAccount
             // 
             this.btnUploadAccount.BackColor = System.Drawing.Color.LightGray;
-            this.btnUploadAccount.Font = new System.Drawing.Font("Arial", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUploadAccount.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUploadAccount.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnUploadAccount.Location = new System.Drawing.Point(6, 186);
             this.btnUploadAccount.Name = "btnUploadAccount";
-            this.btnUploadAccount.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.btnUploadAccount.Size = new System.Drawing.Size(84, 84);
+            this.btnUploadAccount.Padding = new System.Windows.Forms.Padding(5, 5, 0, 0);
+            this.btnUploadAccount.Size = new System.Drawing.Size(103, 95);
             this.btnUploadAccount.TabIndex = 9;
             this.btnUploadAccount.Text = "+";
             this.btnUploadAccount.UseVisualStyleBackColor = false;

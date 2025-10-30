@@ -7,7 +7,7 @@
         public string PassWord { get; set; }
         public string NewPassWord { get; set; }
         public string ConfirmPassWord { get; set; }
-        public string Inage { get; set; }
+        public string Image { get; set; }
 
         public UpdateAccountDTO(string username, string displayname, string password, string newPassword, string confirmPassword, string image)
         {
@@ -16,7 +16,7 @@
             PassWord = password;
             NewPassWord = newPassword;
             ConfirmPassWord = confirmPassword;
-            Inage = image;
+            Image = image;
         }
     }
 }
