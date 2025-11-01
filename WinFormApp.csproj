@@ -159,6 +159,7 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\System.IdentityModel.Tokens.Jwt.7.7.1\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -216,6 +217,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\PaginatedResult.cs" />
     <Compile Include="Forms\AccoutProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +275,8 @@
     <Compile Include="Forms\TableManager.Designer.cs">
       <DependentUpon>TableManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\LayoutForm.cs" />
+    <Compile Include="Utils\UIStyles.cs" />
     <EmbeddedResource Include="Forms\AccoutProfile.resx">
       <DependentUpon>AccoutProfile.cs</DependentUpon>
     </EmbeddedResource>

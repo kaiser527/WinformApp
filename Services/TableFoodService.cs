@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormApp.Models;
+using WinFormApp.DTO;
 
 namespace WinFormApp.Services
 {
@@ -24,10 +26,13 @@ namespace WinFormApp.Services
 
         private TableFoodService() { }
 
-        public static int TableWidth = 106;
-        public static int TableHeight = 106;
+        public static int TableWidth = 105;
+        public static int TableHeight = 105;
 
-        public async Task<IEnumerable<TableFood>> LoadTableList(string name = null)
+        public async Task<PaginatedResult<TableFood>> LoadTableList(
+            int pageSize = 100,
+            int pageNumber = 1,
+            string name = null)
         {
             using (var context = new CoffeeShopContext())
             {
@@ -38,7 +43,21 @@ namespace WinFormApp.Services
                     query = query.Where(f => f.Name.ToLower().Contains(name.ToLower()));
                 }
 
-                return await query.ToListAsync();
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+                var items = await query
+                    .OrderBy(f => f.Id)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return new PaginatedResult<TableFood>
+                {
+                    Items = items,
+                    TotalCount = totalCount,
+                    TotalPages = totalPages
+                };
             }
         }
 

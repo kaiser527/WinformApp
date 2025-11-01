@@ -26,33 +26,9 @@ namespace WinFormApp
         #region Method
         private void StyleButtons()
         {
-            foreach (Button btn in new[] { btnUpdate, btnExit, btnUploadAccount })
-            {
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.FlatAppearance.BorderSize = 0;
-                btn.ForeColor = Color.White;
-                btn.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-                btn.Cursor = Cursors.Hand;
-
-                btn.Region = Region.FromHrgn(
-                    CreateRoundRectRgn(0, 0, btn.Width, btn.Height, 15, 15)
-                );
-            }
-
-            btnUpdate.BackColor = Color.FromArgb(52, 152, 219);
-            btnUpdate.MouseEnter += (s, e) => btnUpdate.BackColor = Color.FromArgb(35, 110, 160);
-            btnUpdate.MouseLeave += (s, e) => btnUpdate.BackColor = Color.FromArgb(52, 152, 219);
-
-            btnExit.BackColor = Color.FromArgb(231, 76, 60);               
-            btnExit.MouseEnter += (s, e) => btnExit.BackColor = Color.FromArgb(176, 52, 40);      
-            btnExit.MouseLeave += (s, e) => btnExit.BackColor = Color.FromArgb(231, 76, 60);
+            UIStyles.ModernUIButton(btnUpdate, Color.FromArgb(52, 152, 219), Color.FromArgb(35, 110, 160));
+            UIStyles.ModernUIButton(btnExit, Color.FromArgb(231, 76, 60), Color.FromArgb(176, 52, 40));
         }
-
-        [System.Runtime.InteropServices.DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-            int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,
-            int nWidthEllipse, int nHeightEllipse);
-
 
         private void ChangeAccount()
         {
@@ -62,19 +38,13 @@ namespace WinFormApp
             textBoxDisplayName.Text = user.DisplayName;
         }
 
-        private void RoundPanel(Panel panel, int radius)
-        {
-            panel.Region = Region.FromHrgn(CreateRoundRectRgn(
-                0, 0, panel.Width, panel.Height, radius, radius));
-        }
-
         private void StylePanels()
         {
             int radius = 15; 
 
             foreach (Panel pnl in new[] { panel1, panel2, panel4, panel5, panel6, panel7, panel8, panel9 })
             {
-                RoundPanel(pnl, radius);              
+                UIStyles.RoundPanel(pnl, radius);              
             }
         }
 
@@ -106,17 +76,6 @@ namespace WinFormApp
             if (isClose && updatedUser != null)
             {
                 _tableManager.accountToolStripDropdown.Text = $"Account ({updatedUser.DisplayName})";
-
-                Image img = ImageService.Instance.LoadAccountImage(updatedUser);
-                if (img == null)
-                {
-                    MessageBox.Show("Image not found or failed to load!");
-                }
-                else
-                {
-                    _tableManager.AccountImage.Image = img;
-                    _tableManager.AccountImage.SizeMode = PictureBoxSizeMode.Zoom;
-                }
 
                 AccountService.Instance.User = updatedUser;
                 AccountService.Instance.User.Image = _fileName;

@@ -31,12 +31,12 @@ namespace WinFormApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TableManager));
             this.toolStripBar = new System.Windows.Forms.ToolStrip();
             this.adminLabel = new System.Windows.Forms.ToolStripLabel();
             this.accountToolStripDropdown = new System.Windows.Forms.ToolStripDropDownButton();
             this.privateInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.lsvBill = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -59,28 +59,29 @@ namespace WinFormApp
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.txbSearchTable = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.AccountImage = new System.Windows.Forms.PictureBox();
+            this.searchIcon = new System.Windows.Forms.PictureBox();
+            this.paginatePanel = new System.Windows.Forms.Panel();
             this.toolStripBar.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmDiscount)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmAddFood)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AccountImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripBar
             // 
+            this.toolStripBar.BackColor = System.Drawing.Color.White;
             this.toolStripBar.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.adminLabel,
             this.accountToolStripDropdown});
-            this.toolStripBar.Location = new System.Drawing.Point(17, 5);
+            this.toolStripBar.Location = new System.Drawing.Point(12, 4);
             this.toolStripBar.Name = "toolStripBar";
-            this.toolStripBar.Size = new System.Drawing.Size(175, 30);
+            this.toolStripBar.Size = new System.Drawing.Size(175, 31);
             this.toolStripBar.TabIndex = 0;
             this.toolStripBar.Text = "toolStrip1";
             // 
@@ -90,7 +91,7 @@ namespace WinFormApp
             this.adminLabel.ForeColor = System.Drawing.Color.Black;
             this.adminLabel.Margin = new System.Windows.Forms.Padding(0, 0, 15, 0);
             this.adminLabel.Name = "adminLabel";
-            this.adminLabel.Size = new System.Drawing.Size(60, 30);
+            this.adminLabel.Size = new System.Drawing.Size(60, 31);
             this.adminLabel.Text = "Admin";
             this.adminLabel.Click += new System.EventHandler(this.adminLabel_Click);
             // 
@@ -102,7 +103,7 @@ namespace WinFormApp
             this.logOutToolStripMenuItem});
             this.accountToolStripDropdown.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accountToolStripDropdown.Name = "accountToolStripDropdown";
-            this.accountToolStripDropdown.Size = new System.Drawing.Size(87, 27);
+            this.accountToolStripDropdown.Size = new System.Drawing.Size(87, 28);
             this.accountToolStripDropdown.Text = "Account";
             // 
             // privateInformationToolStripMenuItem
@@ -119,16 +120,6 @@ namespace WinFormApp
             this.logOutToolStripMenuItem.Text = "Log out";
             this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.lsvBill);
-            this.panel2.Location = new System.Drawing.Point(635, 112);
-            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(527, 612);
-            this.panel2.TabIndex = 2;
-            // 
             // lsvBill
             // 
             this.lsvBill.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -140,10 +131,11 @@ namespace WinFormApp
             this.lsvBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsvBill.GridLines = true;
             this.lsvBill.HideSelection = false;
-            this.lsvBill.Location = new System.Drawing.Point(3, 2);
+            this.lsvBill.Location = new System.Drawing.Point(635, 131);
             this.lsvBill.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lsvBill.Name = "lsvBill";
-            this.lsvBill.Size = new System.Drawing.Size(521, 608);
+            this.lsvBill.Scrollable = false;
+            this.lsvBill.Size = new System.Drawing.Size(526, 571);
             this.lsvBill.TabIndex = 0;
             this.lsvBill.UseCompatibleStateImageBehavior = false;
             this.lsvBill.View = System.Windows.Forms.View.Details;
@@ -151,41 +143,44 @@ namespace WinFormApp
             // columnHeader1
             // 
             this.columnHeader1.Text = "Food name";
-            this.columnHeader1.Width = 112;
+            this.columnHeader1.Width = 119;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Count";
+            this.columnHeader2.Width = 77;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Price";
+            this.columnHeader3.Width = 76;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Total price";
-            this.columnHeader4.Width = 120;
+            this.columnHeader4.Width = 123;
             // 
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Controls.Add(this.txbTotalPrice);
             this.panel3.Controls.Add(this.nmDiscount);
             this.panel3.Controls.Add(this.cbSwitch);
             this.panel3.Controls.Add(this.btnSwitchTable);
             this.panel3.Controls.Add(this.btnMergeTable);
             this.panel3.Controls.Add(this.btnCheckout);
-            this.panel3.Location = new System.Drawing.Point(635, 728);
+            this.panel3.Location = new System.Drawing.Point(635, 706);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(527, 68);
+            this.panel3.Size = new System.Drawing.Size(527, 90);
             this.panel3.TabIndex = 3;
             // 
             // txbTotalPrice
             // 
             this.txbTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txbTotalPrice.ForeColor = System.Drawing.Color.OrangeRed;
-            this.txbTotalPrice.Location = new System.Drawing.Point(252, 1);
+            this.txbTotalPrice.Location = new System.Drawing.Point(249, 12);
             this.txbTotalPrice.Name = "txbTotalPrice";
             this.txbTotalPrice.ReadOnly = true;
             this.txbTotalPrice.Size = new System.Drawing.Size(108, 28);
@@ -196,7 +191,7 @@ namespace WinFormApp
             // nmDiscount
             // 
             this.nmDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nmDiscount.Location = new System.Drawing.Point(253, 36);
+            this.nmDiscount.Location = new System.Drawing.Point(251, 47);
             this.nmDiscount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nmDiscount.Name = "nmDiscount";
             this.nmDiscount.Size = new System.Drawing.Size(107, 28);
@@ -208,7 +203,7 @@ namespace WinFormApp
             // 
             this.cbSwitch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSwitch.FormattingEnabled = true;
-            this.cbSwitch.Location = new System.Drawing.Point(3, 36);
+            this.cbSwitch.Location = new System.Drawing.Point(14, 46);
             this.cbSwitch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbSwitch.Name = "cbSwitch";
             this.cbSwitch.Size = new System.Drawing.Size(185, 28);
@@ -218,7 +213,7 @@ namespace WinFormApp
             // 
             this.btnSwitchTable.BackColor = System.Drawing.Color.LightGray;
             this.btnSwitchTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSwitchTable.Location = new System.Drawing.Point(1, 0);
+            this.btnSwitchTable.Location = new System.Drawing.Point(14, 12);
             this.btnSwitchTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSwitchTable.Name = "btnSwitchTable";
             this.btnSwitchTable.Size = new System.Drawing.Size(93, 33);
@@ -231,7 +226,7 @@ namespace WinFormApp
             // 
             this.btnMergeTable.BackColor = System.Drawing.Color.LightGray;
             this.btnMergeTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMergeTable.Location = new System.Drawing.Point(97, 0);
+            this.btnMergeTable.Location = new System.Drawing.Point(108, 12);
             this.btnMergeTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnMergeTable.Name = "btnMergeTable";
             this.btnMergeTable.Size = new System.Drawing.Size(93, 33);
@@ -244,10 +239,10 @@ namespace WinFormApp
             // 
             this.btnCheckout.BackColor = System.Drawing.Color.LightGray;
             this.btnCheckout.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCheckout.Location = new System.Drawing.Point(419, 0);
+            this.btnCheckout.Location = new System.Drawing.Point(406, 12);
             this.btnCheckout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCheckout.Name = "btnCheckout";
-            this.btnCheckout.Size = new System.Drawing.Size(108, 68);
+            this.btnCheckout.Size = new System.Drawing.Size(108, 65);
             this.btnCheckout.TabIndex = 4;
             this.btnCheckout.Text = "Check out";
             this.btnCheckout.UseVisualStyleBackColor = false;
@@ -256,20 +251,21 @@ namespace WinFormApp
             // panel5
             // 
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.BackColor = System.Drawing.Color.White;
             this.panel5.Controls.Add(this.nmAddFood);
             this.panel5.Controls.Add(this.btnAddFood);
             this.panel5.Controls.Add(this.cbFood);
             this.panel5.Controls.Add(this.cbCategory);
-            this.panel5.Location = new System.Drawing.Point(635, 41);
+            this.panel5.Location = new System.Drawing.Point(635, 37);
             this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(527, 67);
+            this.panel5.Size = new System.Drawing.Size(527, 90);
             this.panel5.TabIndex = 4;
             // 
             // nmAddFood
             // 
             this.nmAddFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nmAddFood.Location = new System.Drawing.Point(465, 20);
+            this.nmAddFood.Location = new System.Drawing.Point(452, 31);
             this.nmAddFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nmAddFood.Minimum = new decimal(new int[] {
             100,
@@ -289,10 +285,10 @@ namespace WinFormApp
             // 
             this.btnAddFood.BackColor = System.Drawing.Color.LightGray;
             this.btnAddFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddFood.Location = new System.Drawing.Point(295, 0);
+            this.btnAddFood.Location = new System.Drawing.Point(293, 12);
             this.btnAddFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddFood.Name = "btnAddFood";
-            this.btnAddFood.Size = new System.Drawing.Size(108, 67);
+            this.btnAddFood.Size = new System.Drawing.Size(108, 65);
             this.btnAddFood.TabIndex = 2;
             this.btnAddFood.Text = "Add food";
             this.btnAddFood.UseVisualStyleBackColor = false;
@@ -302,7 +298,7 @@ namespace WinFormApp
             // 
             this.cbFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFood.FormattingEnabled = true;
-            this.cbFood.Location = new System.Drawing.Point(3, 35);
+            this.cbFood.Location = new System.Drawing.Point(14, 45);
             this.cbFood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbFood.Name = "cbFood";
             this.cbFood.Size = new System.Drawing.Size(222, 28);
@@ -312,7 +308,7 @@ namespace WinFormApp
             // 
             this.cbCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbCategory.FormattingEnabled = true;
-            this.cbCategory.Location = new System.Drawing.Point(3, 2);
+            this.cbCategory.Location = new System.Drawing.Point(14, 12);
             this.cbCategory.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbCategory.Name = "cbCategory";
             this.cbCategory.Size = new System.Drawing.Size(222, 28);
@@ -322,10 +318,11 @@ namespace WinFormApp
             // flpTable
             // 
             this.flpTable.AutoScroll = true;
+            this.flpTable.BackColor = System.Drawing.Color.White;
             this.flpTable.Location = new System.Drawing.Point(12, 37);
             this.flpTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flpTable.Name = "flpTable";
-            this.flpTable.Size = new System.Drawing.Size(620, 759);
+            this.flpTable.Size = new System.Drawing.Size(620, 687);
             this.flpTable.TabIndex = 5;
             // 
             // fileSystemWatcher1
@@ -340,10 +337,15 @@ namespace WinFormApp
             // txbSearchTable
             // 
             this.txbSearchTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbSearchTable.Location = new System.Drawing.Point(376, 5);
+            this.txbSearchTable.ForeColor = System.Drawing.Color.Gray;
+            this.txbSearchTable.Location = new System.Drawing.Point(411, 4);
             this.txbSearchTable.Name = "txbSearchTable";
-            this.txbSearchTable.Size = new System.Drawing.Size(256, 27);
+            this.txbSearchTable.Size = new System.Drawing.Size(221, 27);
             this.txbSearchTable.TabIndex = 7;
+            this.txbSearchTable.Text = "Search table...";
+            this.txbSearchTable.TextChanged += new System.EventHandler(this.txbSearchTable_TextChanged);
+            this.txbSearchTable.Enter += new System.EventHandler(this.txbSearchTable_Enter);
+            this.txbSearchTable.Leave += new System.EventHandler(this.txbSearchTable_Leave);
             // 
             // contextMenuStrip1
             // 
@@ -351,25 +353,36 @@ namespace WinFormApp
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // AccountImage
+            // searchIcon
             // 
-            this.AccountImage.Location = new System.Drawing.Point(1124, 5);
-            this.AccountImage.Name = "AccountImage";
-            this.AccountImage.Size = new System.Drawing.Size(38, 38);
-            this.AccountImage.TabIndex = 6;
-            this.AccountImage.TabStop = false;
+            this.searchIcon.Image = ((System.Drawing.Image)(resources.GetObject("searchIcon.Image")));
+            this.searchIcon.Location = new System.Drawing.Point(383, 7);
+            this.searchIcon.Name = "searchIcon";
+            this.searchIcon.Size = new System.Drawing.Size(27, 27);
+            this.searchIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.searchIcon.TabIndex = 8;
+            this.searchIcon.TabStop = false;
+            // 
+            // paginatePanel
+            // 
+            this.paginatePanel.BackColor = System.Drawing.Color.White;
+            this.paginatePanel.Location = new System.Drawing.Point(12, 728);
+            this.paginatePanel.Name = "paginatePanel";
+            this.paginatePanel.Size = new System.Drawing.Size(620, 68);
+            this.paginatePanel.TabIndex = 9;
             // 
             // TableManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1171, 806);
+            this.Controls.Add(this.lsvBill);
+            this.Controls.Add(this.paginatePanel);
+            this.Controls.Add(this.searchIcon);
             this.Controls.Add(this.txbSearchTable);
-            this.Controls.Add(this.AccountImage);
             this.Controls.Add(this.flpTable);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.toolStripBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -379,7 +392,6 @@ namespace WinFormApp
             this.Text = "Manage table";
             this.toolStripBar.ResumeLayout(false);
             this.toolStripBar.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmDiscount)).EndInit();
@@ -387,7 +399,7 @@ namespace WinFormApp
             ((System.ComponentModel.ISupportInitialize)(this.nmAddFood)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AccountImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,7 +412,6 @@ namespace WinFormApp
         public System.Windows.Forms.ToolStripDropDownButton accountToolStripDropdown;
         private System.Windows.Forms.ToolStripMenuItem privateInformationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
-        private Panel panel2;
         private Panel panel3;
         private ListView lsvBill;
         private Panel panel5;
@@ -421,8 +432,9 @@ namespace WinFormApp
         private ColumnHeader columnHeader4;
         private TextBox txbTotalPrice;
         private ErrorProvider errorProvider1;
-        public PictureBox AccountImage;
         private TextBox txbSearchTable;
         private ContextMenuStrip contextMenuStrip1;
+        private PictureBox searchIcon;
+        private Panel paginatePanel;
     }
 }

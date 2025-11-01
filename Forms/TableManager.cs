@@ -19,14 +19,39 @@ namespace WinFormApp
     {
         private static IScheduler _scheduler;
 
+        private int _currentPage = 1;
+
+        private int _pageSize = 20;
+
+        private int _totalPages = 1;
+
         public TableManager()
         {
             InitializeComponent();
+            StylePanels();
+            StyleButtons();
+            StyleListView();
             Load += load_Data;
             FormClosing += TableManager_FormClosing;
         }
 
         #region Method
+        private void ApplyButtonColor(string status, Button btn)
+        {
+            switch (status)
+            {
+                case "Empty": btn.BackColor = Color.LightGreen; break;
+                case "Reserved": btn.BackColor = Color.Goldenrod; break;
+                case "Merged": btn.BackColor = Color.IndianRed; break;
+                default: btn.BackColor = Color.LightGray; break;
+            }
+        }
+        private void StyleListView()
+        {
+            AutoResizeBillColumns();
+            lsvBill.SizeChanged += (s, e) => AutoResizeBillColumns();
+            UIStyles.RoundListView(lsvBill, 15);
+        }
         public async Task LoadCategory()
         {
             IEnumerable<FoodCategory> foodCategories = await CategoryService.Instance.GetListCategory();
@@ -38,6 +63,30 @@ namespace WinFormApp
             IEnumerable<Food> foods = await FoodService.Instance.GetListFoodByCategoryID(id);
             cbFood.DataSource = foods;
             cbFood.DisplayMember = "Name";
+        }
+        private void StylePanels()
+        {
+            int radius = 15;
+
+            foreach (Panel pnl in new[] { flpTable, panel5, paginatePanel, panel3 })
+            {
+                UIStyles.RoundPanel(pnl, radius);
+            }
+        }
+        private void AutoResizeBillColumns()
+        {
+            if (lsvBill.Columns.Count == 0) return;
+
+            int columnWidth = lsvBill.ClientSize.Width / lsvBill.Columns.Count;
+
+            foreach (ColumnHeader col in lsvBill.Columns) col.Width = columnWidth;
+        }
+        private void StyleButtons()
+        {
+            UIStyles.ModernUIButton(btnAddFood, Color.FromArgb(46, 204, 113), Color.FromArgb(22, 160, 133));
+            UIStyles.ModernUIButton(btnSwitchTable, Color.FromArgb(243, 156, 18), Color.FromArgb(211, 84, 0));
+            UIStyles.ModernUIButton(btnMergeTable, Color.FromArgb(155, 89, 182), Color.FromArgb(125, 60, 152));
+            UIStyles.ModernUIButton(btnCheckout, Color.FromArgb(231, 76, 60), Color.FromArgb(176, 52, 40));
         }
         public async Task LoadTableFood()
         {
@@ -51,12 +100,15 @@ namespace WinFormApp
                 .Select(rp => rp.Permission.Name)
                 .ToList();
 
-            IEnumerable<TableFood> tables = permissionNames.Contains("View Table") ? 
-                await TableFoodService.Instance.LoadTableList() : null;
+            string queryName = txbSearchTable.Text == "Search table..." ?
+                null : txbSearchTable.Text;
 
-            if(tables == null) return;
+            var result = permissionNames.Contains("View Table") ?
+                await TableFoodService.Instance.LoadTableList(_pageSize, _currentPage, queryName) : null;
 
-            foreach (TableFood table in tables)
+            if (result == null || !result.Items.Any()) return;
+
+            foreach (TableFood table in result.Items)
             {
                 Button btn = new Button()
                 {
@@ -67,28 +119,31 @@ namespace WinFormApp
 
                 btn.Click += btn_Click;
                 btn.Tag = table;
-                        
-                switch (table.Status)
-                {
-                    case "Empty":
-                        btn.BackColor = Color.LightGreen;
-                        break;
-                    case "Reserved":
-                        btn.BackColor = Color.Goldenrod;
-                        break;
-                    case "Merged":
-                        btn.BackColor = Color.IndianRed;
-                        break;
-                    default:
-                        btn.BackColor = Color.LightGray;
-                        break;
-                }
+
+                ApplyButtonColor(table.Status, btn);    
 
                 flpTable.Controls.Add(btn);
+
+                flpTable.Padding = new Padding(10, 1, 0, 0);
             }
 
-            cbSwitch.DataSource = tables;
+            cbSwitch.DataSource = permissionNames.Contains("View Table") ?
+                (await TableFoodService.Instance.LoadTableList(100, 1, queryName)).Items : null;
+
             cbSwitch.DisplayMember = "Name";
+
+            _totalPages = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanel,
+                _currentPage, 
+                _totalPages,
+                async (newPage) =>
+                {
+                    _currentPage = newPage;
+                    await LoadTableFood();   
+                }
+            );
         }
         private async Task ShowBill(int tableId)
         {
@@ -128,23 +183,8 @@ namespace WinFormApp
 
             btn.Text = table.Name + Environment.NewLine + table.Status;
 
-            switch (table.Status)
-            {
-                case "Empty":
-                    btn.BackColor = Color.LightGreen;
-                    break;
-                case "Reserved":
-                    btn.BackColor = Color.Goldenrod;
-                    break;
-                case "Merged":
-                    btn.BackColor = Color.IndianRed;
-                    break;
-                default:
-                    btn.BackColor = Color.LightGray;
-                    break;
-            }
+            ApplyButtonColor(table.Status, btn);
         }
-
         private void ApplyDiscount()
         {
             if (txbTotalPrice.Tag == null) return;
@@ -197,13 +237,11 @@ namespace WinFormApp
 
             await ShowBill(currentTable.Id);
         }
-
         private async Task StartImageCleanupScheduler()
         {
             try
             {
-                if (_scheduler != null && _scheduler.IsStarted)
-                    return; // ✅ prevent duplicate schedulers
+                if (_scheduler != null && _scheduler.IsStarted) return;
 
                 _scheduler = await StdSchedulerFactory.GetDefaultScheduler();
                 await _scheduler.Start();
@@ -230,6 +268,22 @@ namespace WinFormApp
         #endregion
 
         #region Event
+        private void txbSearchTable_Enter(object sender, EventArgs e)
+        {
+            if (txbSearchTable.Text == "Search table...")
+            {
+                txbSearchTable.Text = "";
+                txbSearchTable.ForeColor = Color.Black;
+            }
+        }
+        private void txbSearchTable_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txbSearchTable.Text))
+            {
+                txbSearchTable.Text = "Search table...";
+                txbSearchTable.ForeColor = Color.Gray;
+            }
+        }
         private async void TableManager_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_scheduler != null && _scheduler.IsStarted)
@@ -251,17 +305,6 @@ namespace WinFormApp
             adminLabel.Visible = user.Role.Name == "Admin" || user.Role.Name == "Tester";
 
             accountToolStripDropdown.Text += $" ({user.DisplayName})";
-
-            Image img = ImageService.Instance.LoadAccountImage(user);
-            if (img == null)
-            {
-                MessageBox.Show("Image not found or failed to load!");
-            }
-            else
-            {
-                AccountImage.Image = img;
-                AccountImage.SizeMode = PictureBoxSizeMode.Zoom;
-            }
 
             await Task.WhenAll(tableTask, categoryTask);
 
@@ -358,6 +401,15 @@ namespace WinFormApp
         private async void btnMergeTable_Click(object sender, EventArgs e)
         {
             await HandleTableAction("merge");
+        }
+        private async void txbSearchTable_TextChanged(object sender, EventArgs e)
+        {
+            if (txbSearchTable.Text == "Search table...") return; 
+            if (!txbSearchTable.Focused) return; 
+
+            _currentPage = 1;
+
+            await LoadTableFood();
         }
         #endregion
     }

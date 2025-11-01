@@ -380,15 +380,15 @@ namespace WinFormApp
 
         private async Task GetListTable()
         {
-            var tables = await TableFoodService.Instance.LoadTableList(txbSearchTable.Text);
+            var result = await TableFoodService.Instance.LoadTableList(100, 1, txbSearchTable.Text);
 
-            if (!tables.Any())
+            if (result == null || !result.Items.Any())
             {
                 dtgvTable.DataSource = null;
                 return;
             }
 
-            tablelist.DataSource = tables
+            tablelist.DataSource = result.Items
                 .Select(t => new
                 {
                     t.Id,
