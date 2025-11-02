@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 
 namespace WinFormApp.Services
@@ -49,7 +49,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Role is already exist", "Insert failed");
+                    Alert.ShowAlert("Role is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -76,7 +76,7 @@ namespace WinFormApp.Services
 
                 if(updatedRole == null)
                 {
-                    MessageBox.Show("Role is not exist", "Update failed");
+                    Alert.ShowAlert("Role is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -84,7 +84,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Role is already exist", "Update failed");
+                    Alert.ShowAlert("Role is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -119,19 +119,19 @@ namespace WinFormApp.Services
 
                 if (role == null)
                 {
-                    MessageBox.Show("Role is not exist", "Delete failed");
+                    Alert.ShowAlert("Role is not exist", Alert.AlertType.Error);
                     return;
                 }
 
-                if (role.Accounts.Any() || role.RolePermissions.Any())
+                if (role.Accounts.Any())
                 {
-                    MessageBox.Show("There are some data related to this role", "Delete failed");
+                    Alert.ShowAlert("There are some account related to this role", Alert.AlertType.Error);
                     return;
                 }
 
                 if(role.Name.ToLower().Equals("admin") || role.Name.ToUpper().Equals("ADMIN"))
                 {
-                    MessageBox.Show("Cannot delete admin role", "Delete failed");
+                    Alert.ShowAlert("Cannot delete admin role", Alert.AlertType.Error);
                     return;
                 }
 

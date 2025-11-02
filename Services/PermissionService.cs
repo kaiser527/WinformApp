@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 
 namespace WinFormApp.Services
@@ -47,7 +47,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Permission is already exist", "Insert failed");
+                    Alert.ShowAlert("Permission is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -65,7 +65,7 @@ namespace WinFormApp.Services
 
                 if(updatedPermission == null)
                 {
-                    MessageBox.Show("Permission is not exist", "Update failed");
+                    Alert.ShowAlert("Permission is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -73,7 +73,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Permission is already exist", "Update failed");
+                    Alert.ShowAlert("Permission is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -102,13 +102,7 @@ namespace WinFormApp.Services
 
                 if (permission == null)
                 {
-                    MessageBox.Show("Permission is not exist", "Delete failed");
-                    return;
-                }
-
-                if (permission.RolePermissions.Any())
-                {
-                    MessageBox.Show("There are some data related to this permission", "Delete failed");
+                    Alert.ShowAlert("Permission is not exist", Alert.AlertType.Error);
                     return;
                 }
 

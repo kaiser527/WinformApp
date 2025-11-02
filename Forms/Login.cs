@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using WinFormApp.Forms;
 using WinFormApp.Services;
 
 namespace WinFormApp
@@ -33,7 +34,7 @@ namespace WinFormApp
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Please enter both username and password.", "Missing information");
+                Alert.ShowAlert("Missing information", Alert.AlertType.Warning);
                 return;
             }
 
@@ -52,12 +53,12 @@ namespace WinFormApp
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect username or password", "Login failed");
+                    Alert.ShowAlert("Incorrect username or password", Alert.AlertType.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Login error");
+                Alert.ShowAlert($"Error: {ex.Message}", Alert.AlertType.Error);
             }
             finally
             {
@@ -68,17 +69,15 @@ namespace WinFormApp
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
         }
 
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to exit the program?",
-                "Exit Confirmation",
-                MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-               e.Cancel = true;
-            }
+            bool confirm = Confirmation.ShowConfirm("Exit Confirmation",
+               "Are you sure you want to exit the program?");
+
+            if (!confirm) e.Cancel = true;
         }
     }
 }

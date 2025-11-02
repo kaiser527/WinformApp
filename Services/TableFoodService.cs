@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using WinFormApp.Models;
 using WinFormApp.DTO;
+using WinFormApp.Forms;
+using WinFormApp.Models;
 
 namespace WinFormApp.Services
 {
@@ -159,7 +159,7 @@ namespace WinFormApp.Services
 
                 if (!isValid)
                 {
-                    MessageBox.Show("Table name format is incorrect", "Insert failed");
+                    Alert.ShowAlert("Table name format is incorrect", Alert.AlertType.Error);
                     return;
                 }
 
@@ -169,7 +169,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Table is already exist", "Insert failed");
+                    Alert.ShowAlert("Table is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -187,7 +187,7 @@ namespace WinFormApp.Services
 
                 if (!isValid)
                 {
-                    MessageBox.Show("Table name format is incorrect", "Update failed");
+                    Alert.ShowAlert("Table name format is incorrect", Alert.AlertType.Error);
                     return;
                 }
 
@@ -195,7 +195,7 @@ namespace WinFormApp.Services
 
                 if (updateTable == null)
                 {
-                    MessageBox.Show("Table is not exist", "Update failed");
+                    Alert.ShowAlert("Table is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -206,7 +206,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Table is already exist", "Update failed");
+                    Alert.ShowAlert("Table is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -225,7 +225,7 @@ namespace WinFormApp.Services
 
                 if (table == null)
                 {
-                    MessageBox.Show("Table is not exist", "Delete failed");
+                    Alert.ShowAlert("Table is not exist", Alert.AlertType.Error);
                     return;
                 }
 

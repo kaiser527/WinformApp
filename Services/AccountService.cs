@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WinFormApp.DTO;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 
 namespace WinFormApp.Services
@@ -60,7 +60,7 @@ namespace WinFormApp.Services
 
                 if (user == null)
                 {
-                    MessageBox.Show("User not exist", "Update failed");
+                    Alert.ShowAlert("Account not exist", Alert.AlertType.Error);
                     isClose = false;
                 }
 
@@ -68,13 +68,13 @@ namespace WinFormApp.Services
 
                 if (!success)
                 {
-                    MessageBox.Show("Password incorrect", "Update failed");
+                    Alert.ShowAlert("Password incorrect", Alert.AlertType.Error);
                     isClose = false;
                 }
 
                 if (!updateAccountDTO.NewPassWord.Equals(updateAccountDTO.ConfirmPassWord))
                 {
-                    MessageBox.Show("Password and confirm password not match", "Update failed");
+                    Alert.ShowAlert("Password and confirm password not match", Alert.AlertType.Error);
                     isClose = false;
                 }
 
@@ -119,7 +119,15 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Account is already exist", "Insert failed");
+                    Alert.ShowAlert("Account is already exist", Alert.AlertType.Error);
+                    return;
+                }
+
+                bool isExistRole = await context.Roles.AnyAsync(r => r.Id == account.IdRole);
+
+                if (!isExistRole)
+                {
+                    Alert.ShowAlert("Role is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -139,16 +147,15 @@ namespace WinFormApp.Services
 
                 if(updateAccount == null)
                 {
-                    MessageBox.Show("Account is not exist", "Update failed");
+                    Alert.ShowAlert("Account is not exist", Alert.AlertType.Error);
                     return updateAccount;
                 }
 
-                bool isExist = await context.Accounts
-                    .AnyAsync(a => a.DisplayName == account.DisplayName && a.UserName != account.UserName);
+                bool isExistRole = await context.Roles.AnyAsync(r => r.Id == account.IdRole);
 
-                if (isExist)
+                if (!isExistRole)
                 {
-                    MessageBox.Show("Account is already exist", "Update failed");
+                    Alert.ShowAlert("Role is not exist", Alert.AlertType.Error);
                     return updateAccount;
                 }
 
@@ -172,13 +179,19 @@ namespace WinFormApp.Services
 
                 if (updateAccount == null)
                 {
-                    MessageBox.Show("Account is not exist", "Delete failed");
+                    Alert.ShowAlert("Account is not exist", Alert.AlertType.Error);
+                    return;
+                }
+
+                if (User != null && updateAccount.UserName == User.UserName)
+                {
+                    Alert.ShowAlert("Cannot delete yourself", Alert.AlertType.Error);
                     return;
                 }
 
                 if (updateAccount.Role.Name.Equals("Admin"))
                 {
-                    MessageBox.Show("Cannot delete admin account", "Delete failed");
+                    Alert.ShowAlert("Cannot delete admin account", Alert.AlertType.Error);
                     return;
                 }
 
@@ -198,13 +211,13 @@ namespace WinFormApp.Services
 
                 if (resetAccount == null)
                 {
-                    MessageBox.Show("Account is not exist", "Reset failed");
+                    Alert.ShowAlert("Account is not exist", Alert.AlertType.Error);
                     return;
                 }
 
                 if (resetAccount.Role.Name.Equals("Admin"))
                 {
-                    MessageBox.Show("Cannot reset admin account password", "Reset failed");
+                    Alert.ShowAlert("Cannot reset admin account", Alert.AlertType.Error);
                     return;
                 }
 
@@ -224,7 +237,7 @@ namespace WinFormApp.Services
 
                 if (account == null)
                 {
-                    MessageBox.Show("Account is not exist", "Alert");
+                    Alert.ShowAlert("Account is not exist", Alert.AlertType.Error);
                     return new Account();
                 }
 

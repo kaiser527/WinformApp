@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 
 namespace WinFormApp.Services
@@ -44,7 +44,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Category is already exist", "Insert failed");
+                    Alert.ShowAlert("Category is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -62,7 +62,7 @@ namespace WinFormApp.Services
 
                 if (updatedCategory == null)
                 {
-                    MessageBox.Show("Category is not exist", "Update failed");
+                    Alert.ShowAlert("Category is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -71,7 +71,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Category is already exist", "Update failed");
+                    Alert.ShowAlert("Category is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -91,13 +91,13 @@ namespace WinFormApp.Services
 
                 if (category == null)
                 {
-                    MessageBox.Show("Category is not exist", "Delete failed");
+                    Alert.ShowAlert("Category is not exist", Alert.AlertType.Error);
                     return;
                 }
 
                 if (category.Foods.Any())
                 {
-                    MessageBox.Show("There are some food related", "Delete failed");
+                    Alert.ShowAlert("There are some food related to this category", Alert.AlertType.Error);
                     return;
                 }
 

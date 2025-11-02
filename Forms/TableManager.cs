@@ -12,6 +12,7 @@ using WinFormApp.DTO;
 using WinFormApp.Utils;
 using WinFormApp.Models;
 using WinFormApp.Services;
+using WinFormApp.Forms;
 
 namespace WinFormApp
 {
@@ -209,14 +210,9 @@ namespace WinFormApp
                 ? $"Are you sure you want to switch all bills between {currentTable.Name} and {targetTable.Name}?"
                 : $"Are you sure you want to merge all bills from {currentTable.Name} into {targetTable.Name}?";
 
-            DialogResult result = MessageBox.Show(
-                message,
-                $"Confirm {action}",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question
-            );
+            bool confirm = Confirmation.ShowConfirm($"Confirm {action}", message);
 
-            if (result != DialogResult.OK) return;
+            if (!confirm) return;
 
             await BillService.Instance.SwitchOrMergeTableBill(currentTable.Id, targetTable.Id, action);
 
@@ -298,7 +294,7 @@ namespace WinFormApp
 
             if (user == null)
             {
-                MessageBox.Show("User is null!");
+                Alert.ShowAlert("Account is not exist", Alert.AlertType.Error);
                 return;
             }
 
@@ -368,28 +364,33 @@ namespace WinFormApp
             int discount = (int)nmDiscount.Value;
             int idBill = await BillService.Instance.GetOrCreateUncheckBillIDByTableID(table.Id, "checkout");
             decimal finalTotal = (decimal)txbTotalPrice.Tag * (1 - nmDiscount.Value / 100m);
+
             string resultTotal = discount == 0 ?
-                $"total price: {txbTotalPrice.Tag}$" :
-                $"discount:\n{txbTotalPrice.Tag}$ - {txbTotalPrice.Tag}$ * {discount}% = {finalTotal}$";
+                $"Total price: {txbTotalPrice.Tag}$" :
+                $"Discount:\n{txbTotalPrice.Tag}$ - {txbTotalPrice.Tag}$ * {discount}% = {finalTotal}$";
 
             if (idBill != -1)
             {
-                string msg = $"Are you sure want to check out for {table.Name} with {resultTotal}";
+                string msg = $"Are you sure you want to check out table {table.Name}?\n\n{resultTotal}";
 
-                if (MessageBox.Show(msg, "Alert", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    await BillService.Instance.CheckOut(idBill, (float)(discount * 0.01));
+                // ✅ show custom confirmation dialog
+                bool confirm = Confirmation.ShowConfirm("Checkout", msg);
 
-                    await TableFoodService.Instance.UpdateOnChangeTableStatus(table.Id);
+                if (!confirm) return;
 
-                    table = await TableFoodService.Instance.GetTableById(table.Id);
+                // ✅ continue checkout if confirmed
+                await BillService.Instance.CheckOut(idBill, (float)(discount * 0.01));
 
-                    UpdateTableButtonColor(table);
+                await TableFoodService.Instance.UpdateOnChangeTableStatus(table.Id);
 
-                    await ShowBill(table.Id);
-                }
+                table = await TableFoodService.Instance.GetTableById(table.Id);
+
+                UpdateTableButtonColor(table);
+
+                await ShowBill(table.Id);
             }
         }
+
         private void nmDiscount_ValueChanged(object sender, EventArgs e)
         {
             ApplyDiscount();

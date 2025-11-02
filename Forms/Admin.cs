@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormApp.DTO;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 using WinFormApp.Services;
 
@@ -59,10 +60,10 @@ namespace WinFormApp
 
             if (role == null || !role.IsActive)
             {
-                MessageBox.Show("Your role is inactive. You do not have permission to access this area.",
-                                "Access Denied",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                Alert.ShowAlert(
+                    "Your role is inactive. You do not have permission to access this area.", 
+                    Alert.AlertType.Error
+                );
 
                 tcAdmin.TabPages.Clear();
 
@@ -132,7 +133,7 @@ namespace WinFormApp
             var maxDateCheckOut = bills.Max(x => x.DateCheckOut);
 
             dtpkFromDate.Value = minDateCheckIn;
-            dtpkToDate.Value = maxDateCheckOut ?? System.DateTime.Now;
+            dtpkToDate.Value = maxDateCheckOut ?? DateTime.Now;
 
             var billTask = LoadBillList(dtpkFromDate.Value, dtpkToDate.Value);
 
@@ -409,7 +410,12 @@ namespace WinFormApp
                 return;
             }
 
-            categorylist.DataSource = categories;
+            categorylist.DataSource = categories.
+                Select(c => new
+                {
+                    c.Id,
+                    c.Name,
+                });
 
             dtgvCategory.DataSource = categorylist;
         }
@@ -440,9 +446,8 @@ namespace WinFormApp
         {
             var billTask = LoadBillListDefault();
             var permissionTask = LoadGroupPermission();
-            var tableTask = GetListTable();
 
-            await Task.WhenAll(billTask, permissionTask, tableTask);
+            await Task.WhenAll(billTask, permissionTask);
 
             cbIsActiveRole.DataSource = new List<string> { "Active", "Inactive" };
 
@@ -500,12 +505,10 @@ namespace WinFormApp
         {
             if(foodlist.Count == 0) return;
 
-            if (MessageBox.Show("Are you sure you want to delete this food?",
-               "Delete Confirmation",
-               MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation", 
+                "Are you sure you want to delete this food?");
+
+            if (!confirm) return;
 
             List<TableFood> tables = await FoodService.Instance.DeleteFood(int.Parse(txbFoodId.Text));
 
@@ -566,12 +569,10 @@ namespace WinFormApp
         {
             if (rolelist.Count == 0) return;
 
-            if (MessageBox.Show("Are you sure you want to delete this role?",
-               "Delete Confirmation",
-               MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation",
+                 "Are you sure you want to delete this role?");
+
+            if (!confirm) return;
 
             await RoleService.Instance.DeleteRole(int.Parse(txbRoleId.Text));
 
@@ -614,6 +615,8 @@ namespace WinFormApp
             await PermissionService.Instance.InsertPermission(permission);
 
             await GetListPermission();
+
+            await LoadGroupPermission();
         }
 
         private async void btnUpdatePermission_Click(object sender, EventArgs e)
@@ -630,22 +633,24 @@ namespace WinFormApp
             await PermissionService.Instance.UpdatePermission(permission);
 
             await GetListPermission();
+
+            await LoadGroupPermission();
         }
 
         private async void btnDeletePermission_Click(object sender, EventArgs e)
         {
             if (permissionlist.Count == 0) return;
 
-            if (MessageBox.Show("Are you sure you want to delete this permission?",
-               "Delete Confirmation",
-               MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation",
+                "Are you sure you want to delete this permission?");
+
+            if (!confirm) return;
 
             await PermissionService.Instance.DeletePermission(int.Parse(txbPermissionId.Text));
 
             await GetListPermission();
+
+            await LoadGroupPermission();
         }
 
         private async void btnViewAccount_Click(object sender, EventArgs e)
@@ -701,6 +706,8 @@ namespace WinFormApp
 
             if(updateAccount.UserName == AccountService.Instance.User.UserName)
             {
+                AccountService.Instance.User = updateAccount;
+
                 _tableManager.accountToolStripDropdown.Text = $"Account ({updateAccount.DisplayName})";
             }
 
@@ -711,12 +718,10 @@ namespace WinFormApp
         {
             if (accountlist.Count == 0) return;
 
-            if(MessageBox.Show("Are you sure you want to delete this account?",
-               "Delete Confirmation",
-               MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation",
+                "Are you sure you want to delete this account?");
+
+            if (!confirm) return;
 
             await AccountService.Instance.DeleteAccount(txbAccountUsername.Text);
 
@@ -727,12 +732,10 @@ namespace WinFormApp
         {
             if (accountlist.Count == 0) return;
 
-            if (MessageBox.Show("Are you sure you want to reset this account password?",
-               "Delete Confirmation",
-               MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation",
+                "Are you sure you want to reset this account?");
+
+            if (!confirm) return;
 
             await AccountService.Instance.ResetAccountPassword(txbAccountUsername.Text);
         }
@@ -794,12 +797,10 @@ namespace WinFormApp
         {
             if (tablelist.Count == 0) return;
 
-            if (MessageBox.Show("Are you sure you want to delete table?",
-               "Delete Confirmation",
-               MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                return;
-            }
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation",
+                "Are you sure you want to delete this table?");
+
+            if (!confirm) return;
 
             await TableFoodService.Instance.DeleteTable(int.Parse(txbTableId.Text));
 
@@ -843,7 +844,7 @@ namespace WinFormApp
 
             FoodCategory foodCategory = new FoodCategory() 
             { 
-                Id = int.Parse(txbAccountUsername.Text),
+                Id = int.Parse(txbCategoryId.Text),
                 Name = txbCategoryName.Text 
             };
 
@@ -858,7 +859,12 @@ namespace WinFormApp
         {
             if (categorylist.Count == 0) return;
 
-            await CategoryService.Instance.DeleteCategory(int.Parse(txbAccountUsername.Text));
+            bool confirm = Confirmation.ShowConfirm("Delete Confirmation",
+                "Are you sure you want to delete this category?");
+
+            if (!confirm) return;
+
+            await CategoryService.Instance.DeleteCategory(int.Parse(txbCategoryId.Text));
 
             await GetListCategory();
 

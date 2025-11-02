@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WinFormApp.DTO;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 
 namespace WinFormApp.Services
@@ -62,7 +62,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Food is already exist", "Insert failed");
+                    Alert.ShowAlert("Food is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -70,7 +70,7 @@ namespace WinFormApp.Services
 
                 if(category == null)
                 {
-                    MessageBox.Show("Category not exist", "Insert failed");
+                    Alert.ShowAlert("Category is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -95,7 +95,7 @@ namespace WinFormApp.Services
 
                 if (food == null) 
                 {
-                    MessageBox.Show("Food not exist", "Update failed");
+                    Alert.ShowAlert("Food is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -103,7 +103,7 @@ namespace WinFormApp.Services
 
                 if (isExist)
                 {
-                    MessageBox.Show("Food is already exist", "Update failed");
+                    Alert.ShowAlert("Food is already exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -111,7 +111,7 @@ namespace WinFormApp.Services
 
                 if (category == null)
                 {
-                    MessageBox.Show("Category not exist", "Insert failed");
+                    Alert.ShowAlert("Category is not exist", Alert.AlertType.Error);
                     return;
                 }
 
@@ -135,7 +135,7 @@ namespace WinFormApp.Services
 
                 if (food == null)
                 {
-                    MessageBox.Show("Food not exist", "Delete failed");
+                    Alert.ShowAlert("Food is not exist", Alert.AlertType.Error);
                     return new List<TableFood>();
                 }
 

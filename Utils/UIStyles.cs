@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 public static class UIStyles
 {
     [DllImport("gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-    private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect,
+    public static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect,
         int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 
     public static void RoundPanel(Panel panel, int radius)

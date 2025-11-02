@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormApp.Forms;
 using WinFormApp.Models;
 
 namespace WinFormApp.Services
@@ -74,7 +75,7 @@ namespace WinFormApp.Services
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Image upload failed: {ex.Message}", "Error");
+                    Alert.ShowAlert($"Image upload failed: {ex.Message}", Alert.AlertType.Error);
                     return null;
                 }
             }
@@ -99,7 +100,7 @@ namespace WinFormApp.Services
             }
             else
             {
-                MessageBox.Show($"Image file not found: {imagePath}", "Error");
+                Alert.ShowAlert($"Image file not found: {imagePath}", Alert.AlertType.Error);
             }
         }
 
