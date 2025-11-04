@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WinFormApp.DTO;
@@ -91,7 +91,10 @@ namespace WinFormApp.Services
             }
         }
 
-        public async Task<IEnumerable<Account>> GetListAccount(string name = null)
+        public async Task<PaginatedResult<Account>> GetListAccount(
+            int pageSize = 100,
+            int pageNumber = 1,
+            string name = null)
         {
             using (var context = new CoffeeShopContext())
             {
@@ -107,7 +110,20 @@ namespace WinFormApp.Services
                     );
                 }
 
-                return await query.ToListAsync();
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+                var items = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return new PaginatedResult<Account>
+                {
+                    Items = items,
+                    TotalCount = totalCount,
+                    TotalPages = totalPages
+                };
             }
         }
 

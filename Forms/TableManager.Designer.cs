@@ -81,7 +81,7 @@ namespace WinFormApp
             this.accountToolStripDropdown});
             this.toolStripBar.Location = new System.Drawing.Point(12, 4);
             this.toolStripBar.Name = "toolStripBar";
-            this.toolStripBar.Size = new System.Drawing.Size(175, 31);
+            this.toolStripBar.Size = new System.Drawing.Size(175, 30);
             this.toolStripBar.TabIndex = 0;
             this.toolStripBar.Text = "toolStrip1";
             // 
@@ -91,7 +91,7 @@ namespace WinFormApp
             this.adminLabel.ForeColor = System.Drawing.Color.Black;
             this.adminLabel.Margin = new System.Windows.Forms.Padding(0, 0, 15, 0);
             this.adminLabel.Name = "adminLabel";
-            this.adminLabel.Size = new System.Drawing.Size(60, 31);
+            this.adminLabel.Size = new System.Drawing.Size(60, 30);
             this.adminLabel.Text = "Admin";
             this.adminLabel.Click += new System.EventHandler(this.adminLabel_Click);
             // 
@@ -103,7 +103,7 @@ namespace WinFormApp
             this.logOutToolStripMenuItem});
             this.accountToolStripDropdown.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accountToolStripDropdown.Name = "accountToolStripDropdown";
-            this.accountToolStripDropdown.Size = new System.Drawing.Size(87, 28);
+            this.accountToolStripDropdown.Size = new System.Drawing.Size(87, 27);
             this.accountToolStripDropdown.Text = "Account";
             // 
             // privateInformationToolStripMenuItem
@@ -218,7 +218,7 @@ namespace WinFormApp
             this.btnSwitchTable.Name = "btnSwitchTable";
             this.btnSwitchTable.Size = new System.Drawing.Size(93, 33);
             this.btnSwitchTable.TabIndex = 6;
-            this.btnSwitchTable.Text = "Switch table";
+            this.btnSwitchTable.Text = "Switch";
             this.btnSwitchTable.UseVisualStyleBackColor = false;
             this.btnSwitchTable.Click += new System.EventHandler(this.btnSwitchTable_Click);
             // 
@@ -337,15 +337,12 @@ namespace WinFormApp
             // txbSearchTable
             // 
             this.txbSearchTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbSearchTable.ForeColor = System.Drawing.Color.Gray;
+            this.txbSearchTable.ForeColor = System.Drawing.Color.Black;
             this.txbSearchTable.Location = new System.Drawing.Point(411, 4);
             this.txbSearchTable.Name = "txbSearchTable";
             this.txbSearchTable.Size = new System.Drawing.Size(221, 27);
             this.txbSearchTable.TabIndex = 7;
-            this.txbSearchTable.Text = "Search table...";
             this.txbSearchTable.TextChanged += new System.EventHandler(this.txbSearchTable_TextChanged);
-            this.txbSearchTable.Enter += new System.EventHandler(this.txbSearchTable_Enter);
-            this.txbSearchTable.Leave += new System.EventHandler(this.txbSearchTable_Leave);
             // 
             // contextMenuStrip1
             // 

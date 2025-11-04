@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using WinFormApp.DTO;
 using WinFormApp.Forms;
 using WinFormApp.Models;
 
@@ -24,7 +25,10 @@ namespace WinFormApp.Services
 
         private PermissionService() { }
 
-        public async Task<IEnumerable<Permission>> GetListPermission(string permissionname = null)
+        public async Task<PaginatedResult<Permission>> GetListPermission(
+            int pageSize = 100,
+            int pageNumber = 1,
+            string permissionname = null)
         {
             using (var context = new CoffeeShopContext())
             {
@@ -35,7 +39,21 @@ namespace WinFormApp.Services
                     query = query.Where(f => f.Name.ToLower().Contains(permissionname.ToLower()));
                 }
 
-                return await query.ToListAsync();
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+                var items = await query
+                    .OrderBy(f => f.Id)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return new PaginatedResult<Permission>
+                {
+                    Items = items,
+                    TotalCount = totalCount,
+                    TotalPages = totalPages
+                };
             }
         }
 

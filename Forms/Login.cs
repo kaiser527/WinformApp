@@ -7,6 +7,10 @@ namespace WinFormApp
 {
     public partial class Login : Form
     {
+        private readonly bool _isPlaceholderUsernameApplied = false;
+
+        private readonly bool _isPlaceholderPasswordApplied = false;
+
         private bool isLoading;
         private bool IsLoading
         {
@@ -23,8 +27,14 @@ namespace WinFormApp
         public Login()
         {
             InitializeComponent();
+
+            UIStyles.ApplyPlaceholder(textBoxUsername, "Account Username...", ref _isPlaceholderUsernameApplied);
+
+            textBoxPassword.UseSystemPasswordChar = false;
+            UIStyles.ApplyPlaceholder(textBoxPassword, "Account Password...", ref _isPlaceholderPasswordApplied);
         }
 
+        #region Methods
         private async void btnLogin_Click(object sender, EventArgs e)
         {
             if (IsLoading) return; // Prevent clicking twice quickly
@@ -32,7 +42,8 @@ namespace WinFormApp
             string username = textBoxUsername.Text.Trim();
             string password = textBoxPassword.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) ||
+                textBoxUsername.Text == "Account Username..." || textBoxPassword.Text == "Account Password...")
             {
                 Alert.ShowAlert("Missing information", Alert.AlertType.Warning);
                 return;
@@ -66,7 +77,9 @@ namespace WinFormApp
                 btnLogin.Text = "Login";
             }
         }
+        #endregion
 
+        #region Events
         private void btnExit_Click(object sender, EventArgs e)
         {
             Close();
@@ -79,5 +92,18 @@ namespace WinFormApp
 
             if (!confirm) e.Cancel = true;
         }
+
+        private void textBoxPassword_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxPassword.Text) || textBoxPassword.Text == "Account Password...")
+            {
+                textBoxPassword.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                textBoxPassword.UseSystemPasswordChar = true;
+            }
+        }
+        #endregion
     }
 }

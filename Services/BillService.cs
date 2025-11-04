@@ -148,6 +148,7 @@ namespace WinFormApp.Services
             {
                 return await context.Bills
                     .Where(b => b.DateCheckIn >= dateCheckIn && b.DateCheckOut <= dateCheckOut && b.Status == 1)
+                    .OrderBy(b => b.DateCheckOut)
                     .Select(b => new BillDTO(
                         b.Table.Name,
                         b.Discount,

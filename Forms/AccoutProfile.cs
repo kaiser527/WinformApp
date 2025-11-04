@@ -23,7 +23,7 @@ namespace WinFormApp
             StylePanels();
         }
 
-        #region Method
+        #region Methods
         private void StyleButtons()
         {
             UIStyles.ModernUIButton(btnUpdate, Color.FromArgb(52, 152, 219), Color.FromArgb(35, 110, 160));
@@ -58,7 +58,7 @@ namespace WinFormApp
         }
         #endregion
 
-        #region Event
+        #region Events
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
             UpdateAccountDTO updateAccountDTO =

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,10 @@ namespace WinFormApp.Services
             }
         }
 
-        public async Task<IEnumerable<FoodDTO>> GetListFood(string name = null)
+        public async Task<PaginatedResult<FoodDTO>> GetListFood(
+            int pageSize = 100,
+            int pageNumber = 1,
+            string name = null)
         {
             using (var context = new CoffeeShopContext())
             {
@@ -40,17 +44,33 @@ namespace WinFormApp.Services
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    query = query.Where(f => f.Name.ToLower().Contains(name.ToLower()));
+                    query = query.Where(f => 
+                        f.Name.ToLower().Contains(name.ToLower()) ||
+                        f.Category.Name.ToLower().Contains(name.ToLower())
+                    );
                 }
 
-                return await query
-                    .Select(f => new FoodDTO(
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+                var items = await query
+                 .OrderBy(f => f.Id)
+                 .Skip((pageNumber - 1) * pageSize)
+                 .Take(pageSize)
+                 .Select(f => new FoodDTO(
                         f.Id,
                         f.Name,
                         f.Category.Name,
                         (float)f.Price
-                    ))
-                    .ToListAsync();
+                 ))
+                 .ToListAsync();
+
+                return new PaginatedResult<FoodDTO>
+                {
+                    Items = items,
+                    TotalCount = totalCount,
+                    TotalPages = totalPages
+                };
             }
         }
 

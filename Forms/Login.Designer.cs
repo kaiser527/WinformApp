@@ -63,8 +63,8 @@ namespace WinFormApp
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(263, 30);
             this.textBoxPassword.TabIndex = 0;
-            this.textBoxPassword.Text = "123456";
             this.textBoxPassword.UseSystemPasswordChar = true;
+            this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxPassword_TextChanged);
             // 
             // label2
             // 
@@ -84,7 +84,6 @@ namespace WinFormApp
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(263, 30);
             this.textBoxUsername.TabIndex = 1;
-            this.textBoxUsername.Text = "admin";
             // 
             // label1
             // 

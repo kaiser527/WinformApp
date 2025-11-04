@@ -15,7 +15,7 @@ namespace WinFormApp.Forms
             StyleButtons();
             SetTitleAndMessage(title, message);
         }
-        #region Method
+        #region Methods
         private void HideFormControlBar()
         {
             FormBorderStyle = FormBorderStyle.None;
@@ -41,7 +41,8 @@ namespace WinFormApp.Forms
             }
         }
         #endregion
-        #region Event
+
+        #region Events
         private void btnOK_Click(object sender, EventArgs e)
         {
             Result = true;

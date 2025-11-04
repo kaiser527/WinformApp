@@ -22,9 +22,11 @@ namespace WinFormApp
 
         private int _currentPage = 1;
 
-        private int _pageSize = 20;
+        private readonly int _pageSize = 20;
 
         private int _totalPages = 1;
+
+        private readonly bool _isPlaceholderApplied = false;
 
         public TableManager()
         {
@@ -32,11 +34,12 @@ namespace WinFormApp
             StylePanels();
             StyleButtons();
             StyleListView();
+            UIStyles.ApplyPlaceholder(txbSearchTable, "Search table...", ref _isPlaceholderApplied);
             Load += load_Data;
             FormClosing += TableManager_FormClosing;
         }
 
-        #region Method
+        #region Methods
         private void ApplyButtonColor(string status, Button btn)
         {
             switch (status)
@@ -55,8 +58,8 @@ namespace WinFormApp
         }
         public async Task LoadCategory()
         {
-            IEnumerable<FoodCategory> foodCategories = await CategoryService.Instance.GetListCategory();
-            cbCategory.DataSource = foodCategories;
+            var result = await CategoryService.Instance.GetListCategory();
+            cbCategory.DataSource = result.Items;
             cbCategory.DisplayMember = "Name";
         }
         private async Task LoadFoodListByCategoryID(int id)
@@ -263,23 +266,7 @@ namespace WinFormApp
         }
         #endregion
 
-        #region Event
-        private void txbSearchTable_Enter(object sender, EventArgs e)
-        {
-            if (txbSearchTable.Text == "Search table...")
-            {
-                txbSearchTable.Text = "";
-                txbSearchTable.ForeColor = Color.Black;
-            }
-        }
-        private void txbSearchTable_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txbSearchTable.Text))
-            {
-                txbSearchTable.Text = "Search table...";
-                txbSearchTable.ForeColor = Color.Gray;
-            }
-        }
+        #region Events
         private async void TableManager_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_scheduler != null && _scheduler.IsStarted)
@@ -405,8 +392,7 @@ namespace WinFormApp
         }
         private async void txbSearchTable_TextChanged(object sender, EventArgs e)
         {
-            if (txbSearchTable.Text == "Search table...") return; 
-            if (!txbSearchTable.Focused) return; 
+            if (_isPlaceholderApplied) return;
 
             _currentPage = 1;
 

@@ -22,6 +22,7 @@ namespace WinFormApp.Forms
             lblMessage.Text = message;
         }
 
+        #region Methods
         private void AnimationEffect()
         {
             // Position top right
@@ -72,7 +73,9 @@ namespace WinFormApp.Forms
             Alert frm = new Alert(msg, type);
             frm.Show();
         }
+        #endregion
 
+        #region Events
         private void TimerShow_Tick(object sender, EventArgs e)
         {
             if (Top > y)
@@ -90,5 +93,6 @@ namespace WinFormApp.Forms
             timerClose.Stop();
             Close();
         }
+        #endregion
     }
 }

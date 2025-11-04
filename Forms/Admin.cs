@@ -8,40 +8,94 @@ using WinFormApp.DTO;
 using WinFormApp.Forms;
 using WinFormApp.Models;
 using WinFormApp.Services;
+using WinFormApp.Utils;
 
 namespace WinFormApp
 {
     public partial class Admin : Form
     {
+        //Dependency injection
         private readonly TableManager _tableManager;
 
+        //Data binding
         private BindingSource foodlist = new BindingSource();
-
         private BindingSource rolelist = new BindingSource();
-
         private BindingSource permissionlist = new BindingSource();
-
         private BindingSource accountlist = new BindingSource();
-
         private BindingSource tablelist = new BindingSource();
-
         private BindingSource categorylist = new BindingSource();
 
+        //Role
         private List<Role> _roles;
-
         private Role _selectedRole;
 
+        //File
         private string _filename;
+
+        //Paginate
+        private int _pageSize = 15;
+        //Food
+        private int _currentPageFood = 1;
+        private int _totalPagesFood = 1;
+        //Category
+        private int _currentPageCategory = 1;
+        private int _totalPagesCategory = 1;
+        //Table
+        private int _currentPageTable = 1;
+        private int _totalPagesTable = 1;
+        //Account
+        private int _currentPageAccount = 1;
+        private int _totalPagesAccount = 1;
+        //Role
+        private int _currentPageRole = 1;
+        private int _totalPagesRole = 1;
+        //Permission
+        private int _currentPagePermission = 1;
+        private int _totalPagesPermission = 1;
 
         public Admin(TableManager tableManager)
         {
             InitializeComponent();
             ApplyPermissions();
+            StylePanels();
             Load += LoadData;
             _tableManager = tableManager;
         }
 
-        #region methods
+        #region Methods
+        private void StylePanels()
+        {
+            foreach (var panel in (new Panel[]
+            { 
+                //food
+                paginatePanelFood,
+                panel3, panel4, panel5, panel6,
+                panel7, panel8, panel9, panel10,
+                //category
+                paginatePanelCategory,
+                panel29, panel11, panel13, panel30,
+                panel28, panel27,
+                //Table
+                paginatePanelTable,
+                panel14, panel15, panel19, panel12,
+                panelTableName, panel17, panel22,
+                //Account
+                paginatePanelAccount,
+                panel16, panel18, panel20, panel21,
+                panel24, panel25, panel26,
+                //Role
+                paginatePanelRole,
+                panel23, panel32, panel33, panel31,
+                flpRole, panel37, panel36, panel34,
+                //Permission
+                paginatePanelPermission,
+                panel39, panel35, panel40, panel41,
+                panel42, panel43, panel44,
+            }).Cast<Panel>())
+            {
+                UIStyles.RoundPanel(panel, 15);
+            }
+        }
         private async Task LoadBillList(DateTime checkIn, DateTime checkOut)
         {
             IEnumerable<BillDTO> bills = await BillService.Instance.GetCheckedBillByDate(checkIn, checkOut);
@@ -50,7 +104,7 @@ namespace WinFormApp
 
         private async Task LoadCategoryList()
         {
-            cbFoodCategory.DataSource = await CategoryService.Instance.GetListCategory();
+            cbFoodCategory.DataSource = (await CategoryService.Instance.GetListCategory()).Items;
             cbFoodCategory.DisplayMember = "Name";
         }
 
@@ -144,9 +198,9 @@ namespace WinFormApp
 
         public async Task LoadGroupPermission()
         {
-            var permissions = await PermissionService.Instance.GetListPermission();
+            var result = await PermissionService.Instance.GetListPermission();
 
-            var groupedPermissions = permissions
+            var groupedPermissions = result.Items
                 .GroupBy(p => p.Module)
                 .Select(g => new
                 {
@@ -156,106 +210,159 @@ namespace WinFormApp
                 .ToList();
 
             flpRole.Controls.Clear();
-            flpRole.FlowDirection = FlowDirection.LeftToRight;
-            flpRole.WrapContents = true;
             flpRole.AutoScroll = true;
 
-            int moduleWidth = (flpRole.Width - flpRole.Padding.Horizontal - 20) / 3;
+            // ✅ Add padding around modules
+            flpRole.Padding = new Padding(13);
+
+            // ✅ 2 columns compact layout
+            int columns = 2;
+            int spacing = 8;
+
+            // ✅ Width after padding applied
+            int parentInnerWidth = flpRole.ClientSize.Width - flpRole.Padding.Horizontal;
+            int moduleWidth = Math.Max(140, (parentInnerWidth - (columns - 1) * spacing) / columns);
+
+            void UpdateModuleHeight(Panel modulePanel, Panel headerPanel, Panel permissionPanel)
+            {
+                modulePanel.Height = permissionPanel.Visible
+                    ? headerPanel.Height + permissionPanel.Height + 8
+                    : headerPanel.Height + 12;
+            }
+
+            void Reflow()
+            {
+                int x = flpRole.Padding.Left;
+                int y = flpRole.Padding.Top;
+                int col = 0;
+                int rowMax = 0;
+
+                foreach (Control ctl in flpRole.Controls)
+                {
+                    if (ctl is Panel panel)
+                    {
+                        panel.Location = new Point(x, y);
+                        panel.Width = moduleWidth;
+
+                        rowMax = Math.Max(rowMax, panel.Height);
+                        col++;
+
+                        if (col >= columns)
+                        {
+                            col = 0;
+                            x = flpRole.Padding.Left;
+                            y += rowMax + spacing;
+                            rowMax = 0;
+                        }
+                        else x += moduleWidth + spacing;
+                    }
+                }
+            }
 
             foreach (var group in groupedPermissions)
             {
-                var modulePanel = new FlowLayoutPanel
+                var modulePanel = new Panel
                 {
-                    FlowDirection = FlowDirection.TopDown,
                     Width = moduleWidth,
-                    AutoSize = true,
                     BorderStyle = BorderStyle.FixedSingle,
-                    Padding = new Padding(5),
-                    Margin = new Padding(5)
+                    Padding = new Padding(2),
+                    AutoSize = false
                 };
 
-                var headerPanel = new FlowLayoutPanel
+                // Header
+                var headerPanel = new Panel
                 {
-                    FlowDirection = FlowDirection.LeftToRight,
-                    AutoSize = true
+                    Height = 28,
+                    Dock = DockStyle.Top
                 };
 
                 var btnToggle = new Button
                 {
                     Text = "▶",
-                    Width = 30,
-                    Height = 25
+                    Width = 22,
+                    Height = 22,
+                    FlatStyle = FlatStyle.Flat
                 };
+                btnToggle.FlatAppearance.BorderSize = 0;
+                btnToggle.Location = new Point(2, (headerPanel.Height - btnToggle.Height) / 2 + 1);
 
                 var moduleCheckBox = new CheckBox
                 {
                     Text = group.Module,
                     AutoSize = true,
-                    Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                    Font = new Font("Segoe UI", 11f, FontStyle.Bold),
+                    Location = new Point(btnToggle.Right + 6, (headerPanel.Height - 20) / 2 + 1)
                 };
 
                 headerPanel.Controls.Add(btnToggle);
                 headerPanel.Controls.Add(moduleCheckBox);
-
                 modulePanel.Controls.Add(headerPanel);
 
-                var permissionPanel = new FlowLayoutPanel
+                // Permissions panel
+                var permissionPanel = new Panel
                 {
-                    FlowDirection = FlowDirection.TopDown,
+                    Visible = false,
                     AutoSize = true,
-                    Margin = new Padding(20, 0, 0, 0),
-                    Visible = false
+                    Location = new Point(18, headerPanel.Bottom + 1)
                 };
 
                 List<EventHandler> permHandlers = new List<EventHandler>();
+                int yOff = 0;
 
                 foreach (var perm in group.Permissions)
                 {
-                    var permCheckBox = new CheckBox
+                    var cb = new CheckBox
                     {
                         Text = perm.Name,
                         AutoSize = true,
-                        Tag = perm
+                        Tag = perm,
+                        Font = new Font("Segoe UI", 9.3f),
+                        Location = new Point(0, yOff)
                     };
 
-                    EventHandler handler = (s, ev) =>
+                    yOff += cb.Height + 2;
+
+                    EventHandler eh = (s, e) =>
                     {
                         bool allChecked = permissionPanel.Controls.OfType<CheckBox>().All(c => c.Checked);
-
-                        moduleCheckBox.CheckedChanged -= ModuleCheckBoxHandler;
+                        moduleCheckBox.CheckedChanged -= ModuleCheckHandler;
                         moduleCheckBox.Checked = allChecked;
-                        moduleCheckBox.CheckedChanged += ModuleCheckBoxHandler;
+                        moduleCheckBox.CheckedChanged += ModuleCheckHandler;
                     };
 
-                    permCheckBox.CheckedChanged += handler;
-                    permHandlers.Add(handler);
-
-                    permissionPanel.Controls.Add(permCheckBox);
+                    cb.CheckedChanged += eh;
+                    permHandlers.Add(eh);
+                    permissionPanel.Controls.Add(cb);
                 }
 
-                void ModuleCheckBoxHandler(object sender, EventArgs e)
+                void ModuleCheckHandler(object s, EventArgs e)
                 {
-                    for (int i = 0; i < permissionPanel.Controls.Count; i++)
+                    int i = 0;
+                    foreach (CheckBox cb in permissionPanel.Controls.OfType<CheckBox>())
                     {
-                        var c = (CheckBox)permissionPanel.Controls[i];
-                        c.CheckedChanged -= permHandlers[i]; // detach temporarily
-                        c.Checked = moduleCheckBox.Checked;
-                        c.CheckedChanged += permHandlers[i]; // reattach
+                        cb.CheckedChanged -= permHandlers[i];
+                        cb.Checked = moduleCheckBox.Checked;
+                        cb.CheckedChanged += permHandlers[i];
+                        i++;
                     }
                 }
 
-                moduleCheckBox.CheckedChanged += ModuleCheckBoxHandler;
+                moduleCheckBox.CheckedChanged += ModuleCheckHandler;
+                modulePanel.Controls.Add(permissionPanel);
 
-                btnToggle.Click += (s, ev) =>
+                // Expand/Collapse event
+                btnToggle.Click += (s, e) =>
                 {
                     permissionPanel.Visible = !permissionPanel.Visible;
                     btnToggle.Text = permissionPanel.Visible ? "▼" : "▶";
+                    UpdateModuleHeight(modulePanel, headerPanel, permissionPanel);
+                    Reflow();
                 };
 
-                modulePanel.Controls.Add(permissionPanel);
-
+                UpdateModuleHeight(modulePanel, headerPanel, permissionPanel);
                 flpRole.Controls.Add(modulePanel);
             }
+            Reflow();
         }
 
         private void ApplyRolePermissionsToUI()
@@ -266,11 +373,11 @@ namespace WinFormApp
                 .Select(rp => rp.Permission.Name)
                 .ToHashSet();
 
-            foreach (var modulePanel in flpRole.Controls.OfType<FlowLayoutPanel>())
+            foreach (var modulePanel in flpRole.Controls.OfType<Panel>())
             {
-                foreach (var permPanel in modulePanel.Controls.OfType<FlowLayoutPanel>())
+                foreach (var permissionPanel in modulePanel.Controls.OfType<Panel>())
                 {
-                    foreach (var cb in permPanel.Controls.OfType<CheckBox>())
+                    foreach (var cb in permissionPanel.Controls.OfType<CheckBox>())
                     {
                         if (cb.Tag is Permission perm)
                         {
@@ -285,16 +392,14 @@ namespace WinFormApp
         {
             var selectedPermissions = new List<Permission>();
 
-            foreach (var modulePanel in flpRole.Controls.OfType<FlowLayoutPanel>())
+            foreach (var modulePanel in flpRole.Controls.OfType<Panel>())
             {
-                foreach (var permissionPanel in modulePanel.Controls.OfType<FlowLayoutPanel>())
+                foreach (var permissionPanel in modulePanel.Controls.OfType<Panel>())
                 {
                     foreach (var cb in permissionPanel.Controls.OfType<CheckBox>())
                     {
                         if (cb.Checked && cb.Tag is Permission perm)
-                        {
                             selectedPermissions.Add(perm);
-                        }
                     }
                 }
             }
@@ -316,15 +421,15 @@ namespace WinFormApp
 
         public async Task GetListRole()
         {
-            var roles = await RoleService.Instance.GetListRole(txbSearchRole.Text);
+            var result = await RoleService.Instance.GetListRole(_pageSize, _currentPageRole, txbSearchRole.Text);
 
-            if (!roles.Any())
+            if (result == null || !result.Items.Any())
             {
                 dtgvRole.DataSource = null; 
                 return;
             }
 
-            _roles = roles.ToList();
+            _roles = result.Items.ToList();
 
             var rolesWithString = _roles.Select(r => new
             {
@@ -335,19 +440,32 @@ namespace WinFormApp
             }).ToList();
 
             rolelist.DataSource = rolesWithString;
+
+            _totalPagesRole = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanelRole,
+                _currentPageRole,
+                _totalPagesRole,
+                async (newPage) =>
+                {
+                    _currentPageRole = newPage;
+                    await GetListRole();
+                }
+            );
         }
 
         public async Task GetListPermission()
         {
-            var permissions = await PermissionService.Instance.GetListPermission(txbSearchPermission.Text);
+            var result = await PermissionService.Instance.GetListPermission(_pageSize, _currentPagePermission, txbSearchPermission.Text);
 
-            if (!permissions.Any())
+            if (result == null || !result.Items.Any())
             {
                 dtgvPermission.DataSource = null;
                 return;
             }
 
-            permissionlist.DataSource = permissions
+            permissionlist.DataSource = result.Items
                 .Select(p => new
                 {
                     p.Id,
@@ -356,19 +474,32 @@ namespace WinFormApp
                 });
 
             dtgvPermission.DataSource = permissionlist;
+
+            _totalPagesPermission = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanelPermission,
+                _currentPagePermission,
+                _totalPagesPermission,
+                async (newPage) =>
+                {
+                    _currentPagePermission = newPage;
+                    await GetListPermission();
+                }
+            );
         }
 
         public async Task GetListAccount()
         {
-            var accounts = await AccountService.Instance.GetListAccount(txbSearchAccount.Text);
+            var result = await AccountService.Instance.GetListAccount(_pageSize, _currentPageAccount, txbSearchAccount.Text);
 
-            if (!accounts.Any())
+            if (result == null || !result.Items.Any())
             {
                 dtgvAccount.DataSource = null;
                 return;
             }
 
-            accountlist.DataSource = accounts
+            accountlist.DataSource = result.Items
                 .Select(a => new
                 {
                     a.UserName,
@@ -376,12 +507,25 @@ namespace WinFormApp
                     Role = a.Role.Name
                 });
 
-            dtgvAccount.DataSource = accountlist;   
+            dtgvAccount.DataSource = accountlist;
+
+            _totalPagesAccount = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanelAccount,
+                _currentPageAccount,
+                _totalPagesAccount,
+                async (newPage) =>
+                {
+                    _currentPageAccount = newPage;
+                    await GetListAccount();
+                }
+            );
         }
 
         private async Task GetListTable()
         {
-            var result = await TableFoodService.Instance.LoadTableList(100, 1, txbSearchTable.Text);
+            var result = await TableFoodService.Instance.LoadTableList(_pageSize, _currentPageTable, txbSearchTable.Text);
 
             if (result == null || !result.Items.Any())
             {
@@ -398,19 +542,32 @@ namespace WinFormApp
                 });
 
             dtgvTable.DataSource = tablelist;
+
+            _totalPagesTable = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanelTable,
+                _currentPageTable,
+                _totalPagesTable,
+                async (newPage) =>
+                {
+                    _currentPageTable = newPage;
+                    await GetListTable();
+                }
+            );
         }
 
         private async Task GetListCategory()
         {
-            var categories = await CategoryService.Instance.GetListCategory(txbSearchCategory.Text);
+            var result = await CategoryService.Instance.GetListCategory(_pageSize, _currentPageCategory, txbSearchCategory.Text);
 
-            if (!categories.Any())
+            if (result == null || !result.Items.Any())
             {
                 dtgvCategory.DataSource = null;
                 return;
             }
 
-            categorylist.DataSource = categories.
+            categorylist.DataSource = result.Items.
                 Select(c => new
                 {
                     c.Id,
@@ -418,30 +575,67 @@ namespace WinFormApp
                 });
 
             dtgvCategory.DataSource = categorylist;
+
+            _totalPagesCategory = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanelCategory,
+                _currentPageCategory,
+                _totalPagesCategory,
+                async (newPage) =>
+                {
+                    _currentPageCategory = newPage;
+                    await GetListCategory();
+                }
+            );
         }
 
         private async Task GetListFood()
         {
-            var foods = await FoodService.Instance.GetListFood(txbSearchFood.Text);
+            var result = await FoodService.Instance.GetListFood(_pageSize, _currentPageFood, txbSearchFood.Text);
 
-            if (!foods.Any())
+            if (result == null || !result.Items.Any())
             {
                 dtgvFood.DataSource = null;
                 return;
             }
 
-            foodlist.DataSource = foods;
+            foodlist.DataSource = result.Items;
 
             dtgvFood.DataSource = foodlist;
+
+            _totalPagesFood = result.TotalPages;
+
+            LayoutForm.RenderPagination(
+                paginatePanelFood,
+                _currentPageFood,
+                _totalPagesFood,
+                async (newPage) =>
+                {
+                    _currentPageFood = newPage;
+                    await GetListFood();
+                }
+            );
         }
    
         private void LoadTableStatus()
         {
             cbTableStatus.DataSource = new List<string> { "Empty", "Reserved", "Merged" };
         }
+
+        private async Task LoadRoleToComboBox()
+        {
+            cbIsActiveRole.DataSource = new List<string> { "Active", "Inactive" };
+
+            cbAccountRole.DataSource = (await RoleService.Instance.GetListRole()).Items
+                .Where(r => r.IsActive)
+                .ToList();
+
+            cbAccountRole.DisplayMember = "Name";
+        }
         #endregion
 
-        #region events
+        #region Events
         public async void LoadData(object sender, EventArgs e)
         {
             var billTask = LoadBillListDefault();
@@ -449,10 +643,7 @@ namespace WinFormApp
 
             await Task.WhenAll(billTask, permissionTask);
 
-            cbIsActiveRole.DataSource = new List<string> { "Active", "Inactive" };
-
-            cbAccountRole.DataSource = await RoleService.Instance.GetListRole();
-            cbAccountRole.DisplayMember = "Name";
+            await LoadRoleToComboBox();
 
             LoadTableStatus();
         }
@@ -556,13 +747,19 @@ namespace WinFormApp
         private async void btnAddRole_Click(object sender, EventArgs e)
         {
             if (rolelist.Count > 0)
+            {
                 await InsertOrUpdateRole(RoleService.Instance.InsertRole);
+                await LoadRoleToComboBox();
+            }
         }
 
         private async void btnUpdateRole_Click(object sender, EventArgs e)
         {
             if (rolelist.Count > 0)
+            {
                 await InsertOrUpdateRole(RoleService.Instance.UpdateRole);
+                await LoadRoleToComboBox();
+            }
         }
 
         private async void btnDeleteRole_Click(object sender, EventArgs e)
@@ -577,6 +774,8 @@ namespace WinFormApp
             await RoleService.Instance.DeleteRole(int.Parse(txbRoleId.Text));
 
             await GetListRole();
+
+            await LoadRoleToComboBox();
         }
 
         private async void btnSearchRole_Click(object sender, EventArgs e)
